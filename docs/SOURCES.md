@@ -22,4 +22,6 @@ Copied from the above main commit into `public/brand` and `public/screenshots`. 
 
 Screenshots: `nano-home.png`, `nano-thinking.png`, `nano-conversation.png`, `nano-brain.png`, `nano-overlay.png`. These are official demonstration-profile captures, not fabricated interfaces. The Brain has three demonstration nodes and two real relationships. All core assets are served locally.
 
+The image-quality pass adds responsive lossless WebP encodings of these same files in `public/images/`. Original PNGs remain unchanged, including the corrected symbol's alpha. See [image quality review](IMAGE_QUALITY.md) for source dimensions, compression comparisons, responsive sizing and native pixel/alpha verification.
+
 Creator display field uses the intentionally public repository owner handle `coelho26101009-source`; no personal name was available from public account branding.

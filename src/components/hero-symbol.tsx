@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useRef } from "react";
+import imageAssets from "@/content/images.json";
 
 export function HeroSymbol() {
   const surface = useRef<HTMLDivElement>(null);
@@ -35,12 +36,12 @@ export function HeroSymbol() {
       <div className="hero-orbit orbit-two" />
       <div className="symbol-stage">
         <Image
-          src="/brand/nano-symbol.png"
+          src={imageAssets["/brand/nano-symbol.png"].variants[0].src}
           alt=""
           width={360}
-          height={290}
+          height={289}
+          unoptimized
           preload
-          sizes="(max-width: 600px) 250px, (max-width: 1000px) 320px, 400px"
           className="hero-symbol"
         />
       </div>

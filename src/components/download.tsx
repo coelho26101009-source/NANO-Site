@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { site } from "@/content/site";
 import { DownloadLink, Eyebrow, TextLink } from "./ui";
+import imageAssets from "@/content/images.json";
 
 export function Download() {
   return (
@@ -12,7 +13,13 @@ export function Download() {
     >
       <div className="container">
         <div className="download-main">
-          <Image src="/brand/nano-symbol.png" alt="" width={100} height={81} />
+          <Image
+            src={imageAssets["/brand/nano-symbol.png"].variants[0].src}
+            alt=""
+            width={100}
+            height={81}
+            unoptimized
+          />
           <Eyebrow>O próximo passo é teu</Eyebrow>
           <h2 id="download-heading">Dá espaço ao NANO.</h2>
           <p className="download-tagline">

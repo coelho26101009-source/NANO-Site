@@ -1,9 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { experiences } from "@/content/site";
 import { Icon } from "./icons";
+import { ProductImage, showcaseSizes } from "./product-image";
 
 export function ProductShowcase() {
   const [active, setActive] = useState(0);
@@ -98,15 +98,15 @@ export function ProductShowcase() {
                     </div>
                   </div>
                 )}
-                <Image
+                <ProductImage
                   src={item.image}
                   alt={item.alt}
                   width={item.width}
                   height={item.height}
                   sizes={
                     item.id === "voice"
-                      ? "(max-width: 800px) 90vw, 760px"
-                      : "(max-width: 800px) 94vw, 1200px"
+                      ? "(max-width: 700px) calc(100vw - 68px), 380px"
+                      : showcaseSizes
                   }
                 />
                 {item.id === "voice" && (

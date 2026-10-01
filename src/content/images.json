@@ -1,0 +1,149 @@
+{
+  "/screenshots/nano-home.png": {
+    "width": 1920,
+    "height": 1032,
+    "variants": [
+      {
+        "width": 480,
+        "src": "/images/nano-home-480-c14dd3d170.webp",
+        "bytes": 10508
+      },
+      {
+        "width": 768,
+        "src": "/images/nano-home-768-4bf06f23a3.webp",
+        "bytes": 20932
+      },
+      {
+        "width": 960,
+        "src": "/images/nano-home-960-8e05ce001c.webp",
+        "bytes": 29290
+      },
+      {
+        "width": 1920,
+        "src": "/images/nano-home-1920-15a2ae773b.webp",
+        "bytes": 34770
+      }
+    ]
+  },
+  "/screenshots/nano-thinking.png": {
+    "width": 1920,
+    "height": 1032,
+    "variants": [
+      {
+        "width": 480,
+        "src": "/images/nano-thinking-480-dc2ef34b4b.webp",
+        "bytes": 8366
+      },
+      {
+        "width": 768,
+        "src": "/images/nano-thinking-768-6dad0a9093.webp",
+        "bytes": 16406
+      },
+      {
+        "width": 960,
+        "src": "/images/nano-thinking-960-b4e3866b30.webp",
+        "bytes": 22736
+      },
+      {
+        "width": 1920,
+        "src": "/images/nano-thinking-1920-e26ee18bba.webp",
+        "bytes": 25600
+      }
+    ]
+  },
+  "/screenshots/nano-conversation.png": {
+    "width": 1920,
+    "height": 1032,
+    "variants": [
+      {
+        "width": 480,
+        "src": "/images/nano-conversation-480-5cb653388d.webp",
+        "bytes": 8286
+      },
+      {
+        "width": 768,
+        "src": "/images/nano-conversation-768-35e3f69ea3.webp",
+        "bytes": 16080
+      },
+      {
+        "width": 960,
+        "src": "/images/nano-conversation-960-bcaaa0e79d.webp",
+        "bytes": 22072
+      },
+      {
+        "width": 1920,
+        "src": "/images/nano-conversation-1920-f8d7f9612e.webp",
+        "bytes": 24318
+      }
+    ]
+  },
+  "/screenshots/nano-brain.png": {
+    "width": 1920,
+    "height": 1032,
+    "variants": [
+      {
+        "width": 480,
+        "src": "/images/nano-brain-480-48fd4627a8.webp",
+        "bytes": 24088
+      },
+      {
+        "width": 768,
+        "src": "/images/nano-brain-768-6f1553c846.webp",
+        "bytes": 60236
+      },
+      {
+        "width": 960,
+        "src": "/images/nano-brain-960-4a295522dc.webp",
+        "bytes": 94988
+      },
+      {
+        "width": 1200,
+        "src": "/images/nano-brain-1200-005e624675.webp",
+        "bytes": 173434
+      },
+      {
+        "width": 1920,
+        "src": "/images/nano-brain-1920-08ddfd19e5.webp",
+        "bytes": 216656
+      }
+    ]
+  },
+  "/screenshots/nano-overlay.png": {
+    "width": 760,
+    "height": 180,
+    "variants": [
+      {
+        "width": 480,
+        "src": "/images/nano-overlay-480-088457c870.webp",
+        "bytes": 3906
+      },
+      {
+        "width": 760,
+        "src": "/images/nano-overlay-760-a468d1b2bd.webp",
+        "bytes": 5370
+      }
+    ]
+  },
+  "/brand/nano-symbol.png": {
+    "width": 360,
+    "height": 289,
+    "variants": [
+      {
+        "width": 360,
+        "src": "/images/nano-symbol-360-9525dd6783.webp",
+        "bytes": 54726
+      }
+    ]
+  },
+  "/brand/nano-wordmark-original.png": {
+    "width": 334,
+    "height": 103,
+    "variants": [
+      {
+        "width": 334,
+        "src": "/images/nano-wordmark-original-334-d045e2f700.webp",
+        "bytes": 15124
+      }
+    ]
+  }
+}

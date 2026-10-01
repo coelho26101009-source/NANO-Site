@@ -96,12 +96,20 @@ html[data-motion="static"] .showcase-sticky {
     top: 112px;
   }
   .showcase-sticky .screenshot-frame {
-    height: min(645px, calc(100svh - 380px));
-    aspect-ratio: auto;
+    width: min(100%, calc((100svh - 340px) * 1.860465));
+    margin-inline: auto;
+    height: auto;
+    aspect-ratio: 1920 / 1032;
+  }
+  .showcase-sticky .showcase-tabs {
+    margin-bottom: 12px;
+  }
+  .showcase-sticky .showcase-tabs button {
+    padding-block: 12px 15px;
   }
   .showcase-sticky .showcase-caption {
     min-height: 100px;
-    margin-top: 20px;
+    margin-top: 16px;
   }
   .showcase-sticky .asset-note {
     margin-top: 14px;

@@ -1,14 +1,22 @@
 import Image from "next/image";
 import type { ReactNode } from "react";
 import { Icon } from "./icons";
+import imageAssets from "@/content/images.json";
 
 export function Brand() {
   return (
     <span className="brand">
-      <Image src="/brand/nano-symbol.png" width={36} height={29} alt="" />
+      <Image
+        src={imageAssets["/brand/nano-symbol.png"].variants[0].src}
+        width={36}
+        height={29}
+        alt=""
+        unoptimized
+      />
       <Image
         className="wordmark"
-        src="/brand/nano-wordmark-original.png"
+        src={imageAssets["/brand/nano-wordmark-original.png"].variants[0].src}
+        unoptimized
         alt="NANO"
         width={80}
         height={26}

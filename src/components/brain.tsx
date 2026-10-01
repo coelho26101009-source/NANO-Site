@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { ProductImage, captureSizes } from "./product-image";
 import { site } from "@/content/site";
 import { Eyebrow, TextLink } from "./ui";
 
@@ -37,12 +37,12 @@ export function Brain() {
             href="/screenshots/nano-brain.png"
             aria-label="Abrir a captura completa do NANO Brain"
           >
-            <Image
+            <ProductImage
               src="/screenshots/nano-brain.png"
               alt="Grafo real do NANO Brain: O meu PC ligado a Ollama e Projeto NANO, com três nós de demonstração e duas relações."
               width={1920}
               height={1032}
-              sizes="(max-width: 800px) 94vw, 1200px"
+              sizes={captureSizes}
             />
           </a>
           <figcaption>
