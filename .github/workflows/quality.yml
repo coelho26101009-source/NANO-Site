@@ -1,0 +1,39 @@
+name: Website quality
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      NEXT_TELEMETRY_DISABLED: "1"
+      PLAYWRIGHT_BROWSERS_PATH: .cache/browsers
+      VERIFY_EXTERNAL_LINKS: "0"
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - name: Review production in Chromium
+        run: |
+          npm run start -- --hostname 127.0.0.1 > .cache/server.log 2>&1 &
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:3000 > /dev/null; then break; fi
+            sleep 1
+          done
+          npm run verify
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: browser-review
+          path: artifacts/
+          retention-days: 7
