@@ -1,0 +1,233 @@
+:root {
+  --motion-fast: 300ms;
+  --motion-base: 620ms;
+  --motion-slow: 860ms;
+  --motion-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* Enhancement-only: no JS, unsupported observer or reduced motion leaves HTML complete. */
+@media (prefers-reduced-motion: no-preference) {
+  html[data-motion="ready"] [data-reveal] {
+    transition:
+      opacity var(--motion-base) var(--motion-ease),
+      translate var(--motion-base) var(--motion-ease),
+      scale var(--motion-base) var(--motion-ease);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+  html[data-motion="ready"] [data-reveal-state="pending"] {
+    opacity: 0;
+    translate: 0 24px;
+  }
+  html[data-motion="ready"] [data-reveal="depth"] {
+    transition-duration: var(--motion-slow);
+  }
+  html[data-motion="ready"] [data-reveal="depth"][data-reveal-state="pending"] {
+    scale: 0.982;
+    translate: 0 28px;
+  }
+  html[data-motion="ready"] [data-reveal="calm"] {
+    transition-duration: var(--motion-slow);
+  }
+  html[data-motion="ready"] [data-reveal="calm"][data-reveal-state="pending"] {
+    translate: 0 12px;
+  }
+  /* Never make a button, link or its containing group invisible while waiting. */
+  html[data-motion="ready"] [data-reveal-interactive="true"],
+  html[data-motion="ready"] [data-reveal]:focus-within {
+    opacity: 1;
+  }
+  html[data-motion="ready"] [data-reveal]:focus-within {
+    translate: none;
+    scale: none;
+    transition: none;
+  }
+  .showcase [role="tabpanel"]:not([hidden]) .screenshot-frame {
+    animation: screenshot-settle 460ms var(--motion-ease) both;
+  }
+  @keyframes screenshot-settle {
+    from {
+      opacity: 0.35;
+      transform: translateY(8px) scale(0.995);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  .showcase [role="tabpanel"]:focus-within .screenshot-frame {
+    animation: none;
+  }
+  .nav-shell {
+    position: relative;
+  }
+  html[data-motion="ready"] .nav-shell::after {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    bottom: 0;
+    left: 22px;
+    right: 22px;
+    height: 1px;
+    background: #a5c8ff;
+    opacity: 0.45;
+    transform: scaleX(var(--page-progress, 0));
+    transform-origin: left;
+  }
+}
+
+/* Space is reserved in CSS before hydration so restored scroll positions stay stable. */
+.showcase-track::after {
+  content: "";
+  display: block;
+  height: 0;
+}
+html[data-motion="static"] .showcase-track::after {
+  height: 0;
+}
+html[data-motion="static"] .showcase-sticky {
+  position: static;
+}
+@media (min-width: 1100px) and (min-height: 760px) and (prefers-reduced-motion: no-preference) {
+  .showcase-track::after {
+    height: min(90svh, 900px);
+  }
+  .showcase-sticky {
+    position: sticky;
+    top: 112px;
+  }
+  .showcase-sticky .screenshot-frame {
+    height: min(645px, calc(100svh - 380px));
+    aspect-ratio: auto;
+  }
+  .showcase-sticky .showcase-caption {
+    min-height: 100px;
+    margin-top: 20px;
+  }
+  .showcase-sticky .asset-note {
+    margin-top: 14px;
+  }
+  .showcase-sticky .voice-frame {
+    padding: 18px;
+    gap: 12px;
+  }
+  .showcase-sticky .keyboard-shortcut {
+    margin-top: 14px;
+  }
+  html[data-motion="ready"] .hero-copy {
+    translate: 0 var(--hero-copy-y, 0px);
+  }
+  html[data-motion="ready"] .symbol-stage {
+    translate: 0 var(--hero-symbol-y, 0px);
+    scale: var(--hero-scale, 1);
+  }
+  html[data-motion="ready"] .hero-art::before {
+    opacity: var(--hero-light, 1);
+  }
+  html[data-motion="ready"] .showcase-visual {
+    transform: translateY(var(--showcase-depth, 0px));
+  }
+  html[data-motion="ready"] .brain-image {
+    transform: perspective(1600px) rotateX(var(--brain-tilt, 0deg));
+    translate: 0 var(--brain-y, 0px);
+  }
+  .brain-figure {
+    isolation: isolate;
+  }
+  html[data-motion="ready"] .brain-figure::before {
+    content: "";
+    position: absolute;
+    inset: -8% -3%;
+    background: radial-gradient(ellipse at 55% 50%, #255ba840, transparent 68%);
+    pointer-events: none;
+    z-index: -1;
+    opacity: var(--brain-light, 0);
+  }
+  .mode::before {
+    content: "";
+    position: absolute;
+    left: 28px;
+    right: 28px;
+    top: 0;
+    height: 1px;
+    background: var(--blue);
+    opacity: 0;
+    transform: scaleX(0.35);
+    transform-origin: left;
+    transition:
+      opacity var(--motion-base),
+      transform var(--motion-slow) var(--motion-ease);
+  }
+  .mode[data-mode-active="true"]::before {
+    opacity: 0.8;
+    transform: scaleX(1);
+  }
+  .mode[data-mode-active="true"] .mode-indicator {
+    box-shadow: 0 0 0 5px #a5c8ff0b;
+    border-color: var(--blue);
+  }
+  .mode-indicator {
+    transition:
+      border-color var(--motion-base),
+      box-shadow var(--motion-base);
+  }
+  .mode[data-mode-active="true"] .mode-tag {
+    color: var(--blue);
+  }
+  .mode-tag {
+    transition: color var(--motion-base);
+  }
+  .story-copy {
+    position: relative;
+  }
+  html[data-motion="ready"] .story-copy::before {
+    content: "";
+    position: absolute;
+    left: -26px;
+    top: 6px;
+    bottom: 6px;
+    width: 1px;
+    background: linear-gradient(#a5c8ff55, #a5c8ff09);
+    transform: scaleY(var(--story-progress, 0));
+    transform-origin: top;
+    pointer-events: none;
+  }
+  .download-main {
+    position: relative;
+    isolation: isolate;
+  }
+  html[data-motion="ready"] .download-main::before {
+    content: "";
+    position: absolute;
+    width: min(580px, 100%);
+    inset-block: 0;
+    background: radial-gradient(ellipse at 50% 65%, #3869ad26, transparent 67%);
+    opacity: var(--download-light, 0);
+    pointer-events: none;
+    z-index: -1;
+  }
+}
+
+@media (max-width: 1099px), (max-height: 759px) {
+  html[data-motion="ready"] [data-reveal-state="pending"],
+  html[data-motion="ready"] [data-reveal="depth"][data-reveal-state="pending"],
+  html[data-motion="ready"] [data-reveal="calm"][data-reveal-state="pending"] {
+    translate: 0 10px;
+    scale: 1;
+  }
+  html[data-motion="ready"] [data-reveal] {
+    transition-duration: 480ms;
+    transition-delay: 0ms;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal],
+  .hero-copy,
+  .symbol-stage,
+  .brain-image,
+  .showcase-visual {
+    opacity: 1 !important;
+    translate: none !important;
+    scale: none !important;
+  }
+}

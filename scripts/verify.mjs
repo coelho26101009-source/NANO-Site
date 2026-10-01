@@ -117,7 +117,7 @@ try {
     assert.equal(metadata.schema.softwareVersion, "0.2.0-beta.1");
   });
 
-  for (const width of [1920, 1440, 1280, 1024, 768, 390, 360]) {
+  for (const width of [1920, 1440, 1280, 1024, 768, 430, 390, 360]) {
     await page.setViewportSize({ width, height: width <= 390 ? 900 : 1000 });
     await page.evaluate(() => window.scrollTo(0, 0));
     await settleImages();

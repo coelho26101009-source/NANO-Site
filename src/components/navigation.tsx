@@ -1,17 +1,13 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { navigation, site } from "@/content/site";
 import { Brand } from "./ui";
 import { Icon } from "./icons";
 
 export function Navigation() {
-  const [scrolled, setScrolled] = useState(false);
   const disclosure = useRef<HTMLDetailsElement>(null);
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
     const desktop = window.matchMedia("(min-width: 1001px)");
     const closeOnResize = () => {
       if (desktop.matches && disclosure.current)
@@ -19,12 +15,11 @@ export function Navigation() {
     };
     desktop.addEventListener("change", closeOnResize);
     return () => {
-      window.removeEventListener("scroll", onScroll);
       desktop.removeEventListener("change", closeOnResize);
     };
   }, []);
   return (
-    <header className={`site-header${scrolled ? " is-scrolled" : ""}`}>
+    <header className="site-header">
       <div className="nav-shell">
         <a href="#top" className="brand-link" aria-label="NANO — início">
           <Brand />

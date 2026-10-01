@@ -31,6 +31,7 @@ jobs:
             sleep 1
           done
           npm run verify
+          npm run verify:motion
       - uses: actions/upload-artifact@v7
         if: always()
         with:

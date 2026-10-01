@@ -9,6 +9,7 @@
     "lint": "eslint .",
     "typecheck": "next typegen && tsc --noEmit",
     "verify": "node scripts/verify.mjs",
+    "verify:motion": "node scripts/verify-motion.mjs",
     "format": "prettier --write src scripts docs *.json *.ts *.mjs"
   },
   "engines": {

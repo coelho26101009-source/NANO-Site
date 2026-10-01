@@ -3,6 +3,7 @@ import { Manrope } from "next/font/google";
 import { site } from "@/content/site";
 import { isIndexable, productionUrl } from "@/lib/metadata";
 import "./globals.css";
+import "./motion.css";
 
 const manrope = Manrope({
   subsets: ["latin"],

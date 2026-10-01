@@ -10,6 +10,7 @@ import { Development } from "@/components/development";
 import { Download } from "@/components/download";
 import { Footer } from "@/components/footer";
 import { site } from "@/content/site";
+import { ScrollMotion } from "@/components/scroll-motion";
 
 export default function Home() {
   const jsonLd = {
@@ -31,6 +32,7 @@ export default function Home() {
       </a>
       <div id="top" />
       <Navigation />
+      <ScrollMotion />
       <main id="conteudo" tabIndex={-1}>
         <Hero />
         <Product />
