@@ -50,7 +50,7 @@ Em Linux/macOS: `PLAYWRIGHT_BROWSERS_PATH=.cache/browsers npx playwright install
 
 ## Atualizar uma release
 
-Altera `version` em `src/content/site.ts`, confirma o nome do instalador e a presença do `SHA256SUMS.txt` na release oficial. Revê as limitações na secção Download e as fontes públicas antes de publicar. `site.creator` é o único campo do nome/handle público do criador.
+Altera `version` em `src/content/site.ts`, confirma o nome do instalador e a presença do `SHA256SUMS.txt` na release oficial. Revê as limitações na secção Download e as fontes públicas antes de publicar. `site.creator` guarda a identidade pública do criador (nome, descrição e handle do GitHub).
 
 ## Vercel
 

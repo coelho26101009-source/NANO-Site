@@ -25,6 +25,11 @@ export default function Home() {
     downloadUrl: site.release,
     softwareHelp: site.links.guide,
     isAccessibleForFree: true,
+    author: {
+      "@type": "Person",
+      name: site.creator.name,
+      url: `https://github.com/${site.creator.handle}`,
+    },
   };
   return (
     <>

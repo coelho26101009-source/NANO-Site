@@ -286,9 +286,12 @@ try {
           top.box[0] === top.natural[0] && top.box[1] === top.natural[1],
         );
         const deviceScale = (top.onScreen[0] * state.dpr) / top.natural[0];
+        // Never upscaled unless already the largest (1920 px) source; never
+        // below 0.4x, where the compositor's bilinear sampling aliases.
+        report.beats[beat] = { ...report.beats[beat], deviceScale };
         check(
-          `Beat ${beat}: source density near 1:1 (${deviceScale.toFixed(2)})`,
-          deviceScale > 0.55 && deviceScale < 1.6,
+          `Beat ${beat}: source sharpness (${top.natural[0]} px at ${deviceScale.toFixed(2)}x)`,
+          deviceScale >= 0.4 && (deviceScale <= 1.04 || top.natural[0] >= 1920),
         );
       }
       check(

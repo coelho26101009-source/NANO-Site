@@ -80,23 +80,3 @@ export function radialTexture(
   texture.colorSpace = THREE.SRGBColorSpace;
   return texture;
 }
-
-/** Soft rounded-rectangle shadow footprint for the laptop's contact shadow. */
-export function contactShadowTexture(): THREE.CanvasTexture {
-  const canvas = document.createElement("canvas");
-  canvas.width = 256;
-  canvas.height = 192;
-  const context = canvas.getContext("2d")!;
-  // Draw the shape off-canvas so only its blurred shadow lands on the canvas
-  // (shadowBlur is supported everywhere; the canvas `filter` is not).
-  context.shadowColor = "rgba(0,0,0,0.92)";
-  context.shadowBlur = 26;
-  context.shadowOffsetX = canvas.width;
-  context.fillStyle = "#000";
-  context.beginPath();
-  context.roundRect(38 - canvas.width, 34, 180, 124, 16);
-  context.fill();
-  const texture = new THREE.CanvasTexture(canvas);
-  texture.colorSpace = THREE.SRGBColorSpace;
-  return texture;
-}

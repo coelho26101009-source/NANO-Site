@@ -26,4 +26,4 @@ The cinematic layer adds no third-party asset. Its laptop is procedural geometry
 
 The image-quality pass adds responsive lossless WebP encodings of these same files in `public/images/`. Original PNGs remain unchanged, including the corrected symbol's alpha. See [image quality review](IMAGE_QUALITY.md) for source dimensions, compression comparisons, responsive sizing and native pixel/alpha verification.
 
-Creator display field uses the intentionally public repository owner handle `coelho26101009-source`; no personal name was available from public account branding.
+Creator identity (`site.creator`): name Simão Coelho and description "Programador português de 16 anos", as provided by the creator on 2026-10-02, with the public repository owner handle `coelho26101009-source`. No other biographical facts are stated.

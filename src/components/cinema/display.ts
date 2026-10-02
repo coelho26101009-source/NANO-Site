@@ -77,21 +77,28 @@ function facing(quad: Point[]) {
   return area / 2;
 }
 
+/**
+ * Lossless variants from 768 px up, smallest first, at least ~1.45× apart:
+ * a capture growing on screen (the Brain into the portal) then steps up once
+ * or twice instead of downloading every intermediate size.
+ */
 function variantsFor(source: string): Variant[] {
   const asset = imageAssets[source as keyof typeof imageAssets];
-  const lo = [...asset.variants].reverse().find((item) => item.width <= 1000);
-  const hi = asset.variants[asset.variants.length - 1];
-  return [lo, hi]
-    .filter((item): item is NonNullable<typeof item> => Boolean(item))
-    .filter((item, index, list) => list.indexOf(item) === index)
-    .map((item) => ({
-      width: item.width,
-      height: Math.round((item.width * asset.height) / asset.width),
-      src: item.src,
-      ready: false,
-      shown: false,
-      opacity: "",
-    }));
+  const kept: (typeof asset.variants)[number][] = [];
+  for (const item of [...asset.variants].reverse())
+    if (
+      kept.length === 0 ||
+      (item.width >= 768 && kept[0].width >= item.width * 1.45)
+    )
+      kept.unshift(item);
+  return kept.map((item) => ({
+    width: item.width,
+    height: Math.round((item.width * asset.height) / asset.width),
+    src: item.src,
+    ready: false,
+    shown: false,
+    opacity: "",
+  }));
 }
 
 export type DisplayFrame = {
@@ -104,24 +111,48 @@ export type DisplayFrame = {
 };
 
 /**
+ * Source choice, measured: the compositor samples these layers bilinearly
+ * without mipmaps, so upscaling a source softens UI text visibly, while a
+ * downscale stays crisp down to about half size and aliases below it. Each
+ * capture therefore uses the smallest variant at least as wide as the display
+ * in device pixels (never upscaled), stepping down only well below half size.
+ */
+function idealTier(variants: Variant[], deviceWidth: number) {
+  for (let index = 0; index < variants.length; index++)
+    if (variants[index].width >= deviceWidth * 0.97) return index;
+  return variants.length - 1;
+}
+function nextTier(variants: Variant[], current: number, deviceWidth: number) {
+  const ideal = idealTier(variants, deviceWidth);
+  if (ideal > current) return ideal;
+  return deviceWidth < variants[current].width * 0.42 ? ideal : current;
+}
+
+/**
  * @param loadFrom timeline time from which each capture is fetched, so the
- * 217 KB lossless Brain capture is only requested as the story approaches it.
+ * large lossless Brain capture is only requested as the story approaches it.
+ * @param readingWidth expected display width in device pixels at the reading
+ * beats, used to prefetch the right variant before it is on screen.
  */
 export function createDisplay(
   layer: HTMLElement,
   loadFrom: Record<ScreenName, number>,
-  hiDpi: boolean,
+  readingWidth: number,
 ) {
   const screens = Object.fromEntries(
-    ORDER.map((name) => [name, { variants: variantsFor(SCREENS[name]) }]),
-  ) as Record<ScreenName, { variants: Variant[] }>;
+    ORDER.map((name) => {
+      const variants = variantsFor(SCREENS[name]);
+      return [name, { variants, tier: idealTier(variants, readingWidth) }];
+    }),
+  ) as Record<ScreenName, { variants: Variant[]; tier: number }>;
+  const start = Object.fromEntries(
+    ORDER.map((name) => [name, screens[name].tier]),
+  ) as Record<ScreenName, number>;
   const shade = document.createElement("div");
   shade.className = "cinema-display-shade";
   const glass = document.createElement("div");
   glass.className = "cinema-display-glass";
   layer.append(shade, glass);
-  const startHi = hiDpi;
-  let wantedHi = hiDpi;
 
   const load = (variant: Variant) => {
     if (variant.image) return;
@@ -144,9 +175,6 @@ export function createDisplay(
     layer.insertBefore(image, shade);
   };
 
-  const tierOf = (name: ScreenName, hi: boolean) =>
-    hi ? screens[name].variants.length - 1 : 0;
-
   const show = (variant: Variant, shown: boolean) => {
     if (!variant.image || variant.shown === shown) return;
     variant.shown = shown;
@@ -156,22 +184,23 @@ export function createDisplay(
 
   function update({ t, quad, weights, opacity, dim, dpr }: DisplayFrame) {
     const visible = quad !== null && opacity > 0.001 && facing(quad) > 0;
-    if (visible) {
-      const deviceWidth =
-        Math.hypot(quad[1][0] - quad[0][0], quad[1][1] - quad[0][1]) * dpr;
-      // Hysteresis around ~1350 device px, between the 960 and 1920 sources.
-      if (deviceWidth > 1420) wantedHi = true;
-      else if (deviceWidth < 1280) wantedHi = false;
-    }
-    // Prefetch the starting tier ahead of each capture's chapter; switch tier
-    // only for a capture on screen, so no capture is fetched in both sizes
-    // unless its own size on screen actually crosses the threshold.
+    // Widest projected edge: the display is never upscaled along either.
+    const deviceWidth = visible
+      ? Math.max(
+          Math.hypot(quad[1][0] - quad[0][0], quad[1][1] - quad[0][1]),
+          Math.hypot(quad[2][0] - quad[3][0], quad[2][1] - quad[3][1]),
+        ) * dpr
+      : 0;
+    // Prefetch the starting variant ahead of each capture's chapter; a capture
+    // on screen changes variant only when its own size on screen requires it.
     for (let index = 0; index < ORDER.length; index++) {
       const name = ORDER[index];
-      if (t >= loadFrom[name])
-        load(screens[name].variants[tierOf(name, startHi)]);
-      if (visible && weights[name] > 0.001)
-        load(screens[name].variants[tierOf(name, wantedHi)]);
+      const screen = screens[name];
+      if (t >= loadFrom[name]) load(screen.variants[start[name]]);
+      if (visible && weights[name] > 0.001) {
+        screen.tier = nextTier(screen.variants, screen.tier, deviceWidth);
+        load(screen.variants[screen.tier]);
+      }
     }
 
     // Painter's order with "over" opacities so a crossfade never dips.
@@ -181,9 +210,10 @@ export function createDisplay(
       const variants = screens[name].variants;
       const weight = visible ? weights[name] : 0;
       accumulated += weight;
-      const tier = tierOf(name, wantedHi);
-      let choice = variants[tier]?.ready ? tier : -1;
-      for (let other = 0; choice < 0 && other < variants.length; other++)
+      // While the wanted variant decodes, show the largest ready one.
+      const tier = screens[name].tier;
+      let choice = variants[tier].ready ? tier : -1;
+      for (let other = variants.length - 1; choice < 0 && other >= 0; other--)
         if (variants[other].ready) choice = other;
       const drawn = weight >= 0.001 && choice >= 0;
       for (let other = 0; other < variants.length; other++)

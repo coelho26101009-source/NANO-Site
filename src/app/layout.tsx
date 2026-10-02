@@ -23,6 +23,8 @@ export const metadata: Metadata = {
   description: site.description,
   ...(productionUrl ? { alternates: { canonical: "/" } } : {}),
   applicationName: "NANO",
+  authors: [{ name: site.creator.name }],
+  creator: site.creator.name,
   robots: { index: isIndexable, follow: isIndexable },
   openGraph: {
     title: site.title,

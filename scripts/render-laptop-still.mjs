@@ -46,7 +46,8 @@ const quad = await page.evaluate(() =>
 const png = await page.screenshot({ omitBackground: true, type: "png" });
 await browser.close();
 
-// Trim to pixels that are actually visible (alpha > 6/255).
+// Trim to what is visible over the near-black page: the faint outer
+// penumbra (black below ~12% opacity) is imperceptible there.
 const { data, info } = await sharp(png)
   .ensureAlpha()
   .raw()
@@ -57,7 +58,7 @@ let minX = info.width,
   maxY = 0;
 for (let y = 0; y < info.height; y++)
   for (let x = 0; x < info.width; x++)
-    if (data[(y * info.width + x) * 4 + 3] > 6) {
+    if (data[(y * info.width + x) * 4 + 3] > 30) {
       if (x < minX) minX = x;
       if (x > maxX) maxX = x;
       if (y < minY) minY = y;

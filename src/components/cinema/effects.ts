@@ -47,33 +47,71 @@ const planeVertex = /* glsl */ `
     gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
   }
 `;
-// Thin elliptical orbit plus a soft inner pool, in plane units.
+// Orbit of light on the floor (plane xy: x = world x, y = -world z).
+// Widths are physical (distance to the ellipse), so the line keeps the same
+// fineness all round; a faint echo orbit recalls the two around the hero N.
 const orbitFragment = /* glsl */ `
   uniform vec2 uRadii;
   uniform float uIntensity;
-  uniform vec3 uColor;
+  uniform float uReveal;
   varying vec2 vPos;
+  float ign(vec2 p) { return fract(52.9829189 * fract(dot(p, vec2(0.06711056, 0.00583715)))); }
+  // Approximate distance (world units) from vPos to an ellipse with radii r.
+  float ellipse(vec2 p, vec2 r) {
+    float k = length(p / r);
+    vec2 g = p / (r * r) / max(k, 1e-4);
+    return (k - 1.0) / max(length(g), 1e-4);
+  }
   void main() {
-    float r = length(vPos / uRadii);
-    float ring = exp(-pow((r - 1.0) / 0.018, 2.0));
-    float pool = exp(-r * r * 2.6) * 0.16;
-    float alpha = uIntensity * (ring * 0.85 + pool);
-    gl_FragColor = vec4(uColor * alpha, alpha);
+    float d = ellipse(vPos, uRadii);
+    float echo = ellipse(vPos, uRadii * 1.17);
+    // Lit from the front-left like the rest of the scene; dimmer at the back.
+    vec2 dir = normalize(vPos + 1e-4);
+    float facing = dot(dir, normalize(vec2(-0.45, -1.0)));
+    float light = mix(0.32, 1.0, smoothstep(-1.0, 0.9, facing));
+    // Draws itself from the front round to the back as the chapter arrives.
+    float around = acos(clamp(dot(dir, vec2(0.0, -1.0)), -1.0, 1.0)) / 3.14159265;
+    float drawn = 1.0 - smoothstep(uReveal * 1.12 - 0.12, uReveal * 1.12, around);
+    float core = exp(-pow(d / 0.011, 2.0));
+    float halo = exp(-pow(d / 0.1, 2.0)) * 0.3;
+    float echoLine = exp(-pow(echo / 0.008, 2.0)) * 0.22;
+    float k = length(vPos / uRadii);
+    float pool = exp(-k * k * 2.2) * 0.05;
+    vec3 coreColor = vec3(0.55, 0.68, 0.98);
+    vec3 haloColor = vec3(0.13, 0.25, 0.68);
+    // Convert colours (not premultiplied amounts) to sRGB, then add light.
+    vec3 coreOut = linearToOutputTexel(vec4(coreColor, 1.0)).rgb;
+    vec3 haloOut = linearToOutputTexel(vec4(haloColor, 1.0)).rgb;
+    float fade = light * drawn * uIntensity;
+    vec3 color = (coreOut * (core + echoLine * drawn) + haloOut * (halo + pool)) * fade;
+    float alpha = (core + halo + pool + echoLine) * fade;
+    gl_FragColor = vec4(color, alpha);
+    gl_FragColor.rgb += (ign(gl_FragCoord.xy) - 0.5) / 255.0;
+    gl_FragColor = max(gl_FragColor, 0.0);
   }
 `;
-// Soft glowing outline of a rounded rectangle, from its signed distance.
+// Light echoing the display outline into depth: a fine edge (fainter and
+// softer the deeper the frame), lit from above, plus an optional soft bloom
+// outside the rim. Signed distance to a rounded rectangle; dithered.
 const frameFragment = /* glsl */ `
   uniform vec2 uHalf;
   uniform float uRadius;
   uniform float uWidth;
   uniform float uIntensity;
+  uniform float uBloom;
   uniform vec3 uColor;
   varying vec2 vPos;
+  float ign(vec2 p) { return fract(52.9829189 * fract(dot(p, vec2(0.06711056, 0.00583715)))); }
   void main() {
     vec2 q = abs(vPos) - uHalf + uRadius;
     float d = length(max(q, 0.0)) + min(max(q.x, q.y), 0.0) - uRadius;
-    float alpha = uIntensity * exp(-(d * d) / (uWidth * uWidth));
-    gl_FragColor = vec4(uColor * alpha, alpha);
+    float edge = exp(-(d * d) / (uWidth * uWidth));
+    float bloom = exp(-max(d, 0.0) / 0.32) * step(0.0, d) * uBloom;
+    float fromAbove = mix(0.25, 1.0, smoothstep(-uHalf.y, uHalf.y * 0.9, vPos.y));
+    float amount = (edge + bloom) * fromAbove * uIntensity;
+    gl_FragColor = linearToOutputTexel(vec4(uColor, 1.0)) * amount;
+    gl_FragColor.rgb += (ign(gl_FragCoord.xy) - 0.5) / 255.0;
+    gl_FragColor = max(gl_FragColor, 0.0);
   }
 `;
 
@@ -116,14 +154,14 @@ export function createEffects(laptop: Laptop, world: THREE.Group) {
     );
 
   // LOCAL — an orbit on the floor around the laptop.
-  const radii = new THREE.Vector2(2.35, 1.6);
+  const radii = new THREE.Vector2(2.25, 1.55);
   const orbitMaterial = shader(orbitFragment, {
     uRadii: { value: radii },
     uIntensity: { value: 0 },
-    uColor: { value: COLOR.clone() },
+    uReveal: { value: 0 },
   });
   const orbit = new THREE.Mesh(
-    own(new THREE.PlaneGeometry(radii.x * 2.3, radii.y * 2.3)),
+    own(new THREE.PlaneGeometry(radii.x * 2.9, radii.y * 2.9)),
     orbitMaterial,
   );
   orbit.rotation.x = -Math.PI / 2;
@@ -184,8 +222,8 @@ export function createEffects(laptop: Laptop, world: THREE.Group) {
   const origin = new THREE.Vector3();
 
   // Brain — frames echo the display outline into depth behind it.
-  const frames = [1, 2, 3, 4].map((step) => {
-    const grow = 1 + step * 0.11;
+  const frames = [1, 2, 3].map((step) => {
+    const grow = 1 + step * 0.09;
     const half = new THREE.Vector2(
       (LAPTOP.screenWidth / 2) * grow + 0.04,
       (LAPTOP.screenHeight / 2) * grow + 0.04,
@@ -193,36 +231,22 @@ export function createEffects(laptop: Laptop, world: THREE.Group) {
     const material = shader(frameFragment, {
       uHalf: { value: half },
       uRadius: { value: 0.06 * grow },
-      uWidth: { value: 0.006 + step * 0.0025 },
+      uWidth: { value: 0.004 + step * 0.007 },
       uIntensity: { value: 0 },
-      uColor: { value: new THREE.Color("#d4e2ff") },
+      // The first frame, right behind the display, carries the rim bloom.
+      uBloom: { value: step === 1 ? 0.26 : 0 },
+      uColor: { value: new THREE.Color("#9fbdf5") },
     });
     const mesh = new THREE.Mesh(
-      own(new THREE.PlaneGeometry(half.x * 2 + 0.4, half.y * 2 + 0.4)),
+      own(new THREE.PlaneGeometry(half.x * 2 + 1.6, half.y * 2 + 1.6)),
       material,
     );
     // Display-local: behind the panel is -z.
-    mesh.position.z = -0.3 * step - 0.06;
+    mesh.position.z = -0.34 * step - 0.04;
     mesh.renderOrder = 1;
     laptop.screen.add(mesh);
     return { mesh, material, step };
   });
-  const haloMaterial = own(
-    new THREE.MeshBasicMaterial({
-      map: own(
-        radialTexture([
-          [0, "rgba(170,200,255,0.55)"],
-          [0.4, "rgba(90,130,220,0.18)"],
-          [1, "rgba(40,70,150,0)"],
-        ]),
-      ),
-      ...additive,
-      opacity: 0,
-    }),
-  );
-  const halo = new THREE.Mesh(own(new THREE.PlaneGeometry(9, 6)), haloMaterial);
-  halo.position.z = -1.6;
-  laptop.screen.add(halo);
   // The room darkens a little behind the portal (normal blending, not light).
   const veilMaterial = own(
     new THREE.MeshBasicMaterial({
@@ -244,7 +268,11 @@ export function createEffects(laptop: Laptop, world: THREE.Group) {
     update(s: CinemaState) {
       const { local, auto, cloud } = s.modes;
       // Faint during AUTO: Ollama remains the last resort. Off for CLOUD.
-      orbitMaterial.uniforms.uIntensity.value = 0.95 * local + 0.22 * auto;
+      orbitMaterial.uniforms.uIntensity.value = 0.9 * local + 0.24 * auto;
+      orbitMaterial.uniforms.uReveal.value = Math.min(
+        1,
+        Math.max(local * 1.5, auto * 3),
+      );
       orbit.visible = orbitMaterial.uniforms.uIntensity.value > 0.002;
 
       laptop.group.updateMatrixWorld(true);
@@ -269,12 +297,11 @@ export function createEffects(laptop: Laptop, world: THREE.Group) {
       const showPortal = portal > 0.002;
       for (const frame of frames) {
         frame.material.uniforms.uIntensity.value =
-          portal * (0.34 - frame.step * 0.06);
+          portal * [0, 0.95, 0.5, 0.24][frame.step];
         frame.mesh.visible = showPortal;
       }
-      haloMaterial.opacity = portal * 0.42;
       veilMaterial.opacity = portal * 0.6;
-      halo.visible = veil.visible = showPortal;
+      veil.visible = showPortal;
     },
     dispose() {
       world.remove(routeGroup, veil);

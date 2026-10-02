@@ -1,10 +1,7 @@
 import * as THREE from "three";
 import { createLaptop, LAPTOP } from "./laptop";
-import {
-  contactShadowTexture,
-  createStudioEnvironment,
-  radialTexture,
-} from "./environment";
+import { createStudioEnvironment } from "./environment";
+import { createSurface } from "./surface";
 import { createDirector, type Director } from "./director";
 import { BEATS, LAST_BEAT, evaluate, type CinemaState } from "./timeline";
 import { createCapsule, createDisplay, type DisplayFrame } from "./display";
@@ -56,7 +53,7 @@ export function createSceneController({
     return item;
   };
 
-  // Studio: reflections, two directional lights, a floor pool and a soft glow.
+  // Studio: reflections, two directional lights, the surface and a soft glow.
   const environment = own(createStudioEnvironment(renderer));
   scene.environment = environment.texture;
   const hemisphere = new THREE.HemisphereLight("#f2f3f5", "#060607", 0.12);
@@ -64,57 +61,8 @@ export function createSceneController({
   key.position.set(-3, 5, 4);
   const rim = new THREE.DirectionalLight("#eef3ff", 1.6);
   rim.position.set(4, 2.5, -4);
-  const plane = (width: number, height: number, material: THREE.Material) =>
-    new THREE.Mesh(own(new THREE.PlaneGeometry(width, height)), own(material));
-  const floor = plane(
-    14,
-    14,
-    new THREE.MeshBasicMaterial({
-      map: own(
-        radialTexture([
-          [0, "rgba(30,33,39,0.85)"],
-          [0.5, "rgba(18,20,24,0.45)"],
-          [1, "rgba(11,13,16,0)"],
-        ]),
-      ),
-      transparent: true,
-      depthWrite: false,
-    }),
-  );
-  floor.rotation.x = -Math.PI / 2;
-  floor.position.y = -0.002;
-  floor.renderOrder = -2;
-  const shadowMaterial = new THREE.MeshBasicMaterial({
-    map: own(contactShadowTexture()),
-    transparent: true,
-    depthWrite: false,
-  });
-  const shadow = plane(
-    LAPTOP.width * 1.45,
-    LAPTOP.baseDepth * 1.45,
-    shadowMaterial,
-  );
-  shadow.rotation.x = -Math.PI / 2;
-  shadow.renderOrder = -1;
-  const glow = plane(
-    11,
-    7,
-    new THREE.MeshBasicMaterial({
-      map: own(
-        radialTexture([
-          [0, "rgba(110,150,225,0.32)"],
-          [0.5, "rgba(55,85,150,0.08)"],
-          [1, "rgba(20,30,60,0)"],
-        ]),
-      ),
-      transparent: true,
-      depthWrite: false,
-      blending: THREE.AdditiveBlending,
-      opacity: 0.5,
-    }),
-  );
-  glow.position.set(0.4, 1.4, -5.5);
-  glow.renderOrder = -3;
+  const surface = own(createSurface());
+  const { floor, shadow, glow } = surface;
   const laptop = createLaptop();
   own(laptop);
   const world = new THREE.Group();
@@ -130,7 +78,7 @@ export function createSceneController({
     createDisplay(
       overlay,
       { home: 0, thinking: 0, conversation: 0, brain: beat.voice },
-      readingWidth > 1350,
+      readingWidth,
     ),
   );
   const capsule = own(createCapsule(overlay));
@@ -253,7 +201,7 @@ export function createSceneController({
     rim.intensity = 1.6 * Math.min(1, light * 1.8);
     shadow.position.set(pose.x, 0.001 + Math.min(0, pose.y), pose.z);
     shadow.rotation.z = pose.yaw;
-    shadowMaterial.opacity = 0.85 * s.presence * Math.max(0, 1 + pose.y * 1.5);
+    surface.update(light, s.presence * Math.max(0, 1 + pose.y * 1.5));
 
     effects.update(s);
     placeCamera(s, width, height);
