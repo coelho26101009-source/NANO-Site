@@ -82,11 +82,14 @@ async function open({
   await page.goto(`${base}/${query}`, { waitUntil: "networkidle" });
   return { context, page, chunks };
 }
+// Generous waits: CI renders WebGL in software on small runners, where one
+// heavy frame (the Brain portal) can take seconds. Assertions are unchanged.
+const STAGE_TIMEOUT = 180000;
 const ready = (page) =>
   page.waitForFunction(
     () => "cinemaReady" in document.documentElement.dataset,
     null,
-    { timeout: 60000 },
+    { timeout: STAGE_TIMEOUT },
   );
 const settle = (page) =>
   page.waitForFunction(
@@ -95,7 +98,7 @@ const settle = (page) =>
       return state && state.t === state.goal;
     },
     null,
-    { timeout: 30000 },
+    { timeout: STAGE_TIMEOUT },
   );
 async function jump(page, y) {
   await page.evaluate(
@@ -410,7 +413,7 @@ try {
     // 7. Keyboard: Home/End/PageDown and focus never hidden by the stage.
     // Smooth scrolling is native and time-based; wait for the outcome.
     const reaches = (condition) =>
-      page.waitForFunction(condition, null, { timeout: 15000 }).then(
+      page.waitForFunction(condition, null, { timeout: 60000 }).then(
         () => true,
         async () => {
           report.keyboardTimeout = await page.evaluate(() => ({
@@ -477,7 +480,7 @@ try {
             );
           },
           null,
-          { timeout: 8000, polling: 50 },
+          { timeout: 20000, polling: 50 },
         )
         .catch(() => {});
       stops.push(
