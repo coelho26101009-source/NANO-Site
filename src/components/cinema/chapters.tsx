@@ -1,5 +1,6 @@
 import { experiences } from "@/content/site";
 import { Icon } from "../icons";
+import { capsuleArt } from "./capsule-art";
 
 /**
  * Product story for the cinematic layout. Server-rendered with the same copy
@@ -34,6 +35,30 @@ export function CinemaChapters() {
                 <kbd>Shift</kbd>
                 <span>+</span>
                 <kbd>Space</kbd>
+              </div>
+              {/* The capsule flies out of the laptop and settles here. */}
+              <div className="cinema-capsule-slot" aria-hidden="true">
+                <div
+                  className="cinema-capsule cinema-capsule-docked"
+                  style={{
+                    width: capsuleArt.width,
+                    height: capsuleArt.height,
+                    borderRadius: capsuleArt.radius,
+                  }}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element -- pre-encoded lossless crop source, positioned by CSS */}
+                  <img
+                    src={capsuleArt.src}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                    style={{
+                      width: capsuleArt.image.width,
+                      left: capsuleArt.image.left,
+                      top: capsuleArt.image.top,
+                    }}
+                  />
+                </div>
               </div>
               <p className="cinema-note">
                 Estado de escuta simulado na captura oficial. A voz é opcional e

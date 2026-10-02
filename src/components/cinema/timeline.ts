@@ -31,7 +31,6 @@ type Ease = (x: number) => number;
 const smooth: Ease = (x) => x * x * (3 - 2 * x);
 const gentle: Ease = (x) => 0.5 - Math.cos(Math.PI * x) / 2;
 const out: Ease = (x) => 1 - (1 - x) ** 3;
-const inward: Ease = (x) => x * x * x;
 export const clamp01 = (x: number) => Math.min(1, Math.max(0, x));
 
 /** A key: [time, value, easing of the segment that arrives at this key]. */
@@ -71,21 +70,20 @@ const deg = Math.PI / 180;
 
 // Laptop pose (world space; the laptop's origin is the centre of its base).
 // Arrival: from deep, low and turned away, it travels forward into the light.
-// Exit: after the Brain portal holds, one coordinated move — pull back, turn,
-// close the lid part-way, recede — finished before the Brain details arrive.
+// Exit: after the Brain moment holds, the pose stays as it is and the whole
+// scene scrolls away with the page (`lift`), the caption keeping its place
+// under the display, then fades: no text ever crosses the screen.
 const HOLD = at.portal + 0.12;
 const GONE = at.exit - 0.2;
 const laptopX = track([
   [at.hero + 0.3, 1.4],
   [at.intro, 0, out],
   [HOLD, 0],
-  [GONE, 0.5],
 ]);
 const laptopY = track([
   [at.hero + 0.3, -1.3],
   [at.intro, 0, out],
   [HOLD, 0],
-  [GONE, 0.25],
 ]);
 const laptopZ = track([
   [at.hero + 0.3, -12],
@@ -94,7 +92,6 @@ const laptopZ = track([
   [at.cloud + 0.5, -0.35],
   [at.brain, 0],
   [HOLD, 0],
-  [GONE, -3.2, inward],
 ]);
 const yaw = track([
   [at.hero + 0.3, -96 * deg],
@@ -108,7 +105,6 @@ const yaw = track([
   [at.brain, -9 * deg],
   [at.portal, -2 * deg],
   [HOLD, -2 * deg],
-  [GONE, -32 * deg],
 ]);
 const pitch = track([
   [at.hero + 0.3, 16 * deg],
@@ -118,8 +114,6 @@ const pitch = track([
 const lid = track([
   [at.intro - 0.02, 0],
   [at.intro + 0.82, 104 * deg, gentle],
-  [HOLD + 0.05, 104 * deg],
-  [GONE, 64 * deg, gentle],
 ]);
 
 // Camera: orbit around a world focus point, distance solved from `fill`.
@@ -131,7 +125,6 @@ const focusY = track([
   [at.brain, 1.0],
   [at.portal, 1.1],
   [HOLD, 1.1],
-  [GONE, 0.75],
 ]);
 const focusZ = track([
   [at.intro, -0.25],
@@ -141,7 +134,6 @@ const focusZ = track([
   [at.brain, -1.1],
   [at.portal, -1.19],
   [HOLD, -1.19],
-  [GONE, -0.7],
 ]);
 /** Apparent display width as a fraction of the viewport width. */
 const fill = track([
@@ -155,9 +147,7 @@ const fill = track([
   [at.auto, 0.31],
   [at.cloud, 0.28],
   [at.brain, 0.41],
-  [at.portal, 0.7, gentle],
-  [HOLD, 0.7],
-  [GONE, 0.3, gentle],
+  [at.portal, 0.52, gentle],
 ]);
 const azimuth = track([
   [at.hero, 0],
@@ -175,9 +165,7 @@ const elevation = track([
   [at.auto, 8 * deg],
   [at.cloud, 6 * deg],
   [at.brain, 10 * deg],
-  [at.portal, 3 * deg],
-  [HOLD, 3 * deg],
-  [GONE, 16 * deg],
+  [at.portal, 1.5 * deg],
 ]);
 /** Where the focus point sits on screen, in NDC (lens shift, no keystone). */
 const shiftX = track([
@@ -188,51 +176,38 @@ const shiftX = track([
   [at.brain, 0.33],
   [at.portal, 0, gentle],
   [HOLD, 0],
-  [GONE, 0.4, gentle],
 ]);
 const shiftY = track([
   [at.hero, -0.1],
   [at.intro, -0.08],
   [at.home, 0.06],
   [at.modes, 0.05],
-  [at.portal, 0.12],
-  [HOLD, 0.12],
-  [GONE, 0.18],
+  [at.portal, 0.21],
 ]);
 
 // Light and display.
 const presence = track([
   [at.hero + 0.3, 0],
   [at.intro - 0.2, 1, out],
-  [HOLD, 1],
-  [GONE, 0.45, gentle],
 ]);
-/** Laptop body light during the Brain moment: the display becomes a portal. */
+/** Laptop body light: the room settles a little so the Brain capture leads. */
 const body = track([
   [at.brain, 1],
-  [at.portal - 0.15, 0.32],
-  [HOLD, 0.32],
-  [HOLD + 0.3, 1],
+  [at.portal - 0.15, 0.6],
 ]);
 const power = track([
   [at.intro + 0.35, 0],
   [at.intro + 0.85, 1],
-  [HOLD, 1],
-  [GONE, 0.15],
 ]);
 /** Soft blue-white bloom as the panel powers on; never on the way out. */
 const bloom = track([
   [at.intro + 0.3, 0],
   [at.intro + 0.58, 1],
   [at.intro + 0.95, 0.12],
-  [HOLD, 0.12],
-  [HOLD + 0.3, 0],
 ]);
 const display = track([
   [at.intro + 0.72, 0],
   [at.home - 0.08, 1],
-  [HOLD, 1],
-  [HOLD + 0.3, 0],
 ]);
 const dim = track([
   [at.voice + 0.6, 0],
@@ -257,11 +232,10 @@ const brainScreen = track([
   [at.cloud + 0.35, 0],
   [at.cloud + 0.8, 1],
 ]);
+/** 0 inside the display, 1 settled in its slot under the voice copy. */
 const capsule = track([
   [at.conversation + 0.45, 0],
-  [at.voice, 1, gentle],
-  [at.voice + 0.25, 1],
-  [at.voice + 0.85, 2, gentle],
+  [at.voice - 0.08, 1, gentle],
 ]);
 const local = span(
   at.modes + 0.4,
@@ -281,14 +255,20 @@ const cloud = span(
   at.cloud + 0.4,
   at.brain - 0.3,
 );
-const portal = span(at.brain + 0.15, at.portal - 0.1, HOLD, HOLD + 0.35);
+/** The Brain moment: a calm, even backlight rises behind the laptop. */
+const portal = track([
+  [at.brain + 0.15, 0],
+  [at.portal - 0.1, 1],
+]);
+/** Time from which the scene scrolls with the page (see `lift` in scene.ts). */
+export const LIFT_FROM = at.portal;
 
-// The whole stage fades while the laptop recedes, still softly lit: it never
-// becomes a black cut-out, and it is gone before the Brain details arrive.
+// The stage fades while it scrolls away, still lit: never a black cut-out,
+// and gone before the Brain details arrive.
 const stage = track([
   [at.hero + 0.25, 0],
   [at.hero + 0.6, 1],
-  [HOLD + 0.15, 1],
+  [HOLD + 0.25, 1],
   [GONE, 0, gentle],
 ]);
 
@@ -324,7 +304,7 @@ export type CinemaState = {
     conversation: number;
     brain: number;
   };
-  /** 0 hidden in the display, 1 floating in front, 2 back inside. */
+  /** 0 inside the display, 1 settled in its slot under the voice copy. */
   capsule: number;
   modes: { local: number; auto: number; cloud: number };
   portal: number;

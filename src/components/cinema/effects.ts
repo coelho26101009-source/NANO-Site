@@ -1,10 +1,10 @@
 import * as THREE from "three";
-import { LAPTOP, type Laptop } from "./laptop";
+import type { Laptop } from "./laptop";
 import { radialTexture } from "./environment";
 import type { CinemaState } from "./timeline";
 
 /**
- * Explanatory light, not data. Orbit, routes and frames are abstract
+ * Explanatory light, not data. Orbit and routes are abstract
  * metaphors for the copy beside them; nothing here depicts real memories,
  * providers or traffic, and every value follows scroll time (no idle loop).
  *
@@ -90,31 +90,6 @@ const orbitFragment = /* glsl */ `
     gl_FragColor = max(gl_FragColor, 0.0);
   }
 `;
-// Light echoing the display outline into depth: a fine edge (fainter and
-// softer the deeper the frame), lit from above, plus an optional soft bloom
-// outside the rim. Signed distance to a rounded rectangle; dithered.
-const frameFragment = /* glsl */ `
-  uniform vec2 uHalf;
-  uniform float uRadius;
-  uniform float uWidth;
-  uniform float uIntensity;
-  uniform float uBloom;
-  uniform vec3 uColor;
-  varying vec2 vPos;
-  float ign(vec2 p) { return fract(52.9829189 * fract(dot(p, vec2(0.06711056, 0.00583715)))); }
-  void main() {
-    vec2 q = abs(vPos) - uHalf + uRadius;
-    float d = length(max(q, 0.0)) + min(max(q.x, q.y), 0.0) - uRadius;
-    float edge = exp(-(d * d) / (uWidth * uWidth));
-    float bloom = exp(-max(d, 0.0) / 0.32) * step(0.0, d) * uBloom;
-    float fromAbove = mix(0.25, 1.0, smoothstep(-uHalf.y, uHalf.y * 0.9, vPos.y));
-    float amount = (edge + bloom) * fromAbove * uIntensity;
-    gl_FragColor = linearToOutputTexel(vec4(uColor, 1.0)) * amount;
-    gl_FragColor.rgb += (ign(gl_FragCoord.xy) - 0.5) / 255.0;
-    gl_FragColor = max(gl_FragColor, 0.0);
-  }
-`;
-
 const COLOR = new THREE.Color("#a9c6ff");
 /** Where routes leave the laptop: just behind the top of the open lid (laptop space). */
 const ROUTE_ORIGIN = new THREE.Vector3(0, 1.93, -1.5);
@@ -221,49 +196,6 @@ export function createEffects(laptop: Laptop, world: THREE.Group) {
   });
   const origin = new THREE.Vector3();
 
-  // Brain — frames echo the display outline into depth behind it.
-  const frames = [1, 2, 3].map((step) => {
-    const grow = 1 + step * 0.09;
-    const half = new THREE.Vector2(
-      (LAPTOP.screenWidth / 2) * grow + 0.04,
-      (LAPTOP.screenHeight / 2) * grow + 0.04,
-    );
-    const material = shader(frameFragment, {
-      uHalf: { value: half },
-      uRadius: { value: 0.06 * grow },
-      uWidth: { value: 0.004 + step * 0.007 },
-      uIntensity: { value: 0 },
-      // The first frame, right behind the display, carries the rim bloom.
-      uBloom: { value: step === 1 ? 0.26 : 0 },
-      uColor: { value: new THREE.Color("#9fbdf5") },
-    });
-    const mesh = new THREE.Mesh(
-      own(new THREE.PlaneGeometry(half.x * 2 + 1.6, half.y * 2 + 1.6)),
-      material,
-    );
-    // Display-local: behind the panel is -z.
-    mesh.position.z = -0.34 * step - 0.04;
-    mesh.renderOrder = 1;
-    laptop.screen.add(mesh);
-    return { mesh, material, step };
-  });
-  // The room darkens a little behind the portal (normal blending, not light).
-  const veilMaterial = own(
-    new THREE.MeshBasicMaterial({
-      color: "#020304",
-      transparent: true,
-      depthWrite: false,
-      opacity: 0,
-    }),
-  );
-  const veil = new THREE.Mesh(
-    own(new THREE.PlaneGeometry(60, 40)),
-    veilMaterial,
-  );
-  veil.position.set(0, 2, -14);
-  veil.renderOrder = -4;
-  world.add(veil);
-
   return {
     update(s: CinemaState) {
       const { local, auto, cloud } = s.modes;
@@ -292,19 +224,9 @@ export function createEffects(laptop: Laptop, world: THREE.Group) {
         route.end.scale.setScalar(preferred ? 0.55 + cloud * 0.75 : 0.4);
         route.end.visible = route.mesh.visible;
       });
-
-      const portal = s.portal;
-      const showPortal = portal > 0.002;
-      for (const frame of frames) {
-        frame.material.uniforms.uIntensity.value =
-          portal * [0, 0.95, 0.5, 0.24][frame.step];
-        frame.mesh.visible = showPortal;
-      }
-      veilMaterial.opacity = portal * 0.6;
-      veil.visible = showPortal;
     },
     dispose() {
-      world.remove(routeGroup, veil);
+      world.remove(routeGroup);
       disposables.forEach((item) => item.dispose());
     },
   };

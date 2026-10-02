@@ -154,10 +154,11 @@ export function createSurface() {
     floor,
     shadow,
     glow,
-    /** Scene light (0–1) and contact-shadow opacity for this frame. */
-    update(light: number, shadowOpacity: number) {
+    /** Scene light, contact-shadow opacity and the Brain backlight (0–1). */
+    update(light: number, shadowOpacity: number, backlight: number) {
       floorMaterial.uniforms.uLight.value = light;
       shadowMaterial.uniforms.uOpacity.value = shadowOpacity;
+      glowMaterial.uniforms.uIntensity.value = 0.16 + 0.1 * backlight;
     },
     dispose() {
       disposables.forEach((item) => item.dispose());

@@ -160,7 +160,23 @@ const displayState = (page) =>
           transform: image.style.transform,
         };
       });
-    const capsule = document.querySelector(".cinema-capsule");
+    // The capsule flies in the stage overlay, then docks in the voice chapter.
+    const flying = document.querySelector(".cinema-overlay .cinema-capsule");
+    const slot = document.querySelector("main .cinema-capsule-slot");
+    const docked = slot?.querySelector(".cinema-capsule-docked");
+    const dockedRect = docked?.getBoundingClientRect();
+    const dockedVisible = Boolean(
+      docked &&
+      slot.hasAttribute("data-docked") &&
+      getComputedStyle(docked).visibility === "visible" &&
+      dockedRect.bottom > 0 &&
+      dockedRect.top < innerHeight,
+    );
+    const voice = document.querySelector(".cinema-chapter-voice");
+    const keys = voice
+      ?.querySelector(".keyboard-shortcut")
+      ?.getBoundingClientRect();
+    const copy = voice?.querySelector("p")?.getBoundingClientRect();
     return {
       beat: document.documentElement.dataset.cinemaNow,
       t: window.__nanoCinema?.t,
@@ -168,10 +184,22 @@ const displayState = (page) =>
         document.querySelector(".cinema-scene")?.style.opacity || 0,
       ),
       images,
-      capsule: capsule
-        ? getComputedStyle(capsule).visibility === "visible" &&
-          Number(capsule.style.opacity) > 0.5
-        : false,
+      capsule:
+        dockedVisible ||
+        Boolean(
+          flying &&
+          getComputedStyle(flying).visibility === "visible" &&
+          Number(flying.style.opacity) > 0.5,
+        ),
+      dockedVisible,
+      // Docked under the shortcut keys and aligned with the copy's column.
+      dockedPlacement:
+        dockedVisible && keys && copy
+          ? dockedRect.top >= keys.bottom &&
+            dockedRect.top - keys.bottom < 60 &&
+            Math.abs(dockedRect.left - copy.left) < 2 &&
+            dockedRect.right <= copy.right + 2
+          : false,
       dpr: devicePixelRatio,
     };
   });
@@ -299,6 +327,16 @@ try {
         state.capsule,
         beat === "voice",
       );
+      if (beat === "voice") {
+        check(
+          "Voice: capsule docked in its slot (not floating)",
+          state.dockedVisible,
+        );
+        check(
+          "Voice: capsule sits under the shortcut, aligned with the copy",
+          state.dockedPlacement,
+        );
+      }
       if (beat === "exit" || beat === "end")
         check(`Beat ${beat}: stage has left`, state.stage, 0);
       if (

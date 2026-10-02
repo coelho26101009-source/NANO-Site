@@ -1,4 +1,5 @@
 import imageAssets from "@/content/images.json";
+import { capsuleArt } from "./capsule-art";
 
 /**
  * The NANO display is DOM, not a WebGL texture: each official capture is an
@@ -15,11 +16,6 @@ export const SCREENS = {
 } as const;
 export type ScreenName = keyof typeof SCREENS;
 const ORDER = Object.keys(SCREENS) as ScreenName[];
-
-/** Real capsule pixels inside nano-overlay.png (760×180); the light demo
- * backdrop of the Electron capture is cropped away, nothing else changes. */
-const CAPSULE = { x: 118, y: 58, width: 524, height: 64, source: 760 };
-const CAPSULE_CSS_WIDTH = 300;
 
 export type Point = readonly [number, number];
 type Variant = {
@@ -254,24 +250,21 @@ export function createDisplay(
   };
 }
 
-/** The real voice capsule, cropped from the official overlay capture. */
+/** The real voice capsule while it flies from the display to its slot. */
 export function createCapsule(layer: HTMLElement) {
-  const asset = imageAssets["/screenshots/nano-overlay.png"];
-  const native = asset.variants[asset.variants.length - 1];
-  const scale = CAPSULE_CSS_WIDTH / CAPSULE.width;
   const element = document.createElement("div");
   element.className = "cinema-capsule";
-  element.style.width = `${CAPSULE_CSS_WIDTH}px`;
-  element.style.height = `${CAPSULE.height * scale}px`;
-  element.style.borderRadius = `${(CAPSULE.height * scale) / 2}px`;
+  element.style.width = `${capsuleArt.width}px`;
+  element.style.height = `${capsuleArt.height}px`;
+  element.style.borderRadius = `${capsuleArt.radius}px`;
   const image = new Image();
   image.alt = "";
   image.decoding = "async";
   image.draggable = false;
-  image.src = native.src;
-  image.style.width = `${CAPSULE.source * scale}px`;
-  image.style.left = `${-CAPSULE.x * scale}px`;
-  image.style.top = `${-CAPSULE.y * scale}px`;
+  image.src = capsuleArt.src;
+  image.style.width = `${capsuleArt.image.width}px`;
+  image.style.left = `${capsuleArt.image.left}px`;
+  image.style.top = `${capsuleArt.image.top}px`;
   element.append(image);
   layer.append(element);
   return {
@@ -281,7 +274,7 @@ export function createCapsule(layer: HTMLElement) {
         element.style.visibility = "hidden";
         return;
       }
-      const s = width / CAPSULE_CSS_WIDTH;
+      const s = width / capsuleArt.width;
       element.style.visibility = "visible";
       element.style.opacity = String(opacity);
       element.style.transform = `translate(${center[0]}px, ${center[1]}px) translate(-50%, -50%) perspective(900px) rotateY(${tilt}deg) scale(${s})`;

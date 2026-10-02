@@ -3,9 +3,18 @@ import { createLaptop, LAPTOP } from "./laptop";
 import { createStudioEnvironment } from "./environment";
 import { createSurface } from "./surface";
 import { createDirector, type Director } from "./director";
-import { BEATS, LAST_BEAT, evaluate, type CinemaState } from "./timeline";
+import {
+  BEATS,
+  LAST_BEAT,
+  LIFT_FROM,
+  evaluate,
+  type CinemaState,
+} from "./timeline";
 import { createCapsule, createDisplay, type DisplayFrame } from "./display";
 import { createEffects } from "./effects";
+import { capsuleArt } from "./capsule-art";
+
+const smooth = (x: number) => x * x * (3 - 2 * x);
 
 const beat = Object.fromEntries(
   BEATS.map((name, index) => [name, index]),
@@ -127,6 +136,17 @@ export function createSceneController({
       });
     });
 
+  /** Scroll position of timeline time t, from the measured chapter anchors. */
+  function scrollAt(t: number) {
+    const anchors = director?.anchors() ?? [];
+    if (anchors.length < 2) return 0;
+    const k = Math.max(0, Math.min(anchors.length - 2, Math.floor(t)));
+    return anchors[k] + (t - k) * (anchors[k + 1] - anchors[k]);
+  }
+  function liftAt(t: number) {
+    return t > LIFT_FROM ? scrollAt(t) - scrollAt(LIFT_FROM) : 0;
+  }
+
   function placeCamera(s: CinemaState, width: number, height: number) {
     const aspect = width / height;
     const halfV = THREE.MathUtils.degToRad(camera.fov / 2);
@@ -137,7 +157,7 @@ export function createSceneController({
     // need room on wide, short screens).
     const distance = Math.max(
       LAPTOP.screenWidth / (2 * Math.tan(halfH) * fill),
-      LAPTOP.screenHeight / (2 * Math.tan(halfV) * Math.min(fill * 1.25, 0.62)),
+      LAPTOP.screenHeight / (2 * Math.tan(halfV) * Math.min(fill * 1.25, 0.46)),
     );
     camera.position.set(
       focus[0] + distance * Math.cos(elevation) * Math.sin(azimuth),
@@ -145,12 +165,14 @@ export function createSceneController({
       focus[2] + distance * Math.cos(elevation) * Math.cos(azimuth),
     );
     camera.lookAt(focus[0], focus[1], focus[2]);
-    // Lens shift composes the subject without keystoning it.
+    // Lens shift composes the subject without keystoning it. After the Brain
+    // moment the scene also moves up exactly as far as the page has scrolled
+    // since LIFT_FROM, so it leaves with its caption (no text over the screen).
     camera.setViewOffset(
       width,
       height,
       (-shiftX * width) / 2,
-      (shiftY * height) / 2,
+      (shiftY * height) / 2 + liftAt(s.t),
       width,
       height,
     );
@@ -176,6 +198,36 @@ export function createSceneController({
     dpr: 1,
   };
   let shownStage = "";
+  let shownDocked = false;
+  // The capsule's resting slot, in document coordinates (layout offsets,
+  // measured on resize: never per frame).
+  const slot = document.querySelector<HTMLElement>("main .cinema-capsule-slot");
+  const slotBox = { x: 0, y: 0, width: 0, height: 0 };
+  const measureSlot = () => {
+    if (!slot) return;
+    let x = 0;
+    let y = 0;
+    for (
+      let node: HTMLElement | null = slot;
+      node;
+      node = node.offsetParent as HTMLElement | null
+    ) {
+      x += node.offsetLeft;
+      y += node.offsetTop;
+    }
+    // The capsule sits at the slot's left edge, vertically centred.
+    Object.assign(slotBox, {
+      x,
+      y,
+      width: capsuleArt.width,
+      height: slot.offsetHeight,
+    });
+    invalidate();
+  };
+  const slotObserver = new ResizeObserver(measureSlot);
+  slotObserver.observe(document.body);
+  window.addEventListener("resize", measureSlot, { passive: true });
+  measureSlot();
   let shownActive: boolean | null = null;
 
   function apply(s: CinemaState, width: number, height: number) {
@@ -201,7 +253,7 @@ export function createSceneController({
     rim.intensity = 1.6 * Math.min(1, light * 1.8);
     shadow.position.set(pose.x, 0.001 + Math.min(0, pose.y), pose.z);
     shadow.rotation.z = pose.yaw;
-    surface.update(light, s.presence * Math.max(0, 1 + pose.y * 1.5));
+    surface.update(light, s.presence * Math.max(0, 1 + pose.y * 1.5), s.portal);
 
     effects.update(s);
     placeCamera(s, width, height);
@@ -228,34 +280,46 @@ export function createSceneController({
     displayFrame.dpr = window.devicePixelRatio;
     display.update(displayFrame);
 
-    // The voice capsule rises out of the display and floats towards the copy.
+    // The voice capsule rises out of the display's composer, then settles in
+    // its slot under the shortcut in the voice chapter, where a DOM copy
+    // takes over and scrolls with the text (no per-frame tracking at rest).
     const c = s.capsule;
-    if (active && c > 0 && c < 2) {
-      const out = c <= 1 ? c : 2 - c;
-      // Leaves from the composer area, clears the bezel, floats beside the copy.
-      // Display-local: x along the screen, y up the screen, z out of it.
-      const depth = 2.3 * out;
-      const v = -LAPTOP.screenHeight * 0.3 + 0.42 * out;
-      const u = -1.05 * out;
-      const halfWidth = 0.6;
+    const docked = active && c >= 1;
+    if (docked !== shownDocked) {
+      shownDocked = docked;
+      if (docked) slot?.setAttribute("data-docked", "");
+      else slot?.removeAttribute("data-docked");
+    }
+    if (active && c > 0 && c < 1 && slot) {
+      // Out of the screen first (display-local z), then across to the slot.
+      const depth = 1.1 * smooth(Math.min(1, c / 0.35));
+      const v = -LAPTOP.screenHeight * 0.3;
+      const halfWidth = 0.55;
       const matrix = laptop.screen.matrixWorld;
       const projectInto = (x: number, target: [number, number]) => {
         vector.set(x, v, depth).applyMatrix4(matrix).project(camera);
         toScreen(width, height, target);
       };
-      projectInto(u - halfWidth, capsuleLeft);
-      projectInto(u + halfWidth, capsuleRight);
-      projectInto(u, capsuleCenter);
-      const opacity = c <= 1 ? Math.min(1, c * 4) : Math.min(1, (2 - c) * 3);
+      projectInto(-halfWidth, capsuleLeft);
+      projectInto(halfWidth, capsuleRight);
+      projectInto(0, capsuleCenter);
+      const fromWidth = Math.hypot(
+        capsuleRight[0] - capsuleLeft[0],
+        capsuleRight[1] - capsuleLeft[1],
+      );
+      const b = smooth(Math.min(1, Math.max(0, (c - 0.2) / 0.8)));
+      const slotX = slotBox.x + slotBox.width / 2;
+      const slotY = slotBox.y + slotBox.height / 2 - window.scrollY;
+      // A shallow arc, so the move reads as placed rather than dragged.
+      capsuleCenter[0] += (slotX - capsuleCenter[0]) * b;
+      capsuleCenter[1] +=
+        (slotY - capsuleCenter[1]) * b - Math.sin(Math.PI * b) * 18;
       // Inherits the display's turn as it leaves, then faces the viewer.
-      const tilt = ((pose.yaw * 180) / Math.PI) * (1 - out);
+      const tilt = ((pose.yaw * 180) / Math.PI) * (1 - b);
       capsule.update(
         capsuleCenter,
-        Math.hypot(
-          capsuleRight[0] - capsuleLeft[0],
-          capsuleRight[1] - capsuleLeft[1],
-        ),
-        opacity * s.display,
+        fromWidth + (capsuleArt.width - fromWidth) * b,
+        Math.min(1, c * 6),
         tilt,
       );
     } else capsule.update(null, 0, 0);
@@ -347,6 +411,9 @@ export function createSceneController({
     },
     dispose() {
       cancelled = true;
+      slotObserver.disconnect();
+      window.removeEventListener("resize", measureSlot);
+      slot?.removeAttribute("data-docked");
       overlay.removeEventListener("cinema:image", onImage);
       scene.remove(world);
       scene.environment = null;
