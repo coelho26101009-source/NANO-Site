@@ -1,5 +1,7 @@
 import { Eyebrow } from "./ui";
 import { ProductShowcase } from "./product-showcase";
+import { CinemaChapters } from "./cinema/chapters";
+import { LaptopStill } from "./laptop-still";
 
 export function Product() {
   return (
@@ -9,7 +11,11 @@ export function Product() {
       className="section container"
       aria-labelledby="product-heading"
     >
-      <div className="section-heading split-heading">
+      <div
+        className="section-heading split-heading"
+        data-cinema-beat="intro"
+        data-cinema-align="start"
+      >
         <div>
           <Eyebrow>Feito para o teu dia a dia</Eyebrow>
           <h2 id="product-heading">
@@ -24,7 +30,9 @@ export function Product() {
           estiveres pronto.
         </p>
       </div>
+      <LaptopStill />
       <ProductShowcase />
+      <CinemaChapters />
     </section>
   );
 }

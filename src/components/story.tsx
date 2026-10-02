@@ -1,5 +1,6 @@
 import { site } from "@/content/site";
 import { Eyebrow, TextLink } from "./ui";
+import { Icon } from "./icons";
 
 export function Story() {
   return (
@@ -16,8 +17,14 @@ export function Story() {
         </span>
         <div className="creator">
           <span className="small-label">CRIADO POR</span>
-          <a href={site.repository}>{site.creator}</a>
-          <span>Projeto independente</span>
+          <p className="creator-name">{site.creator.name}</p>
+          <p className="creator-role">{site.creator.role}</p>
+          <a className="creator-handle" href={site.repository}>
+            <Icon name="github" />
+            {site.creator.handle}
+            <span className="visually-hidden"> no GitHub</span>
+          </a>
+          <span className="creator-note">Projeto independente</span>
         </div>
       </div>
       <div className="story-copy">
@@ -31,9 +38,10 @@ export function Story() {
           melhor o contexto de quem o usa?
         </p>
         <p>
-          O NANO nasceu como um projeto pessoal para explorar essa ideia. Juntar
-          inteligência local e cloud, memória, voz e interação com o Windows
-          numa experiência que faça sentido no dia a dia.
+          O NANO é um projeto criado por {site.creator.name}, programador
+          português de 16 anos, para explorar essa ideia: juntar inteligência
+          local e cloud, memória, voz e interação com o Windows numa experiência
+          que faça sentido no dia a dia.
         </p>
         <p>
           A ambição é dar-lhe progressivamente mais capacidade de ajudar e agir,

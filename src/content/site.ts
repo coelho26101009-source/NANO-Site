@@ -8,7 +8,12 @@ export const site = {
   description:
     "O teu assistente pessoal de IA para Windows. Conversa, memória e interação com o PC, com modelos locais ou cloud à tua escolha. Conhece a Beta pública do NANO.",
   version,
-  creator: "coelho26101009-source", // The single editable public creator display field.
+  // Public creator identity, as provided by the creator.
+  creator: {
+    name: "Simão Coelho",
+    role: "Programador português de 16 anos",
+    handle: "coelho26101009-source",
+  },
   repository,
   release: `${repository}/releases/tag/v${version}`,
   checksum: `${repository}/releases/download/v${version}/SHA256SUMS.txt`,

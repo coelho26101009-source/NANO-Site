@@ -2,6 +2,9 @@ import { ProductImage, captureSizes } from "./product-image";
 import { site } from "@/content/site";
 import { Eyebrow, TextLink } from "./ui";
 
+const brainAlt =
+  "Grafo real do NANO Brain: O meu PC ligado a Ollama e Projeto NANO, com três nós de demonstração e duas relações.";
+
 export function Brain() {
   return (
     <section
@@ -11,7 +14,7 @@ export function Brain() {
       aria-labelledby="brain-heading"
     >
       <div className="container">
-        <div className="section-heading brain-heading">
+        <div className="section-heading brain-heading" data-cinema-beat="brain">
           <div>
             <Eyebrow>NANO Brain</Eyebrow>
             <h2 id="brain-heading">
@@ -31,7 +34,7 @@ export function Brain() {
             </TextLink>
           </div>
         </div>
-        <figure className="brain-figure">
+        <figure className="brain-figure" data-cinema-beat="portal">
           <a
             className="brain-image"
             href="/screenshots/nano-brain.png"
@@ -39,21 +42,33 @@ export function Brain() {
           >
             <ProductImage
               src="/screenshots/nano-brain.png"
-              alt="Grafo real do NANO Brain: O meu PC ligado a Ollama e Projeto NANO, com três nós de demonstração e duas relações."
+              alt={brainAlt}
               width={1920}
               height={1032}
               sizes={captureSizes}
             />
           </a>
+          {/* Cinematic layout: the laptop shows the capture; keep its description and link. */}
+          <span
+            className="visually-hidden cinema-only"
+            role="img"
+            aria-label={brainAlt}
+          />
           <figcaption>
             <span>
               <span className="status-dot" />
               Contexto guardado localmente
             </span>
             <span>3 nós de demonstração · 2 relações reais</span>
+            <a
+              className="cinema-capture-link cinema-only"
+              href="/screenshots/nano-brain.png"
+            >
+              Abrir captura completa <span aria-hidden="true">↗</span>
+            </a>
           </figcaption>
         </figure>
-        <div className="brain-details">
+        <div className="brain-details" data-cinema-beat="exit">
           <div>
             <span className="small-label">01 / GUARDAR</span>
             <h3>O que escolhes lembrar.</h3>

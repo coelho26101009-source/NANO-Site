@@ -14,8 +14,14 @@ const reveals = [
     kind: "rise",
     delay: 90,
   },
+  { selector: ".laptop-still", kind: "depth" },
   { selector: ".showcase-tabs", kind: "calm" },
   { selector: ".showcase-visual", kind: "depth", delay: 100 },
+  {
+    selector: ".cinema-chapter > :not(.visually-hidden)",
+    kind: "rise",
+    stagger: 45,
+  },
   { selector: ".brain-figure", kind: "depth", delay: 80 },
   { selector: ".brain-details > div", kind: "rise", stagger: 80 },
   { selector: ".mode", kind: "rise", stagger: 80 },
@@ -112,12 +118,24 @@ export function ScrollMotion() {
         : [];
 
       header?.classList.toggle("is-scrolled", y > 24);
+      // Scoped to the header, its only reader: on <html> this inherited
+      // property restyled the whole document on every scroll frame.
       if (moving)
-        root.style.setProperty(
+        header?.style.setProperty(
           "--page-progress",
           String(range > 0 ? clamp(y / range) : 0),
         );
+      // The 3D stage owns the Brain and modes beats while it is active.
+      const cinema = root.dataset.cinema === "on";
       for (const { element, rect, runway } of measurements) {
+        if (
+          cinema &&
+          (element.classList.contains("modes-grid") ||
+            element.classList.contains("brain-figure"))
+        ) {
+          lastMode = -1;
+          continue;
+        }
         if (element.classList.contains("hero")) {
           const progress = clamp(-rect.top / (rect.height * 0.85));
           element.style.setProperty("--hero-copy-y", `${progress * -18}px`);

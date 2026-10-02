@@ -2,8 +2,10 @@ import type { Metadata, Viewport } from "next";
 import { Manrope } from "next/font/google";
 import { site } from "@/content/site";
 import { isIndexable, productionUrl } from "@/lib/metadata";
+import { cinemaBootScript } from "@/components/cinema/boot";
 import "./globals.css";
 import "./motion.css";
+import "./cinema.css";
 
 const manrope = Manrope({
   subsets: ["latin"],
@@ -21,6 +23,8 @@ export const metadata: Metadata = {
   description: site.description,
   ...(productionUrl ? { alternates: { canonical: "/" } } : {}),
   applicationName: "NANO",
+  authors: [{ name: site.creator.name }],
+  creator: site.creator.name,
   robots: { index: isIndexable, follow: isIndexable },
   openGraph: {
     title: site.title,
@@ -45,7 +49,15 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang={site.locale} className={manrope.variable}>
+    // The boot script sets data-cinema before hydration; nothing else differs.
+    <html
+      lang={site.locale}
+      className={manrope.variable}
+      suppressHydrationWarning
+    >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: cinemaBootScript }} />
+      </head>
       <body>{children}</body>
     </html>
   );

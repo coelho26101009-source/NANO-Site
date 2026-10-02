@@ -1,0 +1,350 @@
+/* Cinematic 3D layout. Everything below is keyed to html[data-cinema="on"],
+   which only the boot script can set (and the loader can withdraw). Without
+   it — no JavaScript, reduced motion, small screens, no WebGL — the page is
+   exactly the regular site. */
+.cinema-stage,
+.cinema-chapters,
+.cinema-only {
+  display: none;
+}
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Stage layers: canvas, then the DOM display and capsule above it. */
+.cinema-scene,
+.cinema-host,
+.cinema-overlay,
+.cinema-canvas {
+  position: absolute;
+  inset: 0;
+}
+.cinema-scene {
+  opacity: 0;
+  visibility: hidden;
+}
+.cinema-canvas {
+  display: block;
+}
+.cinema-overlay {
+  overflow: hidden;
+}
+.cinema-display-image,
+.cinema-display-shade,
+.cinema-display-glass,
+.cinema-capsule {
+  position: absolute;
+  left: 0;
+  top: 0;
+  visibility: hidden;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+.cinema-display-image,
+.cinema-display-shade,
+.cinema-display-glass {
+  transform-origin: 0 0;
+}
+.cinema-display-image {
+  /* The global img rule would shrink these and break the projection. */
+  max-width: none;
+  width: auto;
+  height: auto;
+  user-select: none;
+}
+.cinema-display-shade,
+.cinema-display-glass {
+  width: 960px;
+  height: 516px;
+}
+.cinema-display-shade {
+  background: #050608;
+}
+.cinema-display-glass {
+  /* A whisper of glass: never enough to compete with the UI. */
+  background: linear-gradient(
+    112deg,
+    rgb(255 255 255 / 0.06) 0%,
+    rgb(255 255 255 / 0.018) 26%,
+    rgb(255 255 255 / 0) 44%
+  );
+}
+.cinema-capsule {
+  overflow: hidden;
+  box-shadow:
+    0 22px 46px -16px rgb(0 0 0 / 0.75),
+    0 0 0 1px rgb(255 255 255 / 0.07),
+    0 0 60px -12px rgb(120 165 255 / 0.32);
+}
+.cinema-capsule img {
+  position: absolute;
+  max-width: none;
+  height: auto;
+}
+
+/* Static laptop (rendered from the same model) wherever the 3D stage is not
+   running: phones, tablets, reduced motion, no WebGL, no JavaScript. */
+.laptop-still {
+  position: relative;
+  width: min(100%, 640px);
+  margin: 0 auto 72px;
+  isolation: isolate;
+}
+.laptop-still::before {
+  /* Never wider than the figure: a full-width still must not overflow. */
+  content: "";
+  position: absolute;
+  inset: -14% 0 2%;
+  background: radial-gradient(
+    closest-side at 50% 42%,
+    rgb(70 120 210 / 0.15),
+    transparent
+  );
+  z-index: -1;
+  pointer-events: none;
+}
+.laptop-still-body {
+  width: 100%;
+  height: auto;
+}
+.laptop-still-screen {
+  position: absolute;
+  overflow: hidden;
+  background: #1a1a1a;
+}
+.laptop-still-screen .product-picture,
+.laptop-still-screen img {
+  width: 100%;
+  height: 100%;
+}
+@media (max-width: 1000px) {
+  .laptop-still {
+    margin-bottom: 56px;
+  }
+}
+@media (max-width: 700px) {
+  .laptop-still {
+    width: 100%;
+    margin-bottom: 40px;
+  }
+}
+
+@media (min-width: 1100px) and (min-height: 620px) {
+  html[data-cinema="on"] {
+    --cinema-col: min(410px, 33vw);
+  }
+  html[data-cinema="on"] .laptop-still {
+    display: none;
+  }
+  html[data-cinema="on"] .cinema-stage {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    contain: strict;
+  }
+  html[data-cinema="on"] main,
+  html[data-cinema="on"] .footer {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Shared chapter rhythm: one idea per screen, copy in the left column,
+     the laptop composed in the space on the right. */
+  html[data-cinema="on"] #produto > .split-heading,
+  html[data-cinema="on"] .cinema-chapter,
+  html[data-cinema="on"] .modes-section > .centered,
+  html[data-cinema="on"] .mode,
+  html[data-cinema="on"] .brain-heading {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    max-width: var(--cinema-col);
+    min-height: 88svh;
+    margin: 0;
+  }
+
+  /* Product: arrival, opening, then one chapter per capture. The section
+     keeps the regular top padding and the intro starts exactly where the
+     regular heading does, so the part that can show below the hero is
+     identical in both layouts (switching back to 2D shifts nothing in view). */
+  html[data-cinema="on"] #produto {
+    padding-bottom: 4svh;
+  }
+  html[data-cinema="on"] #produto > .split-heading {
+    justify-content: flex-start;
+    min-height: 92svh;
+    gap: 24px;
+  }
+  html[data-cinema="on"] #produto .showcase-track {
+    display: none;
+  }
+  html[data-cinema="on"] .cinema-chapters {
+    display: block;
+  }
+  html[data-cinema="on"] .cinema-chapter h3 {
+    font-size: 34px;
+    line-height: 1.16;
+    letter-spacing: -0.045em;
+    margin-top: 16px;
+  }
+  html[data-cinema="on"] .cinema-chapter > p:not(.cinema-note) {
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.85;
+    margin-top: 20px;
+  }
+  html[data-cinema="on"] .cinema-chapter .keyboard-shortcut {
+    justify-content: flex-start;
+    margin-top: 24px;
+  }
+  /* The voice capsule settles here, under the shortcut that opens it. The
+     slot always reserves its space; the stage shows the capsule on arrival. */
+  html[data-cinema="on"] .cinema-capsule-slot {
+    display: block;
+    height: 37px;
+    margin-top: 22px;
+  }
+  html[data-cinema="on"] .cinema-capsule-docked {
+    position: relative;
+    transform: none;
+    will-change: auto;
+  }
+  html[data-cinema="on"]
+    .cinema-capsule-slot[data-docked]
+    .cinema-capsule-docked {
+    visibility: visible;
+  }
+  html[data-cinema="on"] .cinema-note {
+    margin-top: 18px;
+    color: var(--quiet);
+    font-size: 11px;
+    line-height: 1.8;
+  }
+  html[data-cinema="on"] .cinema-asset-note {
+    display: flex;
+    gap: 9px;
+    align-items: flex-start;
+  }
+  html[data-cinema="on"] .cinema-asset-note svg {
+    width: 13px;
+    height: 13px;
+    margin-top: 4px;
+  }
+  html[data-cinema="on"] .cinema-capture-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    margin-top: 12px;
+    font-size: 11px;
+    color: #c1cddd;
+  }
+
+  /* Modes: LOCAL, AUTO and CLOUD become three chapters beside the laptop. */
+  html[data-cinema="on"] .modes-section {
+    padding-block: 0 6svh;
+  }
+  html[data-cinema="on"] .modes-section > .centered {
+    text-align: left;
+  }
+  html[data-cinema="on"] .modes-section > .centered .eyebrow {
+    justify-content: flex-start;
+  }
+  html[data-cinema="on"] .modes-section > .centered > p {
+    margin: 25px 0 0;
+  }
+  html[data-cinema="on"] .modes-section .desktop-break {
+    display: none;
+  }
+  html[data-cinema="on"] .modes-grid {
+    display: block;
+    border: 0;
+    border-radius: 0;
+    overflow: visible;
+  }
+  html[data-cinema="on"] .mode {
+    padding: 0;
+    background: none;
+    box-shadow: none;
+    border: 0;
+  }
+  html[data-cinema="on"] .mode::before {
+    content: none;
+  }
+  html[data-cinema="on"] .mode-top {
+    width: 100%;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 16px;
+  }
+  html[data-cinema="on"] .mode h3 {
+    font-size: 40px;
+  }
+  html[data-cinema="on"] .mode-description,
+  html[data-cinema="on"] .mode-footnote {
+    min-height: 0;
+  }
+  html[data-cinema="on"] .mode-description {
+    font-size: 14px;
+  }
+  html[data-cinema="on"] .mode-path {
+    width: 100%;
+  }
+  html[data-cinema="on"] .mode-caveat {
+    max-width: calc(var(--cinema-col) + 80px);
+    margin-top: 0;
+  }
+
+  /* Brain: heading, the portal moment, then the details as the laptop leaves. */
+  html[data-cinema="on"] .brain-section {
+    background: none;
+    border-color: transparent;
+    overflow: visible;
+    padding-top: 0;
+  }
+  html[data-cinema="on"] .brain-heading {
+    min-height: 92svh;
+    gap: 0;
+  }
+  html[data-cinema="on"] .brain-heading > div:last-child > p {
+    margin-top: 22px;
+  }
+  html[data-cinema="on"] .brain-figure {
+    min-height: 110svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-bottom: 6svh;
+  }
+  html[data-cinema="on"] .brain-figure::before,
+  html[data-cinema="on"] .brain-image {
+    display: none;
+  }
+  html[data-cinema="on"] .brain-figure .cinema-only {
+    display: inline-flex;
+  }
+  html[data-cinema="on"] .brain-figure figcaption {
+    justify-content: center;
+    align-items: center;
+    gap: 34px;
+    margin-top: 0;
+  }
+  html[data-cinema="on"] .brain-figure figcaption .cinema-capture-link {
+    margin-top: 0;
+  }
+  html[data-cinema="on"] .brain-details {
+    min-height: 62svh;
+    align-content: center;
+    margin-top: 0;
+  }
+}

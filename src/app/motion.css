@@ -18,6 +18,12 @@
     opacity: 0;
     translate: 0 24px;
   }
+  /* Entrance offsets are cosmetic: never let scroll anchoring follow them
+     (a mid-page reload would otherwise land 24px off). Their untransformed
+     containers still anchor real layout changes. */
+  html[data-motion="ready"] [data-reveal] {
+    overflow-anchor: none;
+  }
   html[data-motion="ready"] [data-reveal="depth"] {
     transition-duration: var(--motion-slow);
   }
