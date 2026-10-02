@@ -32,16 +32,21 @@ Em Linux/macOS: `PLAYWRIGHT_BROWSERS_PATH=.cache/browsers npx playwright install
 
 `npm run verify` testa a build servida em `http://127.0.0.1:3000`, grava capturas e resultados em `artifacts/` (ignorado pelo Git), verifica sete larguras de ecrã, teclado, menu, tabs, ausência de JavaScript, movimento reduzido, metadados, links e acessibilidade com axe. `VERIFY_URL` permite apontar para uma preview. `VERIFY_EXTERNAL_LINKS=0` omite pedidos externos; o CI usa esta opção para não depender do GitHub durante os testes.
 
+`npm run verify:motion`, `npm run verify:images` e `npm run verify:cinema` cobrem o movimento, a qualidade das imagens e a experiência 3D. A suite cinematográfica força o 3D com `?cinema=1` (o Chromium de teste usa WebGL por software); `CINEMA_GPU=1` usa a GPU real localmente. `?cinema=0` mostra sempre o site regular. Ver [docs/CINEMA.md](docs/CINEMA.md).
+
 ## Organização
 
 - `src/app`: página, layout, estilos e rotas de metadados.
 - `src/components`: secções e pequenas ilhas interativas.
+- `src/components/cinema`: camada 3D opcional (portátil, coreografia, ecrã com as capturas reais) e o seu carregador.
 - `src/content/site.ts`: versão, URLs oficiais, criador público e dados de conteúdo.
 - `src/lib/metadata.ts`: URL de produção e regras de indexação.
 - `public/brand`, `public/screenshots`: assets oficiais copiados do repositório público.
 - `docs/SOURCES.md`: proveniência e limitações das fontes.
 - `docs/DESIGN.md`: plano de composição.
+- `docs/CINEMA.md`: arquitetura, decisões e medições da experiência 3D.
 - `scripts/verify.mjs`: revisão reproduzível em Chromium.
+- `scripts/render-laptop-still.mjs`: gera a imagem estática do portátil (a partir do mesmo modelo 3D) usada em telemóveis, tablets e movimento reduzido.
 
 ## Atualizar uma release
 
@@ -57,6 +62,6 @@ Não guardar credenciais no repositório. Todos os `.env*`, `.vercel`, caches e 
 
 ## Decisões
 
-Next.js 16.3.8 e React 19.3.0, CSS sem biblioteca de animação, fonte Manrope servida localmente pelo Next Font, imagens locais otimizadas pelo Next Image, conteúdo estático. TypeScript 6.0.3 e ESLint 9.39.5 estão fixados nas versões compatíveis com os peers de `eslint-config-next`; atualizar em conjunto quando o ecossistema suportar os novos majors. Nenhum dado analítico é recolhido pelo site e não há scripts de terceiros no browser.
+Next.js 16.3.8 e React 19.3.0, CSS sem biblioteca de animação, fonte Manrope servida localmente pelo Next Font, imagens locais otimizadas pelo Next Image, conteúdo estático. A experiência cinematográfica usa three 0.186.1 e React Three Fiber 9.8.1, apenas em desktops capazes, carregada depois do `load` e fora do caminho crítico; sem WebGL, sem JavaScript, com movimento reduzido ou em ecrãs pequenos, o site regular é mostrado. TypeScript 6.0.3 e ESLint 9.39.5 estão fixados nas versões compatíveis com os peers de `eslint-config-next`; atualizar em conjunto quando o ecossistema suportar os novos majors. Nenhum dado analítico é recolhido pelo site e não há scripts de terceiros no browser.
 
-Não foi usado Higgsfield. A marca existente e as capturas reais dão à página o carácter necessário; não é recomendado um asset gerado para esta versão.
+Não foi usado Higgsfield. A marca existente e as capturas reais dão à página o carácter necessário; não é recomendado um asset gerado para esta versão. O portátil 3D é procedural (construído em código, sem modelo nem licença de terceiros).

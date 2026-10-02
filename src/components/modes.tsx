@@ -10,7 +10,7 @@ export function Modes() {
       tabIndex={-1}
       aria-labelledby="modes-heading"
     >
-      <div className="section-heading centered">
+      <div className="section-heading centered" data-cinema-beat="modes">
         <Eyebrow>Três modos. A tua escolha.</Eyebrow>
         <h2 id="modes-heading">
           A inteligência muda.
@@ -25,7 +25,11 @@ export function Modes() {
       </div>
       <div className="modes-grid">
         {modes.map((mode) => (
-          <article className={`mode mode-${mode.id}`} key={mode.id}>
+          <article
+            className={`mode mode-${mode.id}`}
+            key={mode.id}
+            data-cinema-beat={mode.id}
+          >
             <div className="mode-top">
               <span className="mode-number">{mode.number}</span>
               <span className="mode-indicator" aria-hidden="true" />

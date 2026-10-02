@@ -6,6 +6,7 @@ export function Capabilities() {
     <section
       className="section container capabilities"
       aria-labelledby="capabilities-heading"
+      data-cinema-beat="end"
     >
       <div className="capabilities-intro">
         <Eyebrow>Para além da resposta</Eyebrow>

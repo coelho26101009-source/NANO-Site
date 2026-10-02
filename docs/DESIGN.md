@@ -2,15 +2,17 @@
 
 ## Direction
 
-Charcoal canvas, warm white type, restrained ice-blue accents. An editorial product page with generous space and fine dividers, rather than a wall of cards. Use only the corrected official N symbol and actual public application screenshots. No generated imagery, WebGL, video or animation dependency.
+Charcoal canvas, warm white type, restrained ice-blue accents. An editorial product page with generous space and fine dividers, rather than a wall of cards. Use only the corrected official N symbol and actual public application screenshots. No generated imagery, video or animation dependency.
+
+Cinematic layer (feature branch, see [CINEMA.md](CINEMA.md)): on capable desktops a procedural, unbranded laptop carries the product story in WebGL, with the real captures as crisp DOM layers on its display. It is progressive enhancement; every other context gets this page, plus a static still of the same laptop.
 
 ## Page sequence
 
 1. Floating navigation; compact, keyboard-accessible mobile disclosure.
 2. Split hero: confident Portuguese headline, release/download actions, dimensional official symbol. Small pointer response on fine pointers only.
-3. Product introduction and interactive four-view screenshot showcase: Home, Thinking, Conversation, voice overlay.
-4. Brain: real three-node graph screenshot, explanatory notes about active memories and their actual relationships.
-5. LOCAL / AUTO / CLOUD: three editorial columns with local highlighted, explicit routing and voice/network caveats.
+3. Product introduction and interactive four-view screenshot showcase: Home, Thinking, Conversation, voice overlay (static laptop still above it).
+4. LOCAL / AUTO / CLOUD: three editorial columns with local highlighted, explicit routing and voice/network caveats.
+5. Brain: real three-node graph screenshot, explanatory notes about active memories and their actual relationships. (Moved after the modes for the cinematic story; its AUTO/CLOUD note now follows their explanation.)
 6. Capabilities: numbered rows for conversation, Windows interaction and optional voice.
 7. Privacy/security: clear data flows, scoped permissions, encrypted credentials, links to original documentation.
 8. Creator: public repository handle in one configuration field, personal project story; no private biographical details.

@@ -12,15 +12,19 @@
     "verify:motion": "node scripts/verify-motion.mjs",
     "images:generate": "node scripts/generate-images.mjs",
     "verify:images": "node scripts/verify-images.mjs",
-    "format": "prettier --write src scripts docs *.json *.ts *.mjs"
+    "format": "prettier --write src scripts docs *.json *.ts *.mjs",
+    "verify:cinema": "node scripts/verify-cinema.mjs",
+    "images:laptop": "node scripts/render-laptop-still.mjs"
   },
   "engines": {
     "node": ">=22.12.0"
   },
   "dependencies": {
+    "@react-three/fiber": "9.8.1",
     "next": "16.3.8",
     "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "react-dom": "19.3.0",
+    "three": "0.186.1"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",
@@ -28,6 +32,7 @@
     "@types/node": "^24",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/three": "0.186.0",
     "agent-browser": "^0.38.1",
     "eslint": "9.39.5",
     "eslint-config-next": "16.3.8",

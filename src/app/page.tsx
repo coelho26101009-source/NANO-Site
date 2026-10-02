@@ -11,6 +11,7 @@ import { Download } from "@/components/download";
 import { Footer } from "@/components/footer";
 import { site } from "@/content/site";
 import { ScrollMotion } from "@/components/scroll-motion";
+import { CinemaLoader } from "@/components/cinema/loader";
 
 export default function Home() {
   const jsonLd = {
@@ -33,11 +34,12 @@ export default function Home() {
       <div id="top" />
       <Navigation />
       <ScrollMotion />
+      <CinemaLoader />
       <main id="conteudo" tabIndex={-1}>
         <Hero />
         <Product />
-        <Brain />
         <Modes />
+        <Brain />
         <Capabilities />
         <Privacy />
         <Story />

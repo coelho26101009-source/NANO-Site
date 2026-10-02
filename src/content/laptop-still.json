@@ -1,0 +1,27 @@
+{
+  "width": 2112,
+  "height": 1373,
+  "screen": {
+    "x": 0.1978,
+    "y": 0.05468,
+    "width": 0.60534,
+    "height": 0.50049
+  },
+  "variants": [
+    {
+      "width": 640,
+      "src": "/images/nano-laptop-640-78d3600fa4.webp",
+      "bytes": 10244
+    },
+    {
+      "width": 960,
+      "src": "/images/nano-laptop-960-fdca77afe2.webp",
+      "bytes": 18442
+    },
+    {
+      "width": 1280,
+      "src": "/images/nano-laptop-1280-d0427fe828.webp",
+      "bytes": 27640
+    }
+  ]
+}
