@@ -1,6 +1,6 @@
 # Cinematic 3D experience
 
-Branch `feature/cinematic-3d-site`, built on `7cae767` (Improve NANO site image quality). Not merged, not deployed to production.
+Branch `feature/cinematic-3d-site`, built on `7cae767` (Improve NANO site image quality) and merged into `main` for production.
 
 A dark, unbranded laptop becomes the stage for NANO on capable desktops. It arrives from depth, opens, shows the real NANO captures on its display, lets the voice capsule leave the window, explains LOCAL / AUTO / CLOUD around itself, turns its display into a portal for the Brain, then recedes before the calmer sections and the final download. Everything is driven by native scrolling. Everywhere else the page is the existing site, plus a static still of the same laptop.
 

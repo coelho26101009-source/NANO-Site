@@ -54,11 +54,11 @@ Altera `version` em `src/content/site.ts`, confirma o nome do instalador e a pre
 
 ## Vercel
 
-Importa `coelho26101009-source/NANO-Site`, com **Root Directory = raiz do repositório**, framework Next.js, `npm ci` e `npm run build`. Não apontes para o repositório da aplicação. Não é preciso backend, base de dados, chave de API ou domínio comprado.
+Website oficial: https://nanoassistantsite.vercel.app/. O projeto Vercel existente publica `main` automaticamente, com **Root Directory = raiz do repositório**, framework Next.js, `npm ci` e `npm run build`. Não é preciso backend, base de dados, chave de API ou domínio comprado.
 
-Cria e verifica primeiro uma preview. Só depois promove para produção. Após existir uma URL de produção real, define `SITE_URL` para essa URL (sem caminho), ou usa a variável automática `VERCEL_PROJECT_PRODUCTION_URL`. `VERCEL_ENV=preview` impede a indexação das previews. Sem URL de produção, o site não inventa um domínio: não emite canonical, mantém o sitemap vazio e pede aos motores de busca que não indexem. A imagem social local usa localhost apenas durante o desenvolvimento; em Vercel usa o URL real do deployment.
+As branches de trabalho recebem previews; `main` publica em produção. A URL de produção pode vir de `SITE_URL` (sem caminho) ou da variável automática `VERCEL_PROJECT_PRODUCTION_URL`. `VERCEL_ENV=preview` impede a indexação das previews. Sem URL de produção, o site não inventa um domínio: não emite canonical, mantém o sitemap vazio e pede aos motores de busca que não indexem. A imagem social local usa localhost apenas durante o desenvolvimento; em Vercel usa o URL real do deployment.
 
-Não guardar credenciais no repositório. Todos os `.env*`, `.vercel`, caches e artefactos locais são ignorados. A configuração da conta Vercel e a escolha da URL final continuam a ser necessárias antes da publicação.
+Não guardar credenciais no repositório. Todos os `.env*`, `.vercel`, caches e artefactos locais são ignorados.
 
 ## Decisões
 
