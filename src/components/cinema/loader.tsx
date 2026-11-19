@@ -44,12 +44,12 @@ function probeWebGL(forced: boolean) {
 
 /** Where each cinematic beat lives in the regular layout. */
 const REGULAR_TARGET: Record<string, string> = {
-  intro: "#produto",
+  intro: "#product",
   home: ".showcase-track",
   thinking: ".showcase-track",
   conversation: ".showcase-track",
   voice: ".showcase-track",
-  modes: "#modos",
+  modes: "#modes",
   local: ".mode-local",
   auto: ".mode-auto",
   cloud: ".mode-cloud",

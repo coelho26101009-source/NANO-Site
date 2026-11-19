@@ -64,6 +64,7 @@ try {
       [360, 800],
     ]) {
       const context = await browser.newContext({
+        locale: "en-US",
         viewport: { width, height },
         deviceScaleFactor: dpr,
         reducedMotion: "no-preference",

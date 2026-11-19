@@ -1,30 +1,29 @@
-import { modes } from "@/content/site";
+import type { Copy } from "@/content/i18n";
 import { Eyebrow } from "./ui";
 import { Icon } from "./icons";
 
-export function Modes() {
+export function Modes({ t: { modes: t } }: { t: Copy }) {
   return (
     <section
       className="section container modes-section"
-      id="modos"
+      id="modes"
       tabIndex={-1}
       aria-labelledby="modes-heading"
     >
       <div className="section-heading centered" data-cinema-beat="modes">
-        <Eyebrow>Três modos. A tua escolha.</Eyebrow>
+        <Eyebrow>{t.eyebrow}</Eyebrow>
         <h2 id="modes-heading">
-          A inteligência muda.
+          {t.title[0]}
           <br />
-          <span>O controlo continua teu.</span>
+          <span>{t.title[1]}</span>
         </h2>
         <p>
-          Escolhe onde o NANO pensa. Com caminhos claros
-          <br className="desktop-break" /> para o teu modelo local e para os
-          teus provedores cloud.
+          {t.intro[0]}
+          <br className="desktop-break" /> {t.intro[1]}
         </p>
       </div>
       <div className="modes-grid">
-        {modes.map((mode) => (
+        {t.items.map((mode) => (
           <article
             className={`mode mode-${mode.id}`}
             key={mode.id}
@@ -39,7 +38,7 @@ export function Modes() {
             <p className="mode-description">{mode.description}</p>
             <div
               className="mode-path"
-              aria-label={`Percurso: ${mode.path.join(", ")}`}
+              aria-label={`${t.path}: ${mode.path.join(", ")}`}
             >
               {mode.path.map((step, index) => (
                 <span key={step}>
@@ -56,12 +55,9 @@ export function Modes() {
       <aside className="mode-caveat">
         <Icon name="shield" />
         <p>
-          <strong>LOCAL refere-se ao modelo de linguagem.</strong> As respostas
-          faladas enviam texto à Microsoft, mesmo em LOCAL. Pedidos de navegação
-          web também usam a rede. Em AUTO, mais do que um provedor pode receber
-          o pedido durante o failover.
+          <strong>{t.caveatStrong}</strong> {t.caveat}
         </p>
-        <a href="#privacidade" aria-label="Ler mais sobre privacidade">
+        <a href="#privacy" aria-label={t.caveatLink}>
           <Icon name="arrow" />
         </a>
       </aside>

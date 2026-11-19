@@ -1,7 +1,7 @@
-import { capabilities } from "@/content/site";
+import type { Copy } from "@/content/i18n";
 import { Eyebrow } from "./ui";
 
-export function Capabilities() {
+export function Capabilities({ t: { capabilities: t } }: { t: Copy }) {
   return (
     <section
       className="section container capabilities"
@@ -9,23 +9,21 @@ export function Capabilities() {
       data-cinema-beat="end"
     >
       <div className="capabilities-intro">
-        <Eyebrow>Para além da resposta</Eyebrow>
+        <Eyebrow>{t.eyebrow}</Eyebrow>
         <h2 id="capabilities-heading">
-          Uma conversa.
+          {t.title[0]}
           <br />
-          Mais possibilidades.
+          {t.title[1]}
         </h2>
-        <p>
-          Ferramentas concretas para o teu computador, ligadas ao contexto da
-          conversa.
-        </p>
+        <p>{t.intro}</p>
         <span className="availability">
           <span className="status-dot" />
-          Disponível na Beta<span>*</span>
+          {t.availability}
+          <span>*</span>
         </span>
       </div>
       <div className="capability-list">
-        {capabilities.map((item) => (
+        {t.items.map((item) => (
           <article key={item.number} className="capability">
             <span className="capability-number">{item.number}</span>
             <div>
@@ -35,10 +33,7 @@ export function Capabilities() {
             </div>
           </article>
         ))}
-        <p className="section-note">
-          * A disponibilidade depende da configuração. A voz precisa de
-          dependências opcionais que não vêm no instalador base.
-        </p>
+        <p className="section-note">{t.note}</p>
       </div>
     </section>
   );

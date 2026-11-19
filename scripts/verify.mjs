@@ -26,6 +26,7 @@ const check = (label, fn) => {
   }
 };
 const context = await browser.newContext({
+  locale: "en-US",
   viewport: { width: 1440, height: 1000 },
   reducedMotion: "reduce",
 });
@@ -64,12 +65,13 @@ async function settleImages() {
 
 async function scrollAll() {
   for (const selector of [
-    "#produto",
+    "#product",
     "#brain",
-    "#modos",
+    "#modes",
     ".capabilities",
-    "#privacidade",
-    "#sobre",
+    "#privacy",
+    "#about",
+    "#faq",
     ".development",
     "#download",
     ".footer",
@@ -83,9 +85,9 @@ async function scrollAll() {
 try {
   await page.goto(baseUrl, { waitUntil: "networkidle" });
   await settleImages();
-  assert.equal(await page.locator("html").getAttribute("lang"), "pt-PT");
+  assert.equal(await page.locator("html").getAttribute("lang"), "en");
   assert.match(await page.title(), /NANO.*Windows/);
-  report.checks.push({ label: "Portuguese language and title", passed: true });
+  report.checks.push({ label: "English language and title", passed: true });
   report.metrics = await page.evaluate(() => ({
     ...window.nanoMetrics,
     transferredBytes: performance
@@ -114,7 +116,9 @@ try {
     assert.ok(metadata.description);
     assert.ok(metadata.ogImage?.includes("opengraph-image"));
     assert.equal(metadata.twitter, "summary_large_image");
-    assert.equal(metadata.schema.softwareVersion, "0.2.0-beta.1");
+    assert.equal(metadata.schema[0].softwareVersion, "0.2.0-beta.1");
+    assert.equal(metadata.schema[1]["@type"], "FAQPage");
+    assert.ok(metadata.schema[1].mainEntity.length >= 6);
   });
 
   for (const width of [1920, 1440, 1280, 1024, 768, 430, 390, 360]) {
@@ -140,25 +144,21 @@ try {
       });
       for (const [id, name] of [
         ["#brain", "brain"],
-        ["#modos", "modes"],
+        ["#modes", "modes"],
         ["#download", "download"],
       ]) {
         await page.locator(id).scrollIntoViewIfNeeded();
         await settleImages();
-        await page
-          .locator(id)
-          .screenshot({
-            path: `${output}/${prefix}-${name}.png`,
-            style: ".site-header { visibility: hidden !important; }",
-          });
-      }
-      await page.locator("#produto").scrollIntoViewIfNeeded();
-      await page
-        .locator("#produto")
-        .screenshot({
-          path: `${output}/${prefix}-product.png`,
+        await page.locator(id).screenshot({
+          path: `${output}/${prefix}-${name}.png`,
           style: ".site-header { visibility: hidden !important; }",
         });
+      }
+      await page.locator("#product").scrollIntoViewIfNeeded();
+      await page.locator("#product").screenshot({
+        path: `${output}/${prefix}-product.png`,
+        style: ".site-header { visibility: hidden !important; }",
+      });
       const axe = await new AxeBuilder({ page })
         .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
         .analyze();
@@ -196,12 +196,10 @@ try {
       label: `${id} showcase tab selects real capture`,
       passed: true,
     });
-    await page
-      .locator(".showcase")
-      .screenshot({
-        path: `${output}/showcase-${id}.png`,
-        style: ".site-header { visibility: hidden !important; }",
-      });
+    await page.locator(".showcase").screenshot({
+      path: `${output}/showcase-${id}.png`,
+      style: ".site-header { visibility: hidden !important; }",
+    });
   }
   await page.locator("#tab-home").focus();
   await page.keyboard.press("ArrowRight");
@@ -334,23 +332,25 @@ try {
       report.checks.push({ label: `External link ${url}`, passed: false });
     }
   }
+  const ogPath = new URL(metadata.ogImage).pathname;
   for (const path of [
     "/robots.txt",
     "/sitemap.xml",
-    "/opengraph-image",
+    ogPath,
     "/brand/nano-symbol.png",
   ]) {
     const response = await fetch(new URL(path, baseUrl));
     check(`Metadata endpoint ${path}`, () =>
       assert.equal(response.status, 200),
     );
-    if (path === "/opengraph-image")
+    if (path === ogPath)
       await writeFile(
         `${output}/social.png`,
         Buffer.from(await response.arrayBuffer()),
       );
   }
   const noJs = await browser.newContext({
+    locale: "en-US",
     javaScriptEnabled: false,
     viewport: { width: 390, height: 844 },
     reducedMotion: "reduce",
@@ -361,7 +361,7 @@ try {
   assert.equal(await fallback.locator(".mobile-menu").getAttribute("open"), "");
   assert.ok(
     await fallback
-      .getByRole("link", { name: "Descarregar para Windows", exact: true })
+      .getByRole("link", { name: "Download for Windows", exact: true })
       .getAttribute("href"),
   );
   report.checks.push({
@@ -369,6 +369,69 @@ try {
     passed: true,
   });
   await noJs.close();
+
+  // Portuguese version at /pt, language switch and browser-language redirect.
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto(new URL("/pt", baseUrl).href, { waitUntil: "networkidle" });
+  const portuguese = await page.evaluate(() => ({
+    lang: document.documentElement.lang,
+    title: document.title,
+    download: [...document.querySelectorAll("a")].some(
+      (a) => a.textContent.trim() === "Descarregar para Windows",
+    ),
+    toEnglish: document.querySelector(".nav-language")?.getAttribute("href"),
+    ogImage: document.querySelector('meta[property="og:image"]')?.content,
+    faq: JSON.parse(
+      document.querySelector('script[type="application/ld+json"]').textContent,
+    )[1].mainEntity[0].name,
+  }));
+  check("Portuguese page at /pt", () => {
+    assert.equal(portuguese.lang, "pt-PT");
+    assert.match(portuguese.title, /Assistente pessoal/);
+    assert.ok(portuguese.download);
+    assert.equal(portuguese.toEnglish, "/?lang=en");
+    assert.ok(portuguese.ogImage?.includes("/pt/opengraph-image"));
+    assert.match(portuguese.faq, /gratuito/);
+  });
+  const axePt = await new AxeBuilder({ page })
+    .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
+    .analyze();
+  report.accessibility.push({
+    page: "/pt",
+    violations: axePt.violations.map((violation) => ({
+      id: violation.id,
+      nodes: violation.nodes.map((node) => node.target),
+    })),
+  });
+  check("WCAG A/AA automated scan on /pt", () =>
+    assert.equal(axePt.violations.length, 0),
+  );
+  await page.locator(".faq-item summary").first().click();
+  const faqOpen = await page.locator(".faq-item").first().getAttribute("open");
+  check("FAQ answer opens", () => assert.equal(faqOpen, ""));
+  const ptBrowser = await browser.newContext({
+    locale: "pt-PT",
+    viewport: { width: 1440, height: 1000 },
+    reducedMotion: "reduce",
+  });
+  const ptPage = await ptBrowser.newPage();
+  await ptPage.goto(baseUrl, { waitUntil: "networkidle" });
+  const redirected = new URL(ptPage.url()).pathname;
+  await ptPage.locator(".nav-language").click();
+  await ptPage.waitForLoadState("networkidle");
+  const afterSwitch = {
+    path: new URL(ptPage.url()).pathname,
+    search: new URL(ptPage.url()).search,
+    lang: await ptPage.locator("html").getAttribute("lang"),
+  };
+  await ptPage.goto(baseUrl, { waitUntil: "networkidle" });
+  const remembered = new URL(ptPage.url()).pathname;
+  await ptBrowser.close();
+  check("Portuguese browser goes to /pt; choosing English sticks", () => {
+    assert.equal(redirected, "/pt");
+    assert.deepEqual(afterSwitch, { path: "/", search: "", lang: "en" });
+    assert.equal(remembered, "/");
+  });
   check("No browser console errors or uncaught exceptions", () =>
     assert.deepEqual(report.errors, []),
   );

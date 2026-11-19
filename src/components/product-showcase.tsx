@@ -1,11 +1,17 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { experiences } from "@/content/site";
+import type { Copy } from "@/content/i18n";
 import { Icon } from "./icons";
 import { ProductImage, showcaseSizes } from "./product-image";
 
-export function ProductShowcase() {
+export function ProductShowcase({
+  t,
+  experiences,
+}: {
+  t: Copy["showcase"];
+  experiences: Copy["experiences"];
+}) {
   const [active, setActive] = useState(0);
   const [manual, setManual] = useState(false);
   const track = useRef<HTMLDivElement>(null);
@@ -28,11 +34,7 @@ export function ProductShowcase() {
   return (
     <div className="showcase-track" ref={track} onFocusCapture={takeControl}>
       <div className="showcase showcase-sticky">
-        <div
-          className="showcase-tabs"
-          role="tablist"
-          aria-label="Explorar a aplicação"
-        >
+        <div className="showcase-tabs" role="tablist" aria-label={t.tabs}>
           {experiences.map((item, index) => (
             <button
               type="button"
@@ -84,11 +86,11 @@ export function ProductShowcase() {
               >
                 {item.id === "voice" && (
                   <div className="voice-intro">
-                    <span className="eyebrow">Uma presença discreta</span>
-                    <p>A conversa acompanha-te.</p>
+                    <span className="eyebrow">{t.voiceEyebrow}</span>
+                    <p>{t.voiceLead}</p>
                     <div
                       className="keyboard-shortcut"
-                      aria-label="Control mais Shift mais Espaço"
+                      aria-label={t.shortcutLabel}
                     >
                       <kbd>Ctrl</kbd>
                       <span>+</span>
@@ -111,8 +113,9 @@ export function ProductShowcase() {
                 />
                 {item.id === "voice" && (
                   <p className="voice-note">
-                    Estado de escuta simulado na captura oficial.
-                    <br />A voz é opcional e requer configuração adicional.
+                    {t.voiceNote[0]}
+                    <br />
+                    {t.voiceNote[1]}
                   </p>
                 )}
               </div>
@@ -127,7 +130,7 @@ export function ProductShowcase() {
           <div className="showcase-description">
             <p>{current.description}</p>
             <a href={current.image}>
-              Abrir captura completa <span aria-hidden="true">↗</span>
+              {t.openCapture} <span aria-hidden="true">↗</span>
             </a>
           </div>
           <span className="slide-number" aria-hidden="true">
@@ -137,15 +140,14 @@ export function ProductShowcase() {
         </div>
         <p className="asset-note">
           <Icon name="windows" />
-          Capturas oficiais num perfil de demonstração. Algumas mostram a versão
-          interna anterior.
+          {t.assetNote}
         </p>
         <noscript>
           <style>{`.showcase-track::after { height: 0 !important; } .showcase-sticky { position: static !important; }`}</style>
           <p className="asset-note">
-            As restantes capturas estão disponíveis no{" "}
+            {t.noscript}{" "}
             <a href="https://github.com/coelho26101009-source/Nano_Assistant#como-é">
-              repositório oficial
+              {t.noscriptLink}
             </a>
             .
           </p>

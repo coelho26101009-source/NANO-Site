@@ -1,52 +1,53 @@
 import { site } from "@/content/site";
+import type { Copy } from "@/content/i18n";
 import { DownloadLink, Eyebrow } from "./ui";
 import { Icon } from "./icons";
 import { HeroSymbol } from "./hero-symbol";
 
-export function Hero() {
+export function Hero({ t: { hero: t } }: { t: Copy }) {
   return (
     <section className="hero container" aria-labelledby="hero-heading">
       <div className="hero-copy">
         <a className="release-badge" href={site.release}>
           <span className="status-dot" />
-          Beta pública
+          {t.badge}
           <span className="badge-divider" />
           {site.version}
           <Icon name="arrow" />
         </a>
-        <Eyebrow>NANO · Assistente de IA para Windows</Eyebrow>
+        <Eyebrow>{t.eyebrow}</Eyebrow>
         <h1 id="hero-heading">
-          O teu assistente
+          {t.title[0]}
           <br />
-          <span>pessoal.</span>
+          <span>{t.title[1]}</span>
         </h1>
         <p className="hero-description">
-          Local quando queres.
+          {t.tagline[0]}
           <br />
-          Cloud quando precisas.
+          {t.tagline[1]}
         </p>
         <div className="hero-actions">
-          <DownloadLink href={site.release}>
-            Descarregar para Windows
-          </DownloadLink>
+          <DownloadLink href="#download">{t.download}</DownloadLink>
           <a className="button button-secondary" href={site.repository}>
             <Icon name="github" />
-            Ver no GitHub
+            {t.github}
           </a>
         </div>
         <p className="hero-meta">
-          Windows 10/11 x64<span>·</span>Em desenvolvimento, contigo.
+          {t.meta[0]}
+          <span>·</span>
+          {t.meta[1]}
         </p>
       </div>
-      <HeroSymbol />
+      <HeroSymbol caption={t.artCaption} />
       <div className="hero-bottom">
-        <a href="#produto">
-          Conhece o NANO
+        <a href="#product">
+          {t.discover}
           <Icon name="arrow" />
         </a>
-        <span>O teu computador. O teu contexto. A tua escolha.</span>
+        <span>{t.motto}</span>
         <span className="hero-index" aria-hidden="true">
-          01 — 08
+          01 — 09
         </span>
       </div>
     </section>

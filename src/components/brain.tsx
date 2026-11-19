@@ -1,11 +1,9 @@
 import { ProductImage, captureSizes } from "./product-image";
 import { site } from "@/content/site";
+import type { Copy } from "@/content/i18n";
 import { Eyebrow, TextLink } from "./ui";
 
-const brainAlt =
-  "Grafo real do NANO Brain: O meu PC ligado a Ollama e Projeto NANO, com três nós de demonstração e duas relações.";
-
-export function Brain() {
+export function Brain({ t: { brain: t } }: { t: Copy }) {
   return (
     <section
       id="brain"
@@ -16,21 +14,21 @@ export function Brain() {
       <div className="container">
         <div className="section-heading brain-heading" data-cinema-beat="brain">
           <div>
-            <Eyebrow>NANO Brain</Eyebrow>
+            <Eyebrow>{t.eyebrow}</Eyebrow>
             <h2 id="brain-heading">
-              Uma memória
+              {t.title[0]}
               <br />
-              que faz sentido.
+              {t.title[1]}
             </h2>
           </div>
           <div>
             <p>
-              Há contexto que merece ficar.
-              <br />O NANO guarda memórias de longo prazo e recupera o que é
-              relevante para a conversa.
+              {t.intro[0]}
+              <br />
+              {t.intro[1]}
             </p>
             <TextLink href={`${site.repository}#memória-e-second-brain`}>
-              Conhecer o Brain
+              {t.more}
             </TextLink>
           </div>
         </div>
@@ -38,11 +36,11 @@ export function Brain() {
           <a
             className="brain-image"
             href="/screenshots/nano-brain.png"
-            aria-label="Abrir a captura completa do NANO Brain"
+            aria-label={t.openCapture}
           >
             <ProductImage
               src="/screenshots/nano-brain.png"
-              alt={brainAlt}
+              alt={t.alt}
               width={1920}
               height={1032}
               sizes={captureSizes}
@@ -52,52 +50,33 @@ export function Brain() {
           <span
             className="visually-hidden cinema-only"
             role="img"
-            aria-label={brainAlt}
+            aria-label={t.alt}
           />
           <figcaption>
             <span>
               <span className="status-dot" />
-              Contexto guardado localmente
+              {t.stored}
             </span>
-            <span>3 nós de demonstração · 2 relações reais</span>
+            <span>{t.stats}</span>
             <a
               className="cinema-capture-link cinema-only"
               href="/screenshots/nano-brain.png"
             >
-              Abrir captura completa <span aria-hidden="true">↗</span>
+              {t.openCaptureShort} <span aria-hidden="true">↗</span>
             </a>
           </figcaption>
         </figure>
         <div className="brain-details" data-cinema-beat="exit">
-          <div>
-            <span className="small-label">01 / GUARDAR</span>
-            <h3>O que escolhes lembrar.</h3>
-            <p>
-              As memórias são extraídas localmente. Pedidos explícitos podem
-              ficar ativos; inferências seguem regras de confiança.
-            </p>
-          </div>
-          <div>
-            <span className="small-label">02 / RELACIONAR</span>
-            <h3>Ligações com origem.</h3>
-            <p>
-              Os nós nascem de memórias ativas ou de uma ação tua. As relações
-              surgem quando dois nós aparecem na mesma memória.
-            </p>
-          </div>
-          <div>
-            <span className="small-label">03 / RECUPERAR</span>
-            <h3>Contexto, quando importa.</h3>
-            <p>
-              A recuperação junta memórias relevantes e histórico da conversa. O
-              Brain ainda está a amadurecer com o uso real.
-            </p>
-          </div>
+          {t.details.map((item) => (
+            <div key={item.label}>
+              <span className="small-label">{item.label}</span>
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+            </div>
+          ))}
         </div>
         <p className="section-note">
-          Guardar localmente não impede o envio de contexto relevante ao modelo
-          em AUTO ou CLOUD.{" "}
-          <a href="#privacidade">Ver como os dados são usados.</a>
+          {t.note} <a href="#privacy">{t.noteLink}</a>
         </p>
       </div>
     </section>
