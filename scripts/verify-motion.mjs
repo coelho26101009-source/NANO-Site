@@ -220,9 +220,22 @@ try {
     document.activeElement?.blur();
   });
   await jump(await top("#about"));
-  const beforeReload = await page.evaluate(() => scrollY);
+  const layout = () =>
+    page.evaluate(() => ({
+      scrollY,
+      sections: [
+        ...document.querySelectorAll("main > section, main > div"),
+      ].map((node) => [
+        node.id || node.className.split(" ")[0],
+        Math.round(node.getBoundingClientRect().height),
+      ]),
+    }));
+  const beforeLayout = await layout();
+  const beforeReload = beforeLayout.scrollY;
   await page.reload({ waitUntil: "networkidle" });
   await wait();
+  // Kept in the report so a drift can be traced to the section that moved.
+  report.reloadDrift = { before: beforeLayout, after: await layout() };
   check(
     "Mid-page reload restores position without a layout jump",
     Math.abs((await page.evaluate(() => scrollY)) - beforeReload) < 3,
