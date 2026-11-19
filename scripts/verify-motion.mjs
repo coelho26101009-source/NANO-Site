@@ -17,6 +17,7 @@ const check = (label, actual, expected = true) => {
 };
 const record = process.env.RECORD_MOTION === "1";
 const context = await browser.newContext({
+  locale: "en-US",
   viewport: { width: 1440, height: 1000 },
   reducedMotion: "no-preference",
   ...(record
@@ -170,9 +171,9 @@ try {
 
   for (const [name, selector] of [
     ["brain", "#brain"],
-    ["modes", "#modos"],
-    ["privacy", "#privacidade"],
-    ["story", "#sobre"],
+    ["modes", "#modes"],
+    ["privacy", "#privacy"],
+    ["story", "#about"],
     ["development", ".development"],
     ["download", "#download"],
   ]) {
@@ -218,7 +219,7 @@ try {
     history.replaceState(null, "", location.pathname);
     document.activeElement?.blur();
   });
-  await jump(await top("#sobre"));
+  await jump(await top("#about"));
   const beforeReload = await page.evaluate(() => scrollY);
   await page.reload({ waitUntil: "networkidle" });
   await wait();
@@ -292,7 +293,7 @@ try {
         await capture("mobile-download");
         await jump(await top("#brain", 95));
         await capture("mobile-brain");
-        await jump(await top("#modos", 95));
+        await jump(await top("#modes", 95));
         await capture("mobile-modes");
         await jump(0);
         await capture("mobile-full", true);
@@ -373,6 +374,7 @@ try {
       .evaluate((node) => getComputedStyle(node).outlineStyle !== "none"),
   );
   const noJs = await browser.newContext({
+    locale: "en-US",
     javaScriptEnabled: false,
     viewport: { width: 1440, height: 1000 },
   });
@@ -388,7 +390,7 @@ try {
   check(
     "No-JS content is visible",
     await fallback
-      .locator("#sobre h2")
+      .locator("#about h2")
       .evaluate((node) => getComputedStyle(node).opacity),
     "1",
   );

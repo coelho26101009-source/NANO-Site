@@ -1,11 +1,18 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { navigation, site } from "@/content/site";
+import { site } from "@/content/site";
+import type { Copy } from "@/content/i18n";
 import { Brand } from "./ui";
 import { Icon } from "./icons";
 
-export function Navigation() {
+export function Navigation({
+  t,
+  language,
+}: {
+  t: Copy["nav"];
+  language: Copy["language"];
+}) {
   const disclosure = useRef<HTMLDetailsElement>(null);
   useEffect(() => {
     const desktop = window.matchMedia("(min-width: 1001px)");
@@ -21,23 +28,33 @@ export function Navigation() {
   return (
     <header className="site-header">
       <div className="nav-shell">
-        <a href="#top" className="brand-link" aria-label="NANO — início">
+        <a href="#top" className="brand-link" aria-label={t.home}>
           <Brand />
         </a>
-        <nav className="desktop-nav" aria-label="Navegação principal">
-          {navigation.map((item) => (
+        <nav className="desktop-nav" aria-label={t.main}>
+          {t.items.map((item) => (
             <a key={item.href} href={item.href}>
               {item.label}
             </a>
           ))}
         </nav>
         <div className="nav-actions">
+          <a
+            className="nav-language"
+            href={language.href}
+            hrefLang={language.hrefLang}
+            lang={language.hrefLang}
+            aria-label={language.aria}
+            title={language.name}
+          >
+            {language.label}
+          </a>
           <a className="nav-github" href={site.repository}>
             GitHub
             <Icon name="arrow" />
           </a>
           <a className="nav-download" href="#download">
-            Download
+            {t.download}
             <Icon name="download" />
           </a>
         </div>
@@ -55,12 +72,12 @@ export function Navigation() {
               event.currentTarget.open = false;
           }}
         >
-          <summary aria-label="Menu de navegação">
+          <summary aria-label={t.menu}>
             <Icon className="menu-open-icon" name="menu" />
             <Icon className="menu-close-icon" name="close" />
           </summary>
-          <nav aria-label="Navegação móvel">
-            {navigation.map((item) => (
+          <nav aria-label={t.mobile}>
+            {t.items.map((item) => (
               <a
                 key={item.href}
                 href={item.href}
@@ -76,8 +93,16 @@ export function Navigation() {
               </a>
             ))}
             <a href={site.repository}>
-              Ver no GitHub
+              {t.viewGithub}
               <Icon name="github" />
+            </a>
+            <a
+              href={language.href}
+              hrefLang={language.hrefLang}
+              lang={language.hrefLang}
+            >
+              {language.name}
+              <Icon name="arrow" />
             </a>
           </nav>
         </details>

@@ -1,4 +1,4 @@
-import { experiences } from "@/content/site";
+import type { Copy } from "@/content/i18n";
 import { Icon } from "../icons";
 import { capsuleArt } from "./capsule-art";
 
@@ -9,7 +9,13 @@ import { capsuleArt } from "./capsule-art";
  * The laptop's display is decorative, so each capture's description stays
  * available to assistive technology here, without a second image download.
  */
-export function CinemaChapters() {
+export function CinemaChapters({
+  t,
+  experiences,
+}: {
+  t: Copy["showcase"];
+  experiences: Copy["experiences"];
+}) {
   return (
     <div className="cinema-chapters">
       {experiences.map((item) => (
@@ -26,10 +32,7 @@ export function CinemaChapters() {
           <p>{item.description}</p>
           {item.id === "voice" && (
             <>
-              <div
-                className="keyboard-shortcut"
-                aria-label="Control mais Shift mais Espaço"
-              >
+              <div className="keyboard-shortcut" aria-label={t.shortcutLabel}>
                 <kbd>Ctrl</kbd>
                 <span>+</span>
                 <kbd>Shift</kbd>
@@ -60,21 +63,17 @@ export function CinemaChapters() {
                   />
                 </div>
               </div>
-              <p className="cinema-note">
-                Estado de escuta simulado na captura oficial. A voz é opcional e
-                requer configuração adicional.
-              </p>
+              <p className="cinema-note">{t.voiceNote.join(" ")}</p>
             </>
           )}
           <span className="visually-hidden" role="img" aria-label={item.alt} />
           <a className="cinema-capture-link" href={item.image}>
-            Abrir captura completa <span aria-hidden="true">↗</span>
+            {t.openCapture} <span aria-hidden="true">↗</span>
           </a>
           {item.id === "home" && (
             <p className="cinema-note cinema-asset-note">
               <Icon name="windows" />
-              Capturas oficiais num perfil de demonstração. Algumas mostram a
-              versão interna anterior.
+              {t.assetNote}
             </p>
           )}
         </article>

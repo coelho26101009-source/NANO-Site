@@ -1,11 +1,12 @@
-import { privacyPoints, site } from "@/content/site";
+import { site } from "@/content/site";
+import type { Copy } from "@/content/i18n";
 import { Eyebrow, TextLink } from "./ui";
 import { Icon } from "./icons";
 
-export function Privacy() {
+export function Privacy({ t: { privacy: t } }: { t: Copy }) {
   return (
     <section
-      id="privacidade"
+      id="privacy"
       tabIndex={-1}
       className="privacy-section section"
       aria-labelledby="privacy-heading"
@@ -13,21 +14,17 @@ export function Privacy() {
       <div className="container">
         <div className="section-heading split-heading">
           <div>
-            <Eyebrow>Privacidade & segurança</Eyebrow>
+            <Eyebrow>{t.eyebrow}</Eyebrow>
             <h2 id="privacy-heading">
-              Confiança começa
+              {t.title[0]}
               <br />
-              com clareza.
+              {t.title[1]}
             </h2>
           </div>
-          <p>
-            Escolhas visíveis, permissões com limites e documentação aberta.
-            Para perceberes o que o NANO faz com os teus dados e com o teu
-            computador.
-          </p>
+          <p>{t.intro}</p>
         </div>
         <div className="privacy-grid">
-          {privacyPoints.map((item) => (
+          {t.points.map((item) => (
             <article key={item.number}>
               <span className="privacy-number">{item.number}</span>
               <h3>{item.title}</h3>
@@ -37,32 +34,21 @@ export function Privacy() {
         </div>
         <div className="trust-strip">
           <Icon name="shield" />
-          <p>
-            O projeto tem fronteiras de segurança e testes dedicados. Continua
-            em Beta e tem limitações documentadas.
-          </p>
+          <p>{t.trust}</p>
           <div>
-            <TextLink href={site.links.privacy}>Privacidade</TextLink>
-            <TextLink href={site.links.security}>Segurança</TextLink>
+            <TextLink href={site.links.privacy}>{t.privacyLink}</TextLink>
+            <TextLink href={site.links.security}>{t.securityLink}</TextLink>
           </div>
         </div>
         <details className="privacy-disclosure">
           <summary>
-            O que devo saber sobre voz, memória e ferramentas?
+            {t.disclosure}
             <Icon name="chevron" />
           </summary>
           <div>
-            <p>
-              As respostas faladas usam Microsoft Edge TTS: o texto a ler sai do
-              computador em todos os modos. Podes desligá-las em Definições →
-              Voz. A transcrição, quando configurada, é local.
-            </p>
-            <p>
-              Resultados de ferramentas, como texto de um ficheiro ou da área de
-              transferência, podem integrar o contexto enviado ao provedor.
-              Apagar uma conversa não apaga as memórias de longo prazo extraídas
-              dela: estas são geridas à parte, na Memória.
-            </p>
+            {t.disclosureText.map((text) => (
+              <p key={text}>{text}</p>
+            ))}
           </div>
         </details>
       </div>

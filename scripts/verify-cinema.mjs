@@ -62,6 +62,7 @@ async function open({
   ...options
 } = {}) {
   const context = await browser.newContext({
+    locale: "en-US",
     viewport: { width, height },
     ...options,
   });
@@ -211,18 +212,27 @@ try {
   const html = await (await fetch(`${base}/`)).text();
   check("Server HTML has no canvas or 3D code", /<canvas/i.test(html), false);
   for (const text of [
+    "Your personal",
+    "A conversation starts here.",
+    "See what is happening.",
+    "Pick up the thread.",
+    "A voice, one shortcut away.",
+    "A memory",
+    "Download for Windows",
+  ])
+    check(`Server HTML contains "${text}"`, html.includes(text));
+  const htmlPt = await (await fetch(`${base}/pt`)).text();
+  check("Portuguese server HTML has no canvas", /<canvas/i.test(htmlPt), false);
+  for (const text of [
     "O teu assistente",
     "Uma conversa começa aqui.",
-    "Acompanha o que está a acontecer.",
-    "Retoma o fio à conversa.",
-    "Uma voz ao alcance de um atalho.",
     "Uma memória",
     "Descarregar para Windows",
   ])
-    check(`Server HTML contains "${text}"`, html.includes(text));
+    check(`Portuguese server HTML contains "${text}"`, htmlPt.includes(text));
   check(
     "LOCAL / AUTO / CLOUD precede the Brain in document order",
-    html.indexOf('id="modos"') < html.indexOf('id="brain"'),
+    html.indexOf('id="modes"') < html.indexOf('id="brain"'),
   );
 
   // 2. Lazy 3D: nothing heavy before load, then one chunk and a ready stage.
@@ -414,7 +424,7 @@ try {
 
     // 6. Anchor navigation lands in the right chapter with readable headings.
     for (const [href, beat] of [
-      ["#produto", "intro"],
+      ["#product", "intro"],
       ["#brain", "brain"],
     ]) {
       await jump(page, 0);
@@ -433,7 +443,7 @@ try {
           .evaluate((node) => node.getBoundingClientRect().top > 80),
       );
     }
-    await page.locator('.desktop-nav a[href="#download"]').click();
+    await page.locator(".nav-download").click();
     await page.waitForTimeout(1600);
     check(
       "Download anchor: stage has left, symbol and button visible",
@@ -593,7 +603,7 @@ try {
     );
     check(
       "Keyboard reaches the chapter capture links",
-      stops.filter((stop) => stop.text.startsWith("Abrir captura completa"))
+      stops.filter((stop) => stop.text.startsWith("Open full capture"))
         .length >= 4,
     );
 
@@ -665,7 +675,7 @@ try {
     check(
       "Narrowing keeps the reader in the product section",
       narrow.section,
-      "produto",
+      "product",
     );
     check(
       "Narrowing shows the same capture in the gallery (Conversation)",
@@ -889,6 +899,7 @@ try {
   // 16. No JavaScript: complete regular site with the static laptop.
   {
     const context = await browser.newContext({
+      locale: "en-US",
       javaScriptEnabled: false,
       viewport: { width: 1440, height: 900 },
     });
@@ -901,7 +912,7 @@ try {
         "none",
       chapters: getComputedStyle(document.querySelector(".cinema-chapters"))
         .display,
-      heading: getComputedStyle(document.querySelector("#produto h2")).opacity,
+      heading: getComputedStyle(document.querySelector("#product h2")).opacity,
     }));
     check("No JavaScript: regular layout, static laptop, readable", state, {
       cinema: null,

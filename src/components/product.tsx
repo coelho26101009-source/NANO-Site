@@ -1,12 +1,13 @@
+import type { Copy } from "@/content/i18n";
 import { Eyebrow } from "./ui";
 import { ProductShowcase } from "./product-showcase";
 import { CinemaChapters } from "./cinema/chapters";
 import { LaptopStill } from "./laptop-still";
 
-export function Product() {
+export function Product({ t }: { t: Copy }) {
   return (
     <section
-      id="produto"
+      id="product"
       tabIndex={-1}
       className="section container"
       aria-labelledby="product-heading"
@@ -17,22 +18,18 @@ export function Product() {
         data-cinema-align="start"
       >
         <div>
-          <Eyebrow>Feito para o teu dia a dia</Eyebrow>
+          <Eyebrow>{t.product.eyebrow}</Eyebrow>
           <h2 id="product-heading">
-            Uma IA que vive
+            {t.product.title[0]}
             <br />
-            contigo no teu PC.
+            {t.product.title[1]}
           </h2>
         </div>
-        <p>
-          Conversa, memória e interação com o Windows, no mesmo lugar. Escolhe
-          entre modelos locais e cloud, retoma o teu contexto e usa a voz quando
-          estiveres pronto.
-        </p>
+        <p>{t.product.intro}</p>
       </div>
       <LaptopStill />
-      <ProductShowcase />
-      <CinemaChapters />
+      <ProductShowcase t={t.showcase} experiences={t.experiences} />
+      <CinemaChapters t={t.showcase} experiences={t.experiences} />
     </section>
   );
 }

@@ -2,12 +2,11 @@ import { ImageResponse } from "next/og";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { site } from "@/content/site";
+import { copy, type Locale } from "@/content/i18n";
 
-export const alt =
-  "NANO — O teu assistente pessoal. Local quando queres. Cloud quando precisas.";
-export const size = { width: 1200, height: 630 };
-export const contentType = "image/png";
-export default async function OpenGraphImage() {
+/** Social card (1200 × 630) for one language, rendered at build time. */
+export async function renderOgImage(locale: Locale) {
+  const t = copy[locale].meta;
   const symbol = await readFile(
     join(process.cwd(), "public/brand/nano-symbol.png"),
   );
@@ -33,7 +32,7 @@ export default async function OpenGraphImage() {
             letterSpacing: 4,
           }}
         >
-          NANO · PARA WINDOWS
+          {t.ogEyebrow}
         </div>
         <div
           style={{
@@ -44,7 +43,7 @@ export default async function OpenGraphImage() {
             marginTop: 36,
           }}
         >
-          O teu assistente pessoal.
+          {t.ogTitle}
         </div>
         <div
           style={{
@@ -54,7 +53,7 @@ export default async function OpenGraphImage() {
             marginTop: 26,
           }}
         >
-          Local quando queres. Cloud quando precisas.
+          {t.ogTagline}
         </div>
         <div
           style={{
@@ -64,11 +63,12 @@ export default async function OpenGraphImage() {
             fontSize: 18,
           }}
         >
-          Beta pública · {site.version}
+          {t.ogBeta} · {site.version}
         </div>
       </div>
       {/* The official bitmap is embedded at build time. */}
       {/* ImageResponse requires a native image; it renders a static PNG, not browser HTML. */}
+      {/* eslint-disable-next-line @next/next/no-img-element -- ImageResponse needs a plain <img> */}
       <img
         src={`data:image/png;base64,${symbol.toString("base64")}`}
         width={330}
@@ -76,6 +76,6 @@ export default async function OpenGraphImage() {
         alt=""
       />
     </div>,
-    size,
+    { width: 1200, height: 630 },
   );
 }

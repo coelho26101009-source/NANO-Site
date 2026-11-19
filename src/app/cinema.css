@@ -160,7 +160,7 @@
 
   /* Shared chapter rhythm: one idea per screen, copy in the left column,
      the laptop composed in the space on the right. */
-  html[data-cinema="on"] #produto > .split-heading,
+  html[data-cinema="on"] #product > .split-heading,
   html[data-cinema="on"] .cinema-chapter,
   html[data-cinema="on"] .modes-section > .centered,
   html[data-cinema="on"] .mode,
@@ -178,15 +178,15 @@
      keeps the regular top padding and the intro starts exactly where the
      regular heading does, so the part that can show below the hero is
      identical in both layouts (switching back to 2D shifts nothing in view). */
-  html[data-cinema="on"] #produto {
+  html[data-cinema="on"] #product {
     padding-bottom: 4svh;
   }
-  html[data-cinema="on"] #produto > .split-heading {
+  html[data-cinema="on"] #product > .split-heading {
     justify-content: flex-start;
     min-height: 92svh;
     gap: 24px;
   }
-  html[data-cinema="on"] #produto .showcase-track {
+  html[data-cinema="on"] #product .showcase-track {
     display: none;
   }
   html[data-cinema="on"] .cinema-chapters {

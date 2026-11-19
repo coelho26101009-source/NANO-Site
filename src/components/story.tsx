@@ -1,57 +1,44 @@
 import { site } from "@/content/site";
+import type { Copy } from "@/content/i18n";
 import { Eyebrow, TextLink } from "./ui";
 import { Icon } from "./icons";
 
-export function Story() {
+export function Story({ t: { story: t } }: { t: Copy }) {
   return (
     <section
-      id="sobre"
+      id="about"
       tabIndex={-1}
       className="section container story-section"
       aria-labelledby="story-heading"
     >
       <div className="story-aside">
-        <Eyebrow>Uma ideia pessoal</Eyebrow>
+        <Eyebrow>{t.eyebrow}</Eyebrow>
         <span className="story-monogram" aria-hidden="true">
           N.
         </span>
         <div className="creator">
-          <span className="small-label">CRIADO POR</span>
+          <span className="small-label">{t.createdBy}</span>
           <p className="creator-name">{site.creator.name}</p>
-          <p className="creator-role">{site.creator.role}</p>
+          <p className="creator-role">{t.role}</p>
           <a className="creator-handle" href={site.repository}>
             <Icon name="github" />
             {site.creator.handle}
-            <span className="visually-hidden"> no GitHub</span>
+            <span className="visually-hidden">{t.onGithub}</span>
           </a>
-          <span className="creator-note">Projeto independente</span>
+          <span className="creator-note">{t.independent}</span>
         </div>
       </div>
       <div className="story-copy">
         <h2 id="story-heading">
-          Começou com uma ideia.
+          {t.title[0]}
           <br />
-          <span>Está a ganhar forma.</span>
+          <span>{t.title[1]}</span>
         </h2>
-        <p className="story-lead">
-          E se um assistente fizesse parte do computador — e conhecesse um pouco
-          melhor o contexto de quem o usa?
-        </p>
-        <p>
-          O NANO é um projeto criado por {site.creator.name}, programador
-          português de 16 anos, para explorar essa ideia: juntar inteligência
-          local e cloud, memória, voz e interação com o Windows numa experiência
-          que faça sentido no dia a dia.
-        </p>
-        <p>
-          A ambição é dar-lhe progressivamente mais capacidade de ajudar e agir,
-          mantendo limites claros. Ainda há caminho a percorrer. A Beta é uma
-          etapa desse trabalho, feita de melhorias concretas e aprendizagem com
-          o uso.
-        </p>
-        <TextLink href={site.repository}>
-          Acompanha a construção no GitHub
-        </TextLink>
+        <p className="story-lead">{t.lead}</p>
+        {t.body.map((text) => (
+          <p key={text}>{text}</p>
+        ))}
+        <TextLink href={site.repository}>{t.follow}</TextLink>
       </div>
     </section>
   );

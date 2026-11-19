@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useRef } from "react";
 import imageAssets from "@/content/images.json";
 
-export function HeroSymbol() {
+export function HeroSymbol({ caption }: { caption: string }) {
   const surface = useRef<HTMLDivElement>(null);
   return (
     <div
@@ -45,7 +45,7 @@ export function HeroSymbol() {
           className="hero-symbol"
         />
       </div>
-      <span className="art-caption">Inteligência. Com presença.</span>
+      <span className="art-caption">{caption}</span>
     </div>
   );
 }
