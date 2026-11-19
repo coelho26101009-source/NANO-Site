@@ -69,7 +69,6 @@ export default async function OpenGraphImage() {
       </div>
       {/* The official bitmap is embedded at build time. */}
       {/* ImageResponse requires a native image; it renders a static PNG, not browser HTML. */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={`data:image/png;base64,${symbol.toString("base64")}`}
         width={330}
