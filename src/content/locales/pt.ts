@@ -108,7 +108,7 @@ export const pt: Copy = {
       name: "Conversation",
       title: "Lembra-se do que importa.",
       description:
-        "Pede ajuda e o NANO usa o que sabe sobre ti. Aqui, um modelo local no PC planeia uma sessão de estudo a partir da dificuldade que a pessoa lhe contou.",
+        "Pede ajuda e o NANO usa o que sabe sobre ti. Aqui, um modelo local planeia uma sessão de estudo à volta da tua dificuldade.",
       image: "/screenshots/nano-conversation.png",
       alt: "Uma conversa de demonstração no NANO: um plano de estudo curto do modelo local que começa pelas frações.",
       width: 1920,
@@ -121,7 +121,7 @@ export const pt: Copy = {
       name: "Voice overlay",
       title: "Uma voz ao alcance de um atalho.",
       description:
-        "Com a voz configurada, Ctrl + Shift + Space abre uma cápsula independente da janela principal, e Ctrl + Shift + M abre o modo de voz em ecrã inteiro. O NANO fala português e inglês.",
+        "Com a voz configurada, Ctrl + Shift + Space abre uma cápsula fora da janela principal; Ctrl + Shift + M abre o modo de voz em ecrã inteiro.",
       image: "/screenshots/nano-overlay.png",
       alt: "Captura oficial da cápsula de voz NANO com o estado A ouvir simulado em Electron, sobre fundo claro.",
       width: 760,

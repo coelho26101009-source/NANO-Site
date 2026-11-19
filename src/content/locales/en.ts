@@ -111,7 +111,7 @@ export const en = {
       name: "Conversation",
       title: "It remembers what matters.",
       description:
-        "Ask for help and NANO uses what it knows about you. Here a local model on the PC plans a study session around the weak spot the person told it about.",
+        "Ask for help and NANO uses what it knows about you. Here a local model plans a study session around your weak spot.",
       image: "/screenshots/nano-conversation.png",
       alt: "A demo conversation in NANO: a short study plan from the local model that starts with fractions.",
       width: 1920,
@@ -124,7 +124,7 @@ export const en = {
       name: "Voice overlay",
       title: "A voice, one shortcut away.",
       description:
-        "With voice set up, Ctrl + Shift + Space opens a capsule separate from the main window, and Ctrl + Shift + M opens full-screen voice mode. NANO speaks English and Portuguese.",
+        "With voice set up, Ctrl + Shift + Space opens a capsule apart from the main window; Ctrl + Shift + M opens full-screen voice mode.",
       image: "/screenshots/nano-overlay.png",
       alt: "Official capture of the NANO voice capsule, with a simulated listening state in Electron, on a light background.",
       width: 760,
