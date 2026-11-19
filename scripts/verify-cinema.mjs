@@ -214,8 +214,8 @@ try {
   for (const text of [
     "Your personal",
     "A conversation starts here.",
-    "See what is happening.",
-    "Pick up the thread.",
+    "Code and long answers, beside the chat.",
+    "It remembers what matters.",
     "A voice, one shortcut away.",
     "A memory",
     "Download for Windows",

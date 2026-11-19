@@ -34,6 +34,9 @@ export function Download({ t: { download: t } }: { t: Copy }) {
           <p className="download-destination">
             {t.destination} <a href={site.release}>{t.releaseNotes}</a>
           </p>
+          <p className="download-phone">
+            <a href="#phone">{t.phoneLink}</a>
+          </p>
         </div>
         <div className="install-steps">
           <span className="small-label">{t.stepsLabel}</span>

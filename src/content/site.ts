@@ -1,5 +1,5 @@
 const repository = "https://github.com/coelho26101009-source/Nano_Assistant";
-const version = "0.2.0-beta.1";
+const version = "0.3.0-beta.1";
 
 export const site = {
   name: "NANO",
@@ -15,6 +15,9 @@ export const site = {
   installer: `Nano-Setup-${version}-x64.exe`,
   // Direct link to the installer asset of the official release.
   installerUrl: `${repository}/releases/download/v${version}/Nano-Setup-${version}-x64.exe`,
+  apk: `NANO-Android-${version}.apk`,
+  // Direct link to the Android app (test-signed APK) of the same release.
+  apkUrl: `${repository}/releases/download/v${version}/NANO-Android-${version}.apk`,
   links: {
     privacy: `${repository}/blob/main/PRIVACY.md`,
     security: `${repository}/blob/main/SECURITY.md`,
@@ -24,5 +27,7 @@ export const site = {
     support: `${repository}/blob/main/SUPPORT.md`,
     license: `${repository}/blob/main/LICENSE`,
     checklist: `${repository}/blob/main/docs/PUBLIC_RELEASE_CHECKLIST.md`,
+    phoneGuide: `${repository}/blob/main/docs/TESTAR_NO_TELEMOVEL.md`,
+    releaseNotes: `${repository}/blob/main/docs/RELEASE_NOTES_${version}.md`,
   },
 } as const;

@@ -10,6 +10,8 @@ import { Development } from "@/components/development";
 import { Faq } from "@/components/faq";
 import { Download } from "@/components/download";
 import { Footer } from "@/components/footer";
+import { WhatsNew } from "@/components/whats-new";
+import { Phone } from "@/components/phone";
 import { site } from "@/content/site";
 import { copy, type Locale } from "@/content/i18n";
 import { ScrollMotion } from "@/components/scroll-motion";
@@ -24,7 +26,7 @@ export function HomePage({ locale }: { locale: Locale }) {
       name: "NANO",
       description: t.meta.description,
       inLanguage: t.htmlLang,
-      operatingSystem: "Windows 10, Windows 11 (x64)",
+      operatingSystem: "Windows 10, Windows 11 (x64), Android 7+",
       applicationCategory: "ProductivityApplication",
       softwareVersion: site.version,
       downloadUrl: site.installerUrl,
@@ -65,6 +67,8 @@ export function HomePage({ locale }: { locale: Locale }) {
         <Modes t={t} />
         <Brain t={t} />
         <Capabilities t={t} />
+        <WhatsNew t={t} />
+        <Phone t={t} />
         <Privacy t={t} />
         <Story t={t} />
         <Development t={t} />

@@ -16,6 +16,10 @@ for (const [folder, names] of [
       "nano-conversation",
       "nano-brain",
       "nano-overlay",
+      "nano-voice-mode",
+      "nano-agenda",
+      "nano-phone-chat",
+      "nano-phone-agenda",
     ],
   ],
   ["brand", ["nano-symbol", "nano-wordmark-original"]],
@@ -51,8 +55,15 @@ for (const [folder, names] of [
     }
     // Downsampling flat UI can add colours and cost more than the full-size image.
     // Omit any derivative that is larger in bytes than a higher-resolution option.
+    // Exception: a capture always keeps its 768 px variant, the smallest tier
+    // the 3D display reads from (cinema/display.ts). Without it a busy capture
+    // (code, small text) jumps from 480 straight to 1920 and the laptop screen
+    // shows the 1920 source at about 0.3x, where sampling aliases.
     const efficient = variants.filter(
       (variant, index) =>
+        (folder === "screenshots" &&
+          !name.startsWith("nano-phone") &&
+          variant.width === 768) ||
         !variants
           .slice(index + 1)
           .some((larger) => larger.bytes <= variant.bytes),

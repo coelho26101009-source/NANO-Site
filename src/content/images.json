@@ -5,23 +5,23 @@
     "variants": [
       {
         "width": 480,
-        "src": "/images/nano-home-480-c14dd3d170.webp",
-        "bytes": 10508
+        "src": "/images/nano-home-480-4a6e7a98dc.webp",
+        "bytes": 11650
       },
       {
         "width": 768,
-        "src": "/images/nano-home-768-4bf06f23a3.webp",
-        "bytes": 20932
+        "src": "/images/nano-home-768-d1c3d5db5e.webp",
+        "bytes": 23200
       },
       {
         "width": 960,
-        "src": "/images/nano-home-960-8e05ce001c.webp",
-        "bytes": 29290
+        "src": "/images/nano-home-960-d5ebe9fdd3.webp",
+        "bytes": 32680
       },
       {
         "width": 1920,
-        "src": "/images/nano-home-1920-15a2ae773b.webp",
-        "bytes": 34770
+        "src": "/images/nano-home-1920-f292f6c56a.webp",
+        "bytes": 36734
       }
     ]
   },
@@ -31,23 +31,18 @@
     "variants": [
       {
         "width": 480,
-        "src": "/images/nano-thinking-480-dc2ef34b4b.webp",
-        "bytes": 8366
+        "src": "/images/nano-thinking-480-728e4a3eea.webp",
+        "bytes": 34054
       },
       {
         "width": 768,
-        "src": "/images/nano-thinking-768-6dad0a9093.webp",
-        "bytes": 16406
-      },
-      {
-        "width": 960,
-        "src": "/images/nano-thinking-960-b4e3866b30.webp",
-        "bytes": 22736
+        "src": "/images/nano-thinking-768-52f32e1697.webp",
+        "bytes": 71880
       },
       {
         "width": 1920,
-        "src": "/images/nano-thinking-1920-e26ee18bba.webp",
-        "bytes": 25600
+        "src": "/images/nano-thinking-1920-3246b9624b.webp",
+        "bytes": 64370
       }
     ]
   },
@@ -57,23 +52,18 @@
     "variants": [
       {
         "width": 480,
-        "src": "/images/nano-conversation-480-5cb653388d.webp",
-        "bytes": 8286
+        "src": "/images/nano-conversation-480-e8ffb8dbdf.webp",
+        "bytes": 13668
       },
       {
         "width": 768,
-        "src": "/images/nano-conversation-768-35e3f69ea3.webp",
-        "bytes": 16080
-      },
-      {
-        "width": 960,
-        "src": "/images/nano-conversation-960-bcaaa0e79d.webp",
-        "bytes": 22072
+        "src": "/images/nano-conversation-768-48ffa99df0.webp",
+        "bytes": 27194
       },
       {
         "width": 1920,
-        "src": "/images/nano-conversation-1920-f8d7f9612e.webp",
-        "bytes": 24318
+        "src": "/images/nano-conversation-1920-cc38a0a5c4.webp",
+        "bytes": 36152
       }
     ]
   },
@@ -83,28 +73,18 @@
     "variants": [
       {
         "width": 480,
-        "src": "/images/nano-brain-480-48fd4627a8.webp",
-        "bytes": 24088
+        "src": "/images/nano-brain-480-1a446e59f8.webp",
+        "bytes": 21172
       },
       {
         "width": 768,
-        "src": "/images/nano-brain-768-6f1553c846.webp",
-        "bytes": 60236
-      },
-      {
-        "width": 960,
-        "src": "/images/nano-brain-960-4a295522dc.webp",
-        "bytes": 94988
-      },
-      {
-        "width": 1200,
-        "src": "/images/nano-brain-1200-005e624675.webp",
-        "bytes": 173434
+        "src": "/images/nano-brain-768-23f155d3b3.webp",
+        "bytes": 44078
       },
       {
         "width": 1920,
-        "src": "/images/nano-brain-1920-08ddfd19e5.webp",
-        "bytes": 216656
+        "src": "/images/nano-brain-1920-fcf19ea1e8.webp",
+        "bytes": 45252
       }
     ]
   },
@@ -121,6 +101,75 @@
         "width": 760,
         "src": "/images/nano-overlay-760-a468d1b2bd.webp",
         "bytes": 5370
+      }
+    ]
+  },
+  "/screenshots/nano-voice-mode.png": {
+    "width": 1920,
+    "height": 1032,
+    "variants": [
+      {
+        "width": 480,
+        "src": "/images/nano-voice-mode-480-bbb4ce0d63.webp",
+        "bytes": 6478
+      },
+      {
+        "width": 768,
+        "src": "/images/nano-voice-mode-768-f76216a990.webp",
+        "bytes": 13748
+      },
+      {
+        "width": 960,
+        "src": "/images/nano-voice-mode-960-1123d64b4b.webp",
+        "bytes": 19632
+      },
+      {
+        "width": 1920,
+        "src": "/images/nano-voice-mode-1920-671f44f139.webp",
+        "bytes": 25952
+      }
+    ]
+  },
+  "/screenshots/nano-agenda.png": {
+    "width": 1920,
+    "height": 1032,
+    "variants": [
+      {
+        "width": 480,
+        "src": "/images/nano-agenda-480-96ce56874a.webp",
+        "bytes": 20130
+      },
+      {
+        "width": 768,
+        "src": "/images/nano-agenda-768-87aaf50cb1.webp",
+        "bytes": 41476
+      },
+      {
+        "width": 1920,
+        "src": "/images/nano-agenda-1920-340d3f2f64.webp",
+        "bytes": 44582
+      }
+    ]
+  },
+  "/screenshots/nano-phone-chat.png": {
+    "width": 1082,
+    "height": 2402,
+    "variants": [
+      {
+        "width": 1082,
+        "src": "/images/nano-phone-chat-1082-55c8ff92f2.webp",
+        "bytes": 61304
+      }
+    ]
+  },
+  "/screenshots/nano-phone-agenda.png": {
+    "width": 1082,
+    "height": 2402,
+    "variants": [
+      {
+        "width": 1082,
+        "src": "/images/nano-phone-agenda-1082-aa778c82d4.webp",
+        "bytes": 56594
       }
     ]
   },

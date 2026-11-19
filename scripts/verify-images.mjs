@@ -48,6 +48,11 @@ try {
       `No wasteful larger derivative: ${source}`,
       asset.variants.every(
         (variant, index) =>
+          // The 768 px tier of a desktop capture is kept on purpose: the 3D
+          // display reads from it (see scripts/generate-images.mjs).
+          (source.startsWith("/screenshots/") &&
+            !source.includes("nano-phone") &&
+            variant.width === 768) ||
           !asset.variants
             .slice(index + 1)
             .some((larger) => larger.bytes <= variant.bytes),

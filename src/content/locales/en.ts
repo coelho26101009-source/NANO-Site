@@ -12,7 +12,7 @@ export const en = {
   meta: {
     title: "NANO — Your personal AI assistant for Windows",
     description:
-      "A free, open-source personal AI assistant for Windows. Chat, long-term memory and PC control, with local or cloud models of your choice. Try the NANO public beta.",
+      "A free, open-source personal AI assistant for Windows, with an Android companion app. Chat, memory, voice and PC control, with local or cloud models of your choice. Try NANO beta 3.",
     ogEyebrow: "NANO · FOR WINDOWS",
     ogTitle: "Your personal assistant.",
     ogTagline: "Local when you want. Cloud when you need.",
@@ -30,7 +30,9 @@ export const en = {
   nav: {
     items: [
       { label: "Product", href: "#product" },
+      { label: "New", href: "#new" },
       { label: "Brain", href: "#brain" },
+      { label: "Phone", href: "#phone" },
       { label: "Privacy", href: "#privacy" },
       { label: "FAQ", href: "#faq" },
       { label: "About", href: "#about" },
@@ -67,11 +69,11 @@ export const en = {
     shortcutLabel: "Control plus Shift plus Space",
     voiceNote: [
       "Listening state simulated in the official capture.",
-      "Voice is optional and needs extra setup.",
+      "Speech recognition on the PC needs an optional package.",
     ],
     openCapture: "Open full capture",
     assetNote:
-      "Official captures from a demo profile, showing the Portuguese interface of an earlier build.",
+      "Official captures of NANO 0.3.0-beta.1 from a demo profile with fictional data.",
     noscript: "The other captures are available in the",
     noscriptLink: "official repository",
   },
@@ -85,20 +87,20 @@ export const en = {
       description:
         "A calm place to think, ask and take the next step, with your conversations always at hand.",
       image: "/screenshots/nano-home.png",
-      alt: "Real NANO home screen: history on the left, the N symbol and a field for a new message.",
+      alt: "NANO home screen: chats on the left, a greeting by name, the message field and suggestions.",
       width: 1920,
       height: 1032,
     },
     {
       id: "thinking",
       number: "02",
-      label: "Thinking with you",
-      name: "Thinking",
-      title: "See what is happening.",
+      label: "Long answers",
+      name: "Open beside",
+      title: "Code and long answers, beside the chat.",
       description:
-        "The request status and the model in use are part of the conversation. In this capture, NANO is working on a local request.",
+        "A long answer or a block of code opens in a side panel, so you can read and copy it while the conversation carries on.",
       image: "/screenshots/nano-thinking.png",
-      alt: "NANO processing a request with the local Ollama model, in a demo profile.",
+      alt: "A Python answer from NANO open in the side panel, next to the conversation.",
       width: 1920,
       height: 1032,
     },
@@ -107,11 +109,11 @@ export const en = {
       number: "03",
       label: "With context",
       name: "Conversation",
-      title: "Pick up the thread.",
+      title: "It remembers what matters.",
       description:
-        "Go back to an earlier conversation and continue where you stopped. NANO rebuilds the context from its messages and summary.",
+        "Ask for help and NANO uses what it knows about you. Here a local model on the PC plans a study session around the weak spot the person told it about.",
       image: "/screenshots/nano-conversation.png",
-      alt: "Real demo conversation in NANO, with the local model's answer visible.",
+      alt: "A demo conversation in NANO: a short study plan from the local model that starts with fractions.",
       width: 1920,
       height: 1032,
     },
@@ -122,7 +124,7 @@ export const en = {
       name: "Voice overlay",
       title: "A voice, one shortcut away.",
       description:
-        "With voice set up, Ctrl + Shift + Space opens a capsule separate from the main window. Local transcription needs optional components.",
+        "With voice set up, Ctrl + Shift + Space opens a capsule separate from the main window, and Ctrl + Shift + M opens full-screen voice mode. NANO speaks English and Portuguese.",
       image: "/screenshots/nano-overlay.png",
       alt: "Official capture of the NANO voice capsule, with a simulated listening state in Electron, on a light background.",
       width: 760,
@@ -185,11 +187,11 @@ export const en = {
       "NANO keeps long-term memories and brings back what is relevant to the conversation.",
     ],
     more: "Learn about the Brain",
-    alt: "Real NANO Brain graph: My PC linked to Ollama and the NANO project, with three demo nodes and two relations.",
+    alt: "NANO Memory page with seven demo memories about a fictional student, each marked as created by the user.",
     openCapture: "Open the full NANO Brain capture",
     openCaptureShort: "Open full capture",
     stored: "Context stored locally",
-    stats: "3 demo nodes · 2 real relations",
+    stats: "7 demo memories · fictional data",
     details: [
       {
         label: "01 / KEEP",
@@ -235,10 +237,10 @@ export const en = {
         title: "Talk. Even outside the chat.",
         label: "VOICE + OVERLAY",
         description:
-          "A global hotkey and a separate voice capsule. Optional local transcription; spoken replies through Microsoft's Edge service.",
+          "A global hotkey, a separate voice capsule and full-screen voice mode, in English or Portuguese. Spoken replies through Microsoft's Edge service; speech recognition on the PC needs an optional package.",
       },
     ],
-    note: "* Availability depends on your setup. Voice needs optional components that are not in the base installer.",
+    note: "* Availability depends on your setup. Speech recognition on the PC needs an optional package that is not in the installer yet.",
   },
   privacy: {
     eyebrow: "Privacy & security",
@@ -273,6 +275,7 @@ export const en = {
     disclosureText: [
       "Spoken replies use Microsoft Edge TTS: the text to read leaves your computer in every mode. You can turn them off in Settings → Voice. Transcription, when set up, is local.",
       "Tool results, such as text from a file or the clipboard, can become part of the context sent to the provider. Deleting a conversation does not delete the long-term memories taken from it: those are managed separately, in Memory.",
+      "Seeing the screen is off until you turn it on in Settings → Privacy, and it asks every time. In AUTO and CLOUD the picture goes to your cloud vision provider; in LOCAL only a model on your PC sees it.",
     ],
   },
   story: {
@@ -303,19 +306,19 @@ export const en = {
         status: "NOW",
         current: true,
         title: `Beta ${site.version}`,
-        text: "Persistent conversations, Memory / RAG, Brain, local and cloud models, optional voice and PC Control.",
+        text: "Voice in English and Portuguese, a NANO that sees the screen, memory linked to the agenda, morning briefings, guided local AI, multi-step tasks and the Android app.",
       },
       {
         status: "NEXT",
         current: false,
-        title: "Already in the code.",
-        text: "English interface that follows your Windows language, reminders with Windows notifications, an Agenda, file attachments and work modes. Coming in the next release.",
+        title: "Coming next.",
+        text: "A signed installer, speech recognition included in the installer, the Android app on the Play Store, and automatic updates.",
       },
       {
         status: "EVOLVING",
         current: false,
         title: "Polish the experience.",
-        text: "Testing on clean Windows installs, voice in real use, a signed installer, automatic updates and security review are still open.",
+        text: "Testing on clean Windows installs, voice and vision in real use, and security review are still open.",
       },
     ],
     roadmapNote:
@@ -336,7 +339,7 @@ export const en = {
       },
       {
         q: "Which languages does NANO speak?",
-        a: "You can chat in your own language: the model answers in the language you write in. The interface of the current beta is in European Portuguese. An English interface that follows your Windows language is already in the code and arrives with the next release.",
+        a: "NANO's interface is in English and European Portuguese and follows your Windows language; you can change it in Settings → General. The model answers in the language you write in, and voice works in both languages.",
       },
       {
         q: "Does it work without the internet?",
@@ -355,12 +358,16 @@ export const en = {
         a: "On your PC, in %LOCALAPPDATA%\\NanoAssistant, together with your memories and settings. API keys are protected with Windows DPAPI. In CLOUD and AUTO, the messages you send go to the provider you use.",
       },
       {
+        q: "Is there a phone app?",
+        a: "Yes, for Android: a companion for the NANO on your PC, with chats, memory, agenda, voice and reminders. It is a test build you install from the GitHub release (APK); it is not on the Play Store yet. There is no iPhone app.",
+      },
+      {
         q: "Is there a Mac or Linux version?",
         a: "Not at the moment. NANO is built for Windows 10 and 11 (64-bit), because PC Control works directly with Windows.",
       },
       {
         q: "How do I update?",
-        a: "Updates are manual for now. Back up your data folder, uninstall the old version (your conversations, memories and keys are kept) and install the new one from the release page.",
+        a: "Updates are manual for now. Download the new installer from the release page and run it over the old version: your conversations, memories and keys stay in %LOCALAPPDATA%\\NanoAssistant. A backup of that folder first is still a good idea.",
       },
     ],
   },
@@ -374,7 +381,8 @@ export const en = {
     destination: `Downloads ${site.installer} from the official GitHub release.`,
     releaseNotes: "Release notes",
     mobileNote:
-      "NANO is a Windows app. Open this page on your PC to download it.",
+      "NANO runs on Windows. On your phone, get the Android app below, then pair it with NANO on your PC.",
+    phoneLink: "On Android? Get the phone app",
     stepsLabel: "INSTALL IN THREE STEPS",
     steps: [
       {
@@ -396,11 +404,88 @@ export const en = {
       "The installer is not signed yet. Windows may show an unknown publisher or SmartScreen warning. Check the source and the checksum.",
     noticeStrong: "Do not turn off Windows security.",
     notice2:
-      "Updates are manual. Installing on a completely clean Windows has not been validated for this release yet. Back up important data and read the notes before installing.",
+      "Updates are manual. Installing on a completely clean Windows is still being validated. Back up important data and read the notes before installing.",
     checkLabel: "VERIFY THE DOWNLOAD",
     checkText:
       "Compare the value in the file with the result of this PowerShell command, in the download folder:",
     guide: "First-run guide",
+  },
+  whatsNew: {
+    eyebrow: "New in Beta 3",
+    title: ["NANO sees, remembers", "and speaks first."],
+    intro:
+      "The third public beta brings voice in English, a NANO that can look at your screen, a memory linked to your agenda, guided local AI and an Android app.",
+    items: [
+      {
+        label: "VOICE",
+        title: "Talk in English or Portuguese.",
+        text: "NANO's voice, speech recognition and wake phrase follow your language. After an answer it keeps listening for a few seconds, and Ctrl + Shift + M opens full-screen voice mode.",
+      },
+      {
+        label: "VISION",
+        title: "It can see what you see.",
+        text: "With your permission, NANO describes your screen, reads the text on it and keeps an eye on it for a while: “let me know when the download finishes”. Attach PDFs, images and text files to a message.",
+      },
+      {
+        label: "MEMORY",
+        title: "A memory that knows you.",
+        text: "NANO remembers facts about you without repeating itself, refuses passwords, card numbers and things said about other people, and links what it knows to your agenda.",
+      },
+      {
+        label: "PROACTIVE",
+        title: "NANO speaks first.",
+        text: "A morning briefing, a heads-up before each event and an offer to help the evening before an exam or a trip. Built on your PC, and it never acts on its own.",
+      },
+      {
+        label: "LOCAL AI",
+        title: "Local AI, guided.",
+        text: "NANO looks at your PC, recommends one light model that writes, sees and uses tools, and downloads it on one click. Free and unlimited.",
+      },
+      {
+        label: "TASKS",
+        title: "Several steps, one yes.",
+        text: "For a request that needs three or more actions, NANO shows the plan once and carries it out after you approve. Sensitive actions still ask.",
+      },
+    ],
+    voiceAlt:
+      "NANO full-screen voice mode: the N symbol in a ring, the last question and NANO's answer.",
+    voiceCaption:
+      "Full-screen voice mode (Ctrl + Shift + M). Listening state simulated in the capture.",
+    agendaAlt:
+      "NANO Agenda with fictional reminders and events: a maths exam, a dentist appointment and football practice.",
+    agendaCaption:
+      "Agenda: reminders that repeat, events and Windows notifications.",
+    notes: "Read the release notes",
+    changelog: "Full changelog",
+  },
+  phone: {
+    eyebrow: "NANO on your phone",
+    title: ["Your PC's NANO,", "in your pocket."],
+    intro:
+      "A companion app for Android. It is a remote for the NANO on your PC: the PC does the work, the phone talks to it.",
+    points: [
+      {
+        title: "Same chats, memory and agenda.",
+        text: "Pick up a conversation started on the PC, add a reminder or check tomorrow. Talk to it, and have answers read aloud.",
+      },
+      {
+        title: "Reminders that ring.",
+        text: "Your reminders are copied to the phone, so they ring even with the app closed.",
+      },
+      {
+        title: "Private by design.",
+        text: "Pair with a QR code and a yes on the PC. Every message is encrypted end to end and only goes to your own PC: the same Wi-Fi at home, Tailscale away from home. No port is opened to the internet.",
+      },
+    ],
+    button: "Download for Android (APK)",
+    meta: ["Android 7 or newer", "Test build", "Not on the Play Store yet"],
+    guide: "Step-by-step phone guide",
+    note: "Needs NANO 0.3.0-beta.1 on your PC. Android asks you to allow installs from your browser, and Play Protect may call the app unknown, because this build is not from the Play Store.",
+    chatAlt:
+      "NANO Android app: a conversation about tomorrow's maths exam and a reminder, with fictional data.",
+    agendaAlt:
+      "NANO Android app agenda: today's reminder and tomorrow's exam and dentist appointment, with fictional data.",
+    captureNote: "Captures from a demo with fictional data.",
   },
   footer: {
     back: "NANO — back to top",
