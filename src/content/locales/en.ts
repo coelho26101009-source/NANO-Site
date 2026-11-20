@@ -25,7 +25,7 @@ export const en = {
     name: "Português",
     href: "/pt?lang=pt",
     hrefLang: "pt-PT",
-    aria: "Ver o site em português",
+    aria: "PT, ver o site em português",
   },
   nav: {
     items: [

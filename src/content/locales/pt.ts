@@ -22,7 +22,7 @@ export const pt: Copy = {
     name: "English",
     href: "/?lang=en",
     hrefLang: "en",
-    aria: "View the site in English",
+    aria: "EN, view the site in English",
   },
   nav: {
     items: [

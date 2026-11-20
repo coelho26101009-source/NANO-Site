@@ -1,8 +1,8 @@
 # Dependabot version updates for the NANO website.
 #
 # Two dependency roots: the npm project at the repository root and the GitHub
-# Actions in .github/workflows. Weekly and grouped, so a single maintainer gets
-# at most a couple of pull requests a week instead of one per package.
+# Actions in .github/workflows. Monthly and grouped, majors ignored, so a single
+# maintainer gets at most a couple of pull requests a month.
 # Security updates are switched on in the repository settings and are not
 # limited by this file: a real advisory still opens its own pull request.
 version: 2
@@ -11,9 +11,8 @@ updates:
   - package-ecosystem: github-actions
     directory: /
     schedule:
-      interval: weekly
-      day: monday
-    open-pull-requests-limit: 3
+      interval: monthly
+    open-pull-requests-limit: 2
     groups:
       actions:
         patterns:
@@ -22,9 +21,13 @@ updates:
   - package-ecosystem: npm
     directory: /
     schedule:
-      interval: weekly
-      day: monday
-    open-pull-requests-limit: 5
+      interval: monthly
+    open-pull-requests-limit: 2
+    # Major versions are upgrades done on purpose with the full browser review,
+    # never by a bot PR (eslint 10 and @types/node 26 broke peers or the Node 24 match).
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
     groups:
       # React and ReactDOM are one runtime and must move together.
       react:
