@@ -1,0 +1,48 @@
+# Dependabot version updates for the NANO website.
+#
+# Two dependency roots: the npm project at the repository root and the GitHub
+# Actions in .github/workflows. Weekly and grouped, so a single maintainer gets
+# at most a couple of pull requests a week instead of one per package.
+# Security updates are switched on in the repository settings and are not
+# limited by this file: a real advisory still opens its own pull request.
+version: 2
+
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 3
+    groups:
+      actions:
+        patterns:
+          - "*"
+
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    groups:
+      # React and ReactDOM are one runtime and must move together.
+      react:
+        patterns:
+          - "react"
+          - "react-dom"
+          - "@types/react"
+          - "@types/react-dom"
+      # three and its types move together; the 3D scene is checked by
+      # verify:cinema, so a three.js minor (which can break) stays on its own.
+      three:
+        patterns:
+          - "three"
+          - "@types/three"
+      site-minor-and-patch:
+        update-types:
+          - minor
+          - patch
+        exclude-patterns:
+          - "three"
+          - "@types/three"
