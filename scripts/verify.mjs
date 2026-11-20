@@ -426,12 +426,31 @@ try {
   };
   await ptPage.goto(baseUrl, { waitUntil: "networkidle" });
   const remembered = new URL(ptPage.url()).pathname;
+  // Switching back to Portuguese must win over the older English choice.
+  await ptPage.locator(".nav-language").click();
+  await ptPage.waitForLoadState("networkidle");
+  const backToPortuguese = {
+    path: new URL(ptPage.url()).pathname,
+    search: new URL(ptPage.url()).search,
+    lang: await ptPage.locator("html").getAttribute("lang"),
+  };
+  await ptPage.goto(baseUrl, { waitUntil: "networkidle" });
+  const rememberedPortuguese = new URL(ptPage.url()).pathname;
   await ptBrowser.close();
-  check("Portuguese browser goes to /pt; choosing English sticks", () => {
-    assert.equal(redirected, "/pt");
-    assert.deepEqual(afterSwitch, { path: "/", search: "", lang: "en" });
-    assert.equal(remembered, "/");
-  });
+  check(
+    "Portuguese browser goes to /pt; the last language chosen sticks",
+    () => {
+      assert.equal(redirected, "/pt");
+      assert.deepEqual(afterSwitch, { path: "/", search: "", lang: "en" });
+      assert.equal(remembered, "/");
+      assert.deepEqual(backToPortuguese, {
+        path: "/pt",
+        search: "",
+        lang: "pt-PT",
+      });
+      assert.equal(rememberedPortuguese, "/pt");
+    },
+  );
   check("No browser console errors or uncaught exceptions", () =>
     assert.deepEqual(report.errors, []),
   );

@@ -1,6 +1,11 @@
 import type { ReactNode } from "react";
 import { Manrope } from "next/font/google";
-import { copy, languageBootScript, type Locale } from "@/content/i18n";
+import {
+  copy,
+  languageBootScript,
+  portugueseChoiceScript,
+  type Locale,
+} from "@/content/i18n";
 import { cinemaBootScript } from "@/components/cinema/boot";
 import "@/app/globals.css";
 import "@/app/motion.css";
@@ -29,9 +34,12 @@ export function Document({
     >
       {/* eslint-disable-next-line @next/next/no-head-element -- this is the App Router root layout shell */}
       <head>
-        {locale === "en" && (
-          <script dangerouslySetInnerHTML={{ __html: languageBootScript }} />
-        )}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              locale === "en" ? languageBootScript : portugueseChoiceScript,
+          }}
+        />
         <script dangerouslySetInnerHTML={{ __html: cinemaBootScript }} />
       </head>
       <body>{children}</body>

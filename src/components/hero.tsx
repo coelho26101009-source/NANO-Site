@@ -47,7 +47,7 @@ export function Hero({ t: { hero: t } }: { t: Copy }) {
         </a>
         <span>{t.motto}</span>
         <span className="hero-index" aria-hidden="true">
-          01 — 09
+          01 — 12
         </span>
       </div>
     </section>

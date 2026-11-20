@@ -23,7 +23,7 @@ export const en = {
     // Link to the other language.
     label: "PT",
     name: "Português",
-    href: "/pt",
+    href: "/pt?lang=pt",
     hrefLang: "pt-PT",
     aria: "Ver o site em português",
   },
