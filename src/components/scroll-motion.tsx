@@ -23,6 +23,8 @@ const reveals = [
     stagger: 45,
   },
   { selector: ".brain-figure", kind: "depth", delay: 80 },
+  { selector: ".island-stage", kind: "depth", delay: 80 },
+  { selector: ".island-states > li", kind: "rise", stagger: 70 },
   { selector: ".brain-details > div", kind: "rise", stagger: 80 },
   { selector: ".mode", kind: "rise", stagger: 80 },
   { selector: ".capability", kind: "rise", stagger: 80 },

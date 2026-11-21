@@ -10,7 +10,7 @@ export const pt: Copy = {
   meta: {
     title: "NANO — Assistente pessoal de IA para Windows",
     description:
-      "O teu assistente pessoal de IA para Windows, gratuito e de código aberto, com uma app para Android. Conversa, memória, voz e interação com o PC, com modelos locais ou cloud à tua escolha. Experimenta a Beta 3 do NANO.",
+      "O teu assistente pessoal de IA para Windows, gratuito e de código aberto, com uma app para Android. Conversa, memória, voz e interação com o PC, com modelos locais ou cloud à tua escolha. Experimenta a Beta 4 do NANO.",
     ogEyebrow: "NANO · PARA WINDOWS",
     ogTitle: "O teu assistente pessoal.",
     ogTagline: "Local quando queres. Cloud quando precisas.",
@@ -28,6 +28,7 @@ export const pt: Copy = {
     items: [
       { label: "Produto", href: "#product" },
       { label: "Novo", href: "#new" },
+      { label: "Ilha", href: "#island" },
       { label: "Brain", href: "#brain" },
       { label: "Telemóvel", href: "#phone" },
       { label: "Privacidade", href: "#privacy" },
@@ -65,12 +66,12 @@ export const pt: Copy = {
     voiceLead: "A conversa acompanha-te.",
     shortcutLabel: "Control mais Shift mais Espaço",
     voiceNote: [
-      "Estado de escuta simulado na captura oficial.",
-      "O reconhecimento de fala no PC precisa de um pacote opcional.",
+      "Estado de escuta gravado com dados de demonstração.",
+      "O reconhecimento de fala no PC instala-se com um clique.",
     ],
     openCapture: "Abrir captura completa",
     assetNote:
-      "Capturas oficiais do NANO 0.3.0-beta.1 num perfil de demonstração com dados fictícios, com a interface em inglês.",
+      "Capturas oficiais do NANO num perfil de demonstração com dados fictícios, com a interface em inglês.",
     noscript: "As restantes capturas estão disponíveis no",
     noscriptLink: "repositório oficial",
   },
@@ -118,14 +119,14 @@ export const pt: Copy = {
       id: "voice",
       number: "04",
       label: "Para lá da janela",
-      name: "Voice overlay",
+      name: "Ilha",
       title: "Uma voz ao alcance de um atalho.",
       description:
-        "Com a voz configurada, Ctrl + Shift + Space abre uma cápsula fora da janela principal; Ctrl + Shift + M abre o modo de voz em ecrã inteiro.",
-      image: "/screenshots/nano-overlay.png",
-      alt: "Captura oficial da cápsula de voz NANO com o estado A ouvir simulado em Electron, sobre fundo claro.",
-      width: 760,
-      height: 180,
+        "Ctrl + Shift + Espaço e a ilha no topo do ecrã começa a ouvir, fora da janela principal; Ctrl + Shift + M abre o modo de voz em ecrã inteiro.",
+      image: "/screenshots/nano-overlay-pt.png",
+      alt: "A ilha do NANO no topo do ecrã a ouvir, com um contador e barras de som ao vivo.",
+      width: 1520,
+      height: 360,
     },
   ],
   modes: {
@@ -236,10 +237,10 @@ export const pt: Copy = {
         title: "Fala. Mesmo fora do chat.",
         label: "VOZ + OVERLAY",
         description:
-          "Uma hotkey global, uma cápsula de voz independente e um modo de voz em ecrã inteiro, em português ou inglês. Respostas faladas através do serviço Edge da Microsoft; o reconhecimento de fala no PC precisa de um pacote opcional.",
+          "Uma hotkey global, a ilha no topo do ecrã e um modo de voz em ecrã inteiro, em português ou inglês. As respostas faladas começam logo na primeira frase, através do serviço Edge da Microsoft; o reconhecimento de fala no PC instala-se com um clique.",
       },
     ],
-    note: "* A disponibilidade depende da configuração. O reconhecimento de fala no PC precisa de um pacote opcional que ainda não vem no instalador.",
+    note: "* A disponibilidade depende da configuração. O reconhecimento de fala no PC usa um pacote de voz que o NANO descarrega com um clique.",
   },
   privacy: {
     eyebrow: "Privacidade & segurança",
@@ -306,13 +307,13 @@ export const pt: Copy = {
         status: "AGORA",
         current: true,
         title: `Beta ${site.version}`,
-        text: "Voz em português e inglês, um NANO que vê o ecrã, memória ligada à agenda, resumo da manhã, IA local guiada, tarefas de vários passos e a app Android.",
+        text: "A ilha, um Segundo Cérebro em 3D, investigação profunda com fontes, memória de conversas antigas, a câmara do telemóvel, acesso cifrado fora de casa e atualizações automáticas.",
       },
       {
         status: "A SEGUIR",
         current: false,
         title: "O que vem a seguir.",
-        text: "Instalador assinado, reconhecimento de fala incluído no instalador, a app Android na Play Store e atualizações automáticas.",
+        text: "Instalador assinado, a app Android na Play Store e mais NANO no telemóvel fora de casa.",
       },
       {
         status: "A EVOLUIR",
@@ -322,7 +323,7 @@ export const pt: Copy = {
       },
     ],
     roadmapNote:
-      "Direções baseadas nos pontos públicos pendentes. Sem datas prometidas. Atualizações automáticas ainda não estão disponíveis.",
+      "Direções baseadas nos pontos públicos pendentes. Sem datas prometidas.",
     openItems: "Consultar os pontos em aberto",
     changelog: "Changelog",
     docs: "Documentação",
@@ -359,7 +360,7 @@ export const pt: Copy = {
       },
       {
         q: "Há uma app para telemóvel?",
-        a: "Sim, para Android: acompanha o NANO do teu PC, com conversas, memória, agenda, voz e lembretes. É uma versão de teste que instalas a partir da release do GitHub (APK); ainda não está na Play Store. Não há app para iPhone.",
+        a: "Sim, para Android: acompanha o NANO do teu PC, com conversas, memória, agenda, voz, câmara e lembretes, em casa ou fora. É uma versão de teste que instalas a partir da release do GitHub (APK); ainda não está na Play Store. Não há app para iPhone.",
       },
       {
         q: "Há versão para Mac ou Linux?",
@@ -367,7 +368,7 @@ export const pt: Copy = {
       },
       {
         q: "Como atualizo?",
-        a: "Por agora, as atualizações são manuais. Descarrega o instalador novo da página da release e corre-o por cima da versão antiga: as conversas, memórias e chaves ficam em %LOCALAPPDATA%\\NanoAssistant. Fazer antes uma cópia dessa pasta continua a ser boa ideia.",
+        a: "A partir da Beta 4, o NANO atualiza-se sozinho no PC e no telemóvel. Se tens a Beta 3 ou anterior, instala a Beta 4 à mão uma vez, por cima da versão antiga: as conversas, memórias e chaves ficam em %LOCALAPPDATA%\\NanoAssistant. Fazer antes uma cópia dessa pasta continua a ser boa ideia.",
       },
     ],
   },
@@ -404,47 +405,47 @@ export const pt: Copy = {
       "O instalador ainda não está assinado. O Windows pode mostrar um aviso de editor desconhecido ou do SmartScreen. Confirma a origem e o checksum.",
     noticeStrong: "Não desatives a segurança do Windows.",
     notice2:
-      "As atualizações são manuais. A instalação num Windows totalmente limpo ainda está a ser validada. Guarda cópias dos dados importantes e lê as notas antes de instalar.",
+      "A partir da Beta 4, o NANO atualiza-se sozinho. A instalação num Windows totalmente limpo ainda está a ser validada. Guarda cópias dos dados importantes e lê as notas antes de instalar.",
     checkLabel: "VERIFICA A DESCARGA",
     checkText:
       "Compara o valor do ficheiro com o resultado deste comando no PowerShell, na pasta da descarga:",
     guide: "Guia da primeira execução",
   },
   whatsNew: {
-    eyebrow: "Novo na Beta 3",
-    title: ["O NANO vê, lembra-se", "e fala primeiro."],
+    eyebrow: "Novo na Beta 4",
+    title: ["Um NANO que se lembra,", "investiga e vai contigo."],
     intro:
-      "A terceira Beta pública traz voz em inglês, um NANO que consegue ver o ecrã, uma memória ligada à agenda, IA local guiada e uma app para Android.",
+      "A quarta Beta pública traz a ilha, um Segundo Cérebro em 3D, investigação profunda com fontes, uma memória de conversas antigas, a câmara do telemóvel, acesso cifrado fora de casa e atualizações automáticas.",
     items: [
       {
-        label: "VOZ",
-        title: "Fala em português ou inglês.",
-        text: "A voz do NANO, o reconhecimento de fala e a frase de ativação seguem a tua língua. Depois de responder continua a ouvir uns segundos, e Ctrl + Shift + M abre o modo de voz em ecrã inteiro.",
+        label: "ILHA",
+        title: "Uma ilha discreta no ecrã.",
+        text: "Uma pequena ilha no topo do ecrã mostra o que o NANO está a fazer, os teus lembretes, avisos do PC e a música que está a tocar.",
       },
       {
-        label: "VISÃO",
-        title: "Vê o que tu vês.",
-        text: "Com a tua autorização, o NANO descreve o ecrã, lê o texto que lá está e fica de olho durante algum tempo: “avisa-me quando o download acabar”. Anexa PDFs, imagens e ficheiros de texto a uma mensagem.",
+        label: "INVESTIGAÇÃO",
+        title: "Investigação profunda, com fontes.",
+        text: "Faz uma pergunta grande e o NANO pesquisa várias fontes, lê-as e escreve um relatório com os links que usou.",
       },
       {
         label: "MEMÓRIA",
-        title: "Uma memória que te conhece.",
-        text: "O NANO lembra-se de factos sobre ti sem se repetir, recusa palavras-passe, números de cartão e coisas ditas sobre outras pessoas, e liga o que sabe à tua agenda.",
+        title: "Lembra-se de conversas antigas.",
+        text: "Pergunta por algo de que falaste há semanas: o NANO encontra-o e mostra de que conversa veio.",
       },
       {
-        label: "PROATIVO",
-        title: "O NANO fala primeiro.",
-        text: "Um resumo de manhã, um aviso antes de cada evento e uma oferta de ajuda na véspera de um teste ou de uma viagem. Feito no teu PC, e nunca age sozinho.",
+        label: "SEGUNDO CÉREBRO",
+        title: "O teu Segundo Cérebro, em 3D.",
+        text: "O que o NANO sabe sobre ti, num mapa 3D de pessoas, projetos e temas que podes rodar, pesquisar e abrir.",
       },
       {
-        label: "IA LOCAL",
-        title: "IA local, guiada.",
-        text: "O NANO vê o teu PC, recomenda um modelo leve que escreve, vê e usa ferramentas, e descarrega-o com um clique. Grátis e sem limites.",
+        label: "TELEMÓVEL",
+        title: "A câmara, e fora de casa.",
+        text: "Mostra uma coisa ao NANO com a câmara do telemóvel, com um sim de cada vez. Fora de casa, o telemóvel chega ao PC através de um relay cifrado.",
       },
       {
-        label: "TAREFAS",
-        title: "Vários passos, um sim.",
-        text: "Para um pedido com três ou mais ações, o NANO mostra o plano uma vez e executa-o depois de aprovares. As ações sensíveis continuam a perguntar.",
+        label: "ATUALIZAÇÕES",
+        title: "Atualiza-se sozinho.",
+        text: "O NANO no PC e no telemóvel passa a atualizar-se sozinho. E ainda: voz pronta num clique, personalidade, protocolos que lanças com uma frase e 50 correções.",
       },
     ],
     voiceAlt:
@@ -466,7 +467,7 @@ export const pt: Copy = {
     points: [
       {
         title: "As mesmas conversas, memória e agenda.",
-        text: "Continua uma conversa começada no PC, cria um lembrete ou vê o dia de amanhã. Fala com ele e ouve as respostas em voz alta.",
+        text: "Continua uma conversa começada no PC, cria um lembrete ou vê o dia de amanhã. Fala com ele, ouve as respostas em voz alta ou mostra-lhe algo com a câmara.",
       },
       {
         title: "Lembretes que tocam.",
@@ -474,7 +475,7 @@ export const pt: Copy = {
       },
       {
         title: "Privado de raiz.",
-        text: "Liga-se com um código QR e um sim no PC. Todas as mensagens vão cifradas de ponta a ponta e só para o teu PC: o mesmo Wi-Fi em casa, Tailscale fora de casa. Nenhuma porta é aberta para a internet.",
+        text: "Liga-se com um código QR, um código de 6 dígitos e um sim no PC. Todas as mensagens vão cifradas de ponta a ponta e só para o teu PC: diretamente no Wi-Fi de casa, ou fora de casa através de um relay cifrado que não as consegue ler. Nenhuma porta é aberta para a internet.",
       },
     ],
     button: "Descarregar para Android (APK)",
@@ -484,12 +485,67 @@ export const pt: Copy = {
       "Ainda não está na Play Store",
     ],
     guide: "Guia passo a passo do telemóvel",
-    note: "Precisa do NANO 0.3.0-beta.1 no PC. O Android pede para permitires instalações a partir do navegador, e o Play Protect pode dizer que a app é desconhecida, porque esta versão não vem da Play Store.",
+    note: `Precisa do NANO ${site.version} no PC. O Android pede para permitires instalações a partir do navegador, e o Play Protect pode dizer que a app é desconhecida, porque esta versão não vem da Play Store.`,
     chatAlt:
       "App Android do NANO: uma conversa sobre o teste de matemática de amanhã e um lembrete, com dados fictícios.",
     agendaAlt:
       "Agenda da app Android do NANO: o lembrete de hoje e o teste e o dentista de amanhã, com dados fictícios.",
     captureNote: "Capturas de uma demonstração com dados fictícios.",
+  },
+  island: {
+    eyebrow: "Modo ambiente · Novo na Beta 4",
+    title: ["Sempre presente.", "Nunca no caminho."],
+    intro:
+      "Uma pequena ilha no topo do ecrã mostra o que o NANO está a fazer: a ouvir, a pensar, uma ferramenta a trabalhar, uma aprovação à tua espera, um lembrete, a música que está a tocar. Passa o rato para ver mais, clica para abrir o NANO.",
+    videoLabel:
+      "Gravação da ilha do NANO a passar pelos seus estados: a ouvir, a pensar, a falar, a pesquisar na web, a pedir aprovação, um lembrete, bateria fraca, um download terminado, música e volume.",
+    caption:
+      "Gravado a partir da ilha real do NANO com dados de demonstração. No Windows usa a letra Segoe UI.",
+    states: [
+      {
+        id: "listening",
+        label: "VOZ",
+        title: "A ouvir, a pensar, a falar.",
+        text: "Sabes sempre quando o microfone está aberto e quando o NANO está a responder.",
+        alt: "A ilha a ouvir: um microfone, um contador e barras de som ao vivo.",
+      },
+      {
+        id: "working",
+        label: "FERRAMENTAS",
+        title: "Uma ferramenta a trabalhar.",
+        text: "Pesquisar na web, abrir uma aplicação ou ler um ficheiro aparece enquanto acontece.",
+        alt: "A ilha enquanto o NANO pesquisa na web, com uma linha de progresso em movimento.",
+      },
+      {
+        id: "approval",
+        label: "APROVAÇÕES",
+        title: "Pergunta primeiro.",
+        text: "Uma ação sensível fica à tua espera, a âmbar. Respondes no NANO, nunca sem querer na ilha.",
+        alt: "A ilha a pedir aprovação para fechar uma janela do Discord, com contorno âmbar.",
+      },
+      {
+        id: "reminder",
+        label: "LEMBRETES",
+        title: "Mesmo a horas.",
+        text: "Lembretes e avisos da agenda aparecem no topo do ecrã sem te tirar do que estás a fazer.",
+        alt: "A ilha com um lembrete às 18:30 para o treino de robótica.",
+      },
+      {
+        id: "battery",
+        label: "AVISOS DO PC",
+        title: "De olho no teu PC.",
+        text: "Bateria fraca, disco cheio, a rede que caiu ou voltou, um download que acabou.",
+        alt: "A ilha a avisar que a bateria está em 18%.",
+      },
+      {
+        id: "player",
+        label: "MÚSICA",
+        title: "Música e volume.",
+        text: "A música que está a tocar, com pausa e avançar ao passar o rato, e o volume quando o mudas.",
+        alt: "A ilha aberta como leitor de música: capa, música, barra de progresso e controlos.",
+      },
+    ],
+    note: "O Modo ambiente pode ser desligado nas Definições: a ilha passa a aparecer só quando há alguma coisa para mostrar.",
   },
   footer: {
     back: "NANO — voltar ao início",
