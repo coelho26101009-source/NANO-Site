@@ -16,6 +16,7 @@ export const pt: Copy = {
     ogTagline: "Local quando queres. Cloud quando precisas.",
     ogBeta: "Beta pública",
   },
+  marquee: ["Ouve", "Lembra-se", "Age", "Pergunta primeiro"],
   skip: "Saltar para o conteúdo",
   language: {
     label: "EN",
@@ -44,6 +45,8 @@ export const pt: Copy = {
   },
   hero: {
     badge: "Beta pública",
+    year: "NANO / 2026",
+    based: "Feito no Porto, Portugal",
     eyebrow: "NANO · Assistente de IA para Windows",
     title: ["O teu assistente", "pessoal."],
     tagline: ["Local quando queres.", "Cloud quando precisas."],

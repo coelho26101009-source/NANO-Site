@@ -18,6 +18,9 @@ import { copy, type Locale } from "@/content/i18n";
 import { ScrollMotion } from "@/components/scroll-motion";
 import { CinemaLoader } from "@/components/cinema/loader";
 import { Backdrop } from "@/components/backdrop";
+import { Marquee } from "@/components/marquee";
+import { Cursor } from "@/components/cursor";
+import { ScrollEffects } from "@/components/scroll-effects";
 
 export function HomePage({ locale }: { locale: Locale }) {
   const t = copy[locale];
@@ -61,11 +64,14 @@ export function HomePage({ locale }: { locale: Locale }) {
       </a>
       <div id="top" />
       <Backdrop />
+      <Cursor />
+      <ScrollEffects />
       <Navigation t={t.nav} language={t.language} />
       <ScrollMotion />
       <CinemaLoader />
       <main id="content" tabIndex={-1}>
         <Hero t={t} />
+        <Marquee words={t.marquee} />
         <Product t={t} />
         <Modes t={t} />
         <Brain t={t} />

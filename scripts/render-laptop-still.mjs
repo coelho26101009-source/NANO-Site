@@ -37,7 +37,7 @@ await page.waitForFunction(
 );
 await page.addStyleTag({
   content: `html, body { background: transparent !important; }
-    main, .site-header, .footer, .skip-link, .cinema-overlay, nextjs-portal { visibility: hidden !important; }`,
+    main, .site-header, .footer, .skip-link, .cinema-overlay, .backdrop, .cursor, nextjs-portal { visibility: hidden !important; }`,
 });
 await page.waitForTimeout(1500);
 const quad = await page.evaluate(() =>

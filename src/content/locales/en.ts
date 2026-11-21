@@ -18,6 +18,7 @@ export const en = {
     ogTagline: "Local when you want. Cloud when you need.",
     ogBeta: "Public beta",
   },
+  marquee: ["Listens", "Remembers", "Acts", "Asks first"],
   skip: "Skip to content",
   language: {
     // Link to the other language.
@@ -47,6 +48,8 @@ export const en = {
   },
   hero: {
     badge: "Public beta",
+    year: "NANO / 2026",
+    based: "Made in Porto, Portugal",
     eyebrow: "NANO · AI assistant for Windows",
     title: ["Your personal", "assistant."],
     tagline: ["Local when you want.", "Cloud when you need."],

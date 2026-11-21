@@ -24,7 +24,7 @@ body {
   margin: 0;
   background: transparent;
   color: var(--text);
-  font-family: var(--font-manrope), Arial, sans-serif;
+  font-family: var(--font-sans), "Helvetica Neue", Arial, sans-serif;
   font-size: 15px;
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;

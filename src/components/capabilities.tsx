@@ -1,5 +1,5 @@
 import type { Copy } from "@/content/i18n";
-import { Eyebrow } from "./ui";
+import { Eyebrow, Lines } from "./ui";
 
 export function Capabilities({ t: { capabilities: t } }: { t: Copy }) {
   return (
@@ -11,9 +11,7 @@ export function Capabilities({ t: { capabilities: t } }: { t: Copy }) {
       <div className="capabilities-intro">
         <Eyebrow>{t.eyebrow}</Eyebrow>
         <h2 id="capabilities-heading">
-          {t.title[0]}
-          <br />
-          {t.title[1]}
+          <Lines lines={t.title} />
         </h2>
         <p>{t.intro}</p>
         <span className="availability">

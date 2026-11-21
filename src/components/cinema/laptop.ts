@@ -97,6 +97,100 @@ const KEY_ROWS: { height: number; keys: number[] }[] = [
   { height: 1, keys: [1, 1, 1.22, 1.36, 5.06, 1.36, 1, 1, 1, 1] },
 ];
 
+/** What is printed on each key, row by row (US layout, Windows keys). */
+const KEY_LEGENDS: string[][] = [
+  [
+    "esc",
+    "F1",
+    "F2",
+    "F3",
+    "F4",
+    "F5",
+    "F6",
+    "F7",
+    "F8",
+    "F9",
+    "F10",
+    "F11",
+    "F12",
+    "⏻",
+  ],
+  ["`", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "=", "⌫"],
+  ["tab", "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "[", "]", "\\"],
+  ["caps", "A", "S", "D", "F", "G", "H", "J", "K", "L", ";", "'", "enter"],
+  ["shift", "Z", "X", "C", "V", "B", "N", "M", ",", ".", "/", "shift"],
+  ["ctrl", "fn", "win", "alt", "", "alt", "ctrl", "◀", "▲▼", "▶"],
+];
+
+/**
+ * The legends as one transparent texture laid on the key tops: letters
+ * where a real keyboard has them (top left on modifiers, centred on
+ * letters), and the Windows logo drawn as four squares.
+ */
+function createLegendTexture(
+  width: number,
+  depth: number,
+  pitch: number,
+  gap: number,
+) {
+  const pxPerUnit = 1400 / width; // 1400 px across the keyboard
+  const canvas = document.createElement("canvas");
+  canvas.width = Math.round(width * pxPerUnit);
+  canvas.height = Math.round(depth * pxPerUnit);
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return null;
+  ctx.fillStyle = "rgba(225, 228, 233, 0.92)";
+  ctx.textBaseline = "middle";
+  let z = 0;
+  KEY_ROWS.forEach((row, r) => {
+    const rowDepth = row.height * pitch;
+    const units = row.keys.reduce((sum, value) => sum + value, 0);
+    const scale = width / (units * pitch);
+    let x = 0;
+    row.keys.forEach((size, k) => {
+      const keyWidth = size * pitch * scale;
+      const legend = KEY_LEGENDS[r]?.[k] ?? "";
+      const left = (x + gap / 2) * pxPerUnit;
+      const top = (z + gap / 2) * pxPerUnit;
+      const w = (keyWidth - gap) * pxPerUnit;
+      const h = (rowDepth - gap) * pxPerUnit;
+      if (legend === "win") {
+        const s = h * 0.13;
+        const cx = left + w / 2;
+        const cy = top + h / 2;
+        for (const [dx, dy] of [
+          [-1, -1],
+          [0.15, -1],
+          [-1, 0.15],
+          [0.15, 0.15],
+        ])
+          ctx.fillRect(cx + dx * s, cy + dy * s, s * 0.85, s * 0.85);
+      } else if (legend) {
+        const word =
+          legend.length > 2 &&
+          legend !== "F10" &&
+          legend !== "F11" &&
+          legend !== "F12";
+        const small = r === 0 || word;
+        ctx.font = `${small ? 500 : 600} ${Math.round(h * (r === 0 ? 0.3 : small ? 0.25 : 0.36))}px "Helvetica Neue", Arial, sans-serif`;
+        if (word && r > 0) {
+          ctx.textAlign = "left";
+          ctx.fillText(legend, left + h * 0.16, top + h * 0.3);
+        } else {
+          ctx.textAlign = "center";
+          ctx.fillText(legend, left + w / 2, top + h / 2);
+        }
+      }
+      x += keyWidth;
+    });
+    z += rowDepth;
+  });
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.colorSpace = THREE.SRGBColorSpace;
+  texture.anisotropy = 8;
+  return texture;
+}
+
 /** Keys laid out from z = 0 (back edge) towards +z (front). */
 function createKeyboard(material: THREE.Material) {
   const pitch = 0.18;
@@ -262,6 +356,37 @@ export function createLaptop(): Laptop {
   group.add(wellMesh);
   keyboard.keys.position.set(0, deckY + 0.004, keyboardBack);
   group.add(keyboard.keys);
+
+  // Legends on the key tops (a hair above them, so they never z-fight).
+  const legendTexture =
+    typeof document === "undefined"
+      ? null
+      : createLegendTexture(keyboard.width, keyboard.depth, 0.18, 0.03);
+  if (legendTexture) {
+    keep(legendTexture);
+    const legends = new THREE.Mesh(
+      keep(new THREE.PlaneGeometry(keyboard.width, keyboard.depth)),
+      keep(
+        new THREE.MeshBasicMaterial({
+          map: legendTexture,
+          transparent: true,
+          depthWrite: false,
+          opacity: 0.72,
+          color: new THREE.Color("#d5d9e0"),
+          // Printed legends read at their own brightness, not tone-mapped down.
+          toneMapped: false,
+        }),
+      ),
+    );
+    legends.rotation.x = -Math.PI / 2;
+    legends.position.set(
+      0,
+      deckY + 0.004 + 0.0058,
+      keyboardBack + keyboard.depth / 2,
+    );
+    legends.renderOrder = 1;
+    group.add(legends);
+  }
 
   const trackpadDepth = 0.6;
   const trackpad = new THREE.Mesh(

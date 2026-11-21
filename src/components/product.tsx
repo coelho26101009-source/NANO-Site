@@ -1,5 +1,5 @@
 import type { Copy } from "@/content/i18n";
-import { Eyebrow } from "./ui";
+import { Eyebrow, Lines } from "./ui";
 import { ProductShowcase } from "./product-showcase";
 import { CinemaChapters } from "./cinema/chapters";
 import { LaptopStill } from "./laptop-still";
@@ -20,9 +20,7 @@ export function Product({ t }: { t: Copy }) {
         <div>
           <Eyebrow>{t.product.eyebrow}</Eyebrow>
           <h2 id="product-heading">
-            {t.product.title[0]}
-            <br />
-            {t.product.title[1]}
+            <Lines lines={t.product.title} />
           </h2>
         </div>
         <p>{t.product.intro}</p>

@@ -1,6 +1,6 @@
 import { site } from "@/content/site";
 import type { Copy } from "@/content/i18n";
-import { Eyebrow, TextLink } from "./ui";
+import { Eyebrow, TextLink, Lines } from "./ui";
 import { ProductImage } from "./product-image";
 
 const figureSizes =
@@ -19,9 +19,7 @@ export function WhatsNew({ t: { whatsNew: t } }: { t: Copy }) {
         <div>
           <Eyebrow>{t.eyebrow}</Eyebrow>
           <h2 id="new-heading">
-            {t.title[0]}
-            <br />
-            {t.title[1]}
+            <Lines lines={t.title} />
           </h2>
         </div>
         <p>{t.intro}</p>

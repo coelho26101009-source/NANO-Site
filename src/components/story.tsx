@@ -1,6 +1,6 @@
 import { site } from "@/content/site";
 import type { Copy } from "@/content/i18n";
-import { Eyebrow, TextLink } from "./ui";
+import { Eyebrow, TextLink, Lines } from "./ui";
 import { Icon } from "./icons";
 
 export function Story({ t: { story: t } }: { t: Copy }) {
@@ -30,9 +30,7 @@ export function Story({ t: { story: t } }: { t: Copy }) {
       </div>
       <div className="story-copy">
         <h2 id="story-heading">
-          {t.title[0]}
-          <br />
-          <span>{t.title[1]}</span>
+          <Lines lines={t.title} />
         </h2>
         <p className="story-lead">{t.lead}</p>
         {t.body.map((text) => (
