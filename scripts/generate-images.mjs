@@ -16,6 +16,7 @@ for (const [folder, names] of [
       "nano-conversation",
       "nano-brain",
       "nano-overlay",
+      "nano-overlay-pt",
       "nano-voice-mode",
       "nano-agenda",
       "nano-phone-chat",

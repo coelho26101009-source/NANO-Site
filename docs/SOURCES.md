@@ -5,6 +5,7 @@ Checked 2026-10-01. Application main commit: `3f3524ea82812c337e71e4945b722ee8e0
 All product claims are based on the public [Nano_Assistant repository](https://github.com/coelho26101009-source/Nano_Assistant), not private files in the application checkout.
 
 - [README](https://github.com/coelho26101009-source/Nano_Assistant/blob/main/README.md): current UI, threads, memory/RAG/Brain, routing, voice and PC Control.
+- [0.4.0-beta.1 release](https://github.com/coelho26101009-source/Nano_Assistant/releases/tag/v0.4.0-beta.1) ("Beta 4", 2026-11-21): island (ambient mode), 3D Second Brain, deep research with sources, Memory M3, phone camera, encrypted relay away from home, automatic updates on PC and Android. The site and its island captures/recording follow this release.
 - [0.3.0-beta.1 release](https://github.com/coelho26101009-source/Nano_Assistant/releases/tag/v0.3.0-beta.1) ("Beta 3"): canonical release, Windows installer and Android APK, unsigned/manual updates/clean-machine limitations.
 - [Privacy](https://github.com/coelho26101009-source/Nano_Assistant/blob/main/PRIVACY.md): model routing, cloud context and tool results, attempted providers, Edge TTS, SQLite and DPAPI.
 - [Security](https://github.com/coelho26101009-source/Nano_Assistant/blob/main/SECURITY.md): validation/policy/permission/execution boundaries, narrow tools and limitations.

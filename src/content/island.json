@@ -1,0 +1,84 @@
+{
+  "en": {
+    "video": "/island/island-en-074c30c650",
+    "stills": {
+      "listening": {
+        "src": "/island/island-en-listening-c0f1bfd62a.webp",
+        "width": 712,
+        "height": 192,
+        "bytes": 8744
+      },
+      "working": {
+        "src": "/island/island-en-working-cdb7764161.webp",
+        "width": 872,
+        "height": 232,
+        "bytes": 11536
+      },
+      "approval": {
+        "src": "/island/island-en-approval-958503e199.webp",
+        "width": 976,
+        "height": 324,
+        "bytes": 21834
+      },
+      "reminder": {
+        "src": "/island/island-en-reminder-597a20990c.webp",
+        "width": 976,
+        "height": 324,
+        "bytes": 14410
+      },
+      "battery": {
+        "src": "/island/island-en-battery-787abcc0e8.webp",
+        "width": 976,
+        "height": 324,
+        "bytes": 15632
+      },
+      "player": {
+        "src": "/island/island-en-player-3552be1f11.webp",
+        "width": 1014,
+        "height": 468,
+        "bytes": 21020
+      }
+    }
+  },
+  "pt": {
+    "video": "/island/island-pt-301f368c87",
+    "stills": {
+      "listening": {
+        "src": "/island/island-pt-listening-e29a58f5c6.webp",
+        "width": 712,
+        "height": 192,
+        "bytes": 8602
+      },
+      "working": {
+        "src": "/island/island-pt-working-69c84bb63d.webp",
+        "width": 872,
+        "height": 232,
+        "bytes": 11686
+      },
+      "approval": {
+        "src": "/island/island-pt-approval-fc71565e72.webp",
+        "width": 976,
+        "height": 324,
+        "bytes": 22430
+      },
+      "reminder": {
+        "src": "/island/island-pt-reminder-d24afefb96.webp",
+        "width": 976,
+        "height": 324,
+        "bytes": 14272
+      },
+      "battery": {
+        "src": "/island/island-pt-battery-40d20533ca.webp",
+        "width": 976,
+        "height": 324,
+        "bytes": 16882
+      },
+      "player": {
+        "src": "/island/island-pt-player-6ffa6027e5.webp",
+        "width": 1014,
+        "height": 468,
+        "bytes": 23244
+      }
+    }
+  }
+}

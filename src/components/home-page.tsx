@@ -12,10 +12,12 @@ import { Download } from "@/components/download";
 import { Footer } from "@/components/footer";
 import { WhatsNew } from "@/components/whats-new";
 import { Phone } from "@/components/phone";
+import { Island } from "@/components/island";
 import { site } from "@/content/site";
 import { copy, type Locale } from "@/content/i18n";
 import { ScrollMotion } from "@/components/scroll-motion";
 import { CinemaLoader } from "@/components/cinema/loader";
+import { Backdrop } from "@/components/backdrop";
 
 export function HomePage({ locale }: { locale: Locale }) {
   const t = copy[locale];
@@ -58,6 +60,7 @@ export function HomePage({ locale }: { locale: Locale }) {
         {t.skip}
       </a>
       <div id="top" />
+      <Backdrop />
       <Navigation t={t.nav} language={t.language} />
       <ScrollMotion />
       <CinemaLoader />
@@ -68,6 +71,7 @@ export function HomePage({ locale }: { locale: Locale }) {
         <Brain t={t} />
         <Capabilities t={t} />
         <WhatsNew t={t} />
+        <Island t={t} />
         <Phone t={t} />
         <Privacy t={t} />
         <Story t={t} />
