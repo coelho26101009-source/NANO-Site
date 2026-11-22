@@ -318,7 +318,7 @@ export const pt: Copy = {
         status: "A SEGUIR",
         current: false,
         title: "O que vem a seguir.",
-        text: "Instalador assinado, a app Android na Play Store e mais NANO no telemóvel fora de casa.",
+        text: "Chamar o NANO pela voz com “Ei Nano” e dizer logo o pedido, ouvir que pára quando acabas de falar, e uma ilha escondida até a chamares. Depois, instalador assinado e a app Android na Play Store.",
       },
       {
         status: "A EVOLUIR",
@@ -550,7 +550,7 @@ export const pt: Copy = {
         alt: "A ilha aberta como leitor de música: capa, música, barra de progresso e controlos.",
       },
     ],
-    note: "O Modo ambiente pode ser desligado nas Definições: a ilha passa a aparecer só quando há alguma coisa para mostrar.",
+    note: "A seguir: a ilha fica escondida até ser precisa, ou até encostares o rato ao topo do ecrã, ao centro, e depois desliza para fora sozinha. Na Beta 4, o Modo ambiente pode ser desligado nas Definições.",
   },
   footer: {
     back: "NANO — voltar ao início",

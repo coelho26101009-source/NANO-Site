@@ -318,7 +318,7 @@ export const en = {
         status: "NEXT",
         current: false,
         title: "Coming next.",
-        text: "A signed installer, the Android app on the Play Store, and more of NANO on the phone away from home.",
+        text: "Call NANO by voice with “Hey Nano” and say the request in the same breath, listening that stops when you stop talking, and an island that stays hidden until you call it. Then a signed installer and the Android app on the Play Store.",
       },
       {
         status: "EVOLVING",
@@ -546,7 +546,7 @@ export const en = {
         alt: "The island opened as a music player: cover, song, progress bar and controls.",
       },
     ],
-    note: "Ambient mode can be switched off in Settings: the island then only appears when there is something to show.",
+    note: "Coming next: the island stays hidden until it is needed, or until you push the mouse to the top centre of the screen, then slides away on its own. In Beta 4, ambient mode can be switched off in Settings.",
   },
   footer: {
     back: "NANO — back to top",
