@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { site } from "@/content/site";
 import type { Copy } from "@/content/i18n";
 import { Eyebrow, TextLink, Lines } from "./ui";
@@ -13,9 +14,15 @@ export function Story({ t: { story: t } }: { t: Copy }) {
     >
       <div className="story-aside">
         <Eyebrow>{t.eyebrow}</Eyebrow>
-        <span className="story-monogram" aria-hidden="true">
-          N.
-        </span>
+        <Image
+          className="story-portrait"
+          src="/images/simao-coelho-611d02f591.webp"
+          width={160}
+          height={160}
+          alt={t.photoAlt}
+          unoptimized
+          loading="lazy"
+        />
         <div className="creator">
           <span className="small-label">{t.createdBy}</span>
           <p className="creator-name">{site.creator.name}</p>

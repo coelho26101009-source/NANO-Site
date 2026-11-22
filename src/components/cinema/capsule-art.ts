@@ -1,13 +1,13 @@
 import imageAssets from "@/content/images.json";
 
 /**
- * The real voice capsule, cropped out of the official overlay capture
- * (nano-overlay.png, 760×180): only the light Electron demo backdrop is
- * cropped away, nothing else changes. Shared by the capsule that flies out
+ * The real island while listening, cropped out of the official overlay
+ * capture (nano-overlay.png, 1520×360, here in 760-wide units): exactly the
+ * pill, nothing else changes. Shared by the capsule that flies out
  * of the laptop (stage) and the one docked in the voice chapter (DOM), so
  * the hand-over between them is pixel-identical.
  */
-const CROP = { x: 118, y: 58, width: 524, height: 64, source: 760 };
+const CROP = { x: 80, y: 48, width: 600, height: 84, source: 760 };
 export const CAPSULE_WIDTH = 300;
 
 const scale = CAPSULE_WIDTH / CROP.width;
