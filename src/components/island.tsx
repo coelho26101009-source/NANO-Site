@@ -1,6 +1,6 @@
 import Image from "next/image";
 import type { Copy } from "@/content/i18n";
-import { Eyebrow } from "./ui";
+import { Eyebrow, Lines } from "./ui";
 import { IslandVideo } from "./island-video";
 import islandAssets from "@/content/island.json";
 
@@ -21,9 +21,7 @@ export function Island({ t }: { t: Copy }) {
           <div>
             <Eyebrow>{c.eyebrow}</Eyebrow>
             <h2 id="island-heading">
-              {c.title[0]}
-              <br />
-              <span className="heading-dim">{c.title[1]}</span>
+              <Lines lines={c.title} />
             </h2>
           </div>
           <p>{c.intro}</p>

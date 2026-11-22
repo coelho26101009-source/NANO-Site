@@ -94,23 +94,23 @@
     "variants": [
       {
         "width": 480,
-        "src": "/images/nano-overlay-480-d4a071f0b4.webp",
-        "bytes": 6450
+        "src": "/images/nano-overlay-480-7fd2838d64.webp",
+        "bytes": 6858
       },
       {
         "width": 768,
-        "src": "/images/nano-overlay-768-caa70cf9cc.webp",
-        "bytes": 12364
+        "src": "/images/nano-overlay-768-2a1dfcb784.webp",
+        "bytes": 12542
       },
       {
         "width": 960,
-        "src": "/images/nano-overlay-960-d63db3bdf7.webp",
-        "bytes": 15316
+        "src": "/images/nano-overlay-960-a5f511a1b2.webp",
+        "bytes": 16224
       },
       {
         "width": 1520,
-        "src": "/images/nano-overlay-1520-c7a0e0a52e.webp",
-        "bytes": 17002
+        "src": "/images/nano-overlay-1520-e76643ca97.webp",
+        "bytes": 17036
       }
     ]
   },
@@ -120,23 +120,23 @@
     "variants": [
       {
         "width": 480,
-        "src": "/images/nano-overlay-pt-480-b6a827c0b9.webp",
-        "bytes": 6232
+        "src": "/images/nano-overlay-pt-480-4958585928.webp",
+        "bytes": 6492
       },
       {
         "width": 768,
-        "src": "/images/nano-overlay-pt-768-14c5ea6fd5.webp",
-        "bytes": 11846
+        "src": "/images/nano-overlay-pt-768-0143dcc48c.webp",
+        "bytes": 11888
       },
       {
         "width": 960,
-        "src": "/images/nano-overlay-pt-960-d1eaa26437.webp",
-        "bytes": 14642
+        "src": "/images/nano-overlay-pt-960-6a51e372ab.webp",
+        "bytes": 15396
       },
       {
         "width": 1520,
-        "src": "/images/nano-overlay-pt-1520-56fcfdefb1.webp",
-        "bytes": 16818
+        "src": "/images/nano-overlay-pt-1520-9de20d013d.webp",
+        "bytes": 16808
       }
     ]
   },

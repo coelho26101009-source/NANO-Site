@@ -6,13 +6,7 @@ import { useEffect, useRef } from "react";
  * The island recording: plays only while it is on screen, never on its own
  * with reduced motion (the poster stays, with controls to play it).
  */
-export function IslandVideo({
-  base,
-  label,
-}: {
-  base: string;
-  label: string;
-}) {
+export function IslandVideo({ base, label }: { base: string; label: string }) {
   const ref = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {

@@ -1,6 +1,6 @@
 import { site } from "@/content/site";
 import type { Copy } from "@/content/i18n";
-import { Eyebrow, TextLink } from "./ui";
+import { Eyebrow, TextLink, Lines } from "./ui";
 import { Icon } from "./icons";
 
 export function Privacy({ t: { privacy: t } }: { t: Copy }) {
@@ -16,9 +16,7 @@ export function Privacy({ t: { privacy: t } }: { t: Copy }) {
           <div>
             <Eyebrow>{t.eyebrow}</Eyebrow>
             <h2 id="privacy-heading">
-              {t.title[0]}
-              <br />
-              {t.title[1]}
+              <Lines lines={t.title} />
             </h2>
           </div>
           <p>{t.intro}</p>

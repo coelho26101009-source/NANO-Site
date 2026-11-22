@@ -1,7 +1,7 @@
 import { ProductImage, captureSizes } from "./product-image";
 import { site } from "@/content/site";
 import type { Copy } from "@/content/i18n";
-import { Eyebrow, TextLink } from "./ui";
+import { Eyebrow, TextLink, Lines } from "./ui";
 
 export function Brain({ t: { brain: t } }: { t: Copy }) {
   return (
@@ -16,9 +16,7 @@ export function Brain({ t: { brain: t } }: { t: Copy }) {
           <div>
             <Eyebrow>{t.eyebrow}</Eyebrow>
             <h2 id="brain-heading">
-              {t.title[0]}
-              <br />
-              {t.title[1]}
+              <Lines lines={t.title} />
             </h2>
           </div>
           <div>

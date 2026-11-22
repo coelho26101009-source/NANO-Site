@@ -1,13 +1,15 @@
 import { site } from "@/content/site";
 import type { Copy } from "@/content/i18n";
-import { DownloadLink, Eyebrow } from "./ui";
+import { DownloadLink, Eyebrow, Lines } from "./ui";
 import { Icon } from "./icons";
 import { HeroSymbol } from "./hero-symbol";
 
 export function Hero({ t: { hero: t } }: { t: Copy }) {
   return (
     <section className="hero container" aria-labelledby="hero-heading">
-      <div className="hero-copy">
+      <div className="hero-topline">
+        <span>{t.year}</span>
+        <span className="hero-based">{t.based}</span>
         <a className="release-badge" href={site.release}>
           <span className="status-dot" />
           {t.badge}
@@ -15,11 +17,11 @@ export function Hero({ t: { hero: t } }: { t: Copy }) {
           {site.version}
           <Icon name="arrow" />
         </a>
+      </div>
+      <div className="hero-copy">
         <Eyebrow>{t.eyebrow}</Eyebrow>
         <h1 id="hero-heading">
-          {t.title[0]}
-          <br />
-          <span>{t.title[1]}</span>
+          <Lines lines={t.title} />
         </h1>
         <p className="hero-description">
           {t.tagline[0]}

@@ -5,7 +5,7 @@ Checked 2026-10-01. Application main commit: `3f3524ea82812c337e71e4945b722ee8e0
 All product claims are based on the public [Nano_Assistant repository](https://github.com/coelho26101009-source/Nano_Assistant), not private files in the application checkout.
 
 - [README](https://github.com/coelho26101009-source/Nano_Assistant/blob/main/README.md): current UI, threads, memory/RAG/Brain, routing, voice and PC Control.
-- [0.4.0-beta.1 release](https://github.com/coelho26101009-source/Nano_Assistant/releases/tag/v0.4.0-beta.1) ("Beta 4", 2026-11-21): island (ambient mode), 3D Second Brain, deep research with sources, Memory M3, phone camera, encrypted relay away from home, automatic updates on PC and Android. The site and its island captures/recording follow this release.
+- [0.4.0-beta.1 release](https://github.com/coelho26101009-source/Nano_Assistant/releases/tag/v0.4.0-beta.1) ("Beta 4", 2026-11-21): island (ambient mode), 3D Second Brain, deep research with sources, Memory M3, phone camera, encrypted relay away from home, automatic updates on PC and Android. The site and its island captures/recording follow this release. The island captures were redone with the sober island colours from Nano_Assistant main (merge `f1004c3`, after Beta 4): the real overlay page and view builders, in Chromium; the song, its cover art and the document behind are demo content.
 - [0.3.0-beta.1 release](https://github.com/coelho26101009-source/Nano_Assistant/releases/tag/v0.3.0-beta.1) ("Beta 3"): canonical release, Windows installer and Android APK, unsigned/manual updates/clean-machine limitations.
 - [Privacy](https://github.com/coelho26101009-source/Nano_Assistant/blob/main/PRIVACY.md): model routing, cloud context and tool results, attempted providers, Edge TTS, SQLite and DPAPI.
 - [Security](https://github.com/coelho26101009-source/Nano_Assistant/blob/main/SECURITY.md): validation/policy/permission/execution boundaries, narrow tools and limitations.
@@ -23,8 +23,10 @@ Copied from the above main commit into `public/brand` and `public/screenshots`. 
 
 Screenshots: `nano-home.png`, `nano-thinking.png`, `nano-conversation.png`, `nano-brain.png`, `nano-overlay.png`. These are official demonstration-profile captures, not fabricated interfaces. The Brain has three demonstration nodes and two real relationships. All core assets are served locally.
 
-The cinematic layer adds no third-party asset. Its laptop is procedural geometry written for this site (no external model, texture, HDR or licence), unbranded. The laptop still in `public/images/nano-laptop-*.webp` is rendered from that same model by `scripts/render-laptop-still.mjs`. Everything shown on its display is the official captures above, unmodified; the voice capsule is the official overlay capture, cropped by CSS to the capsule (its light demo backdrop is not shown).
+The cinematic layer adds no third-party asset. Its laptop is procedural geometry written for this site (no external model, texture, HDR or licence), unbranded; the key legends (US layout) are drawn on a canvas at run time. The laptop still in `public/images/nano-laptop-*.webp` is rendered from that same model by `scripts/render-laptop-still.mjs`. Everything shown on its display is the official captures above, unmodified; the voice capsule is the official overlay capture, cropped by CSS to the capsule (its light demo backdrop is not shown).
 
 The image-quality pass adds responsive lossless WebP encodings of these same files in `public/images/`. Original PNGs remain unchanged, including the corrected symbol's alpha. See [image quality review](IMAGE_QUALITY.md) for source dimensions, compression comparisons, responsive sizing and native pixel/alpha verification.
 
 Creator identity (`site.creator`): name Simão Coelho and description "Programador português de 16 anos", as provided by the creator on 2026-10-02, with the public repository owner handle `coelho26101009-source`. No other biographical facts are stated.
+
+Fonts: Inter Tight, Instrument Serif and JetBrains Mono (all SIL Open Font License), copied from Simão's personal site (`simao-site`) and served locally from `src/app/fonts`.

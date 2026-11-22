@@ -1,6 +1,6 @@
 import { site } from "@/content/site";
 import type { Copy } from "@/content/i18n";
-import { Eyebrow, TextLink } from "./ui";
+import { Eyebrow, TextLink, Lines } from "./ui";
 import { Icon } from "./icons";
 import { ProductImage } from "./product-image";
 
@@ -18,9 +18,7 @@ export function Phone({ t: { phone: t } }: { t: Copy }) {
       <div className="phone-copy">
         <Eyebrow>{t.eyebrow}</Eyebrow>
         <h2 id="phone-heading">
-          {t.title[0]}
-          <br />
-          {t.title[1]}
+          <Lines lines={t.title} />
         </h2>
         <p className="phone-intro">{t.intro}</p>
         <ul className="phone-points">

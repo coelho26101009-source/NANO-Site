@@ -1,5 +1,5 @@
 import type { Copy } from "@/content/i18n";
-import { Eyebrow } from "./ui";
+import { Eyebrow, Lines } from "./ui";
 import { Icon } from "./icons";
 
 export function Modes({ t: { modes: t } }: { t: Copy }) {
@@ -13,9 +13,7 @@ export function Modes({ t: { modes: t } }: { t: Copy }) {
       <div className="section-heading centered" data-cinema-beat="modes">
         <Eyebrow>{t.eyebrow}</Eyebrow>
         <h2 id="modes-heading">
-          {t.title[0]}
-          <br />
-          <span>{t.title[1]}</span>
+          <Lines lines={t.title} />
         </h2>
         <p>
           {t.intro[0]}

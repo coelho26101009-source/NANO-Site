@@ -1,83 +1,83 @@
 {
   "en": {
-    "video": "/island/island-en-074c30c650",
+    "video": "/island/island-en-0b4f6e8b25",
     "stills": {
       "listening": {
-        "src": "/island/island-en-listening-c0f1bfd62a.webp",
+        "src": "/island/island-en-listening-a86574ff09.webp",
         "width": 712,
         "height": 192,
-        "bytes": 8744
+        "bytes": 9228
       },
       "working": {
-        "src": "/island/island-en-working-cdb7764161.webp",
+        "src": "/island/island-en-working-486a54a1f5.webp",
         "width": 872,
         "height": 232,
-        "bytes": 11536
+        "bytes": 11676
       },
       "approval": {
-        "src": "/island/island-en-approval-958503e199.webp",
+        "src": "/island/island-en-approval-f4f37ec0c4.webp",
         "width": 976,
         "height": 324,
-        "bytes": 21834
+        "bytes": 22514
       },
       "reminder": {
-        "src": "/island/island-en-reminder-597a20990c.webp",
+        "src": "/island/island-en-reminder-dd12fdbd97.webp",
         "width": 976,
         "height": 324,
-        "bytes": 14410
+        "bytes": 15084
       },
       "battery": {
-        "src": "/island/island-en-battery-787abcc0e8.webp",
+        "src": "/island/island-en-battery-aa22a937fb.webp",
         "width": 976,
         "height": 324,
-        "bytes": 15632
+        "bytes": 16336
       },
       "player": {
-        "src": "/island/island-en-player-3552be1f11.webp",
+        "src": "/island/island-en-player-da1fe32d87.webp",
         "width": 1014,
         "height": 468,
-        "bytes": 21020
+        "bytes": 21744
       }
     }
   },
   "pt": {
-    "video": "/island/island-pt-301f368c87",
+    "video": "/island/island-pt-e583446c78",
     "stills": {
       "listening": {
-        "src": "/island/island-pt-listening-e29a58f5c6.webp",
+        "src": "/island/island-pt-listening-e205e74214.webp",
         "width": 712,
         "height": 192,
-        "bytes": 8602
+        "bytes": 8876
       },
       "working": {
-        "src": "/island/island-pt-working-69c84bb63d.webp",
+        "src": "/island/island-pt-working-f265df6f02.webp",
         "width": 872,
         "height": 232,
-        "bytes": 11686
+        "bytes": 11804
       },
       "approval": {
-        "src": "/island/island-pt-approval-fc71565e72.webp",
+        "src": "/island/island-pt-approval-58e80df6e9.webp",
         "width": 976,
         "height": 324,
-        "bytes": 22430
+        "bytes": 23062
       },
       "reminder": {
-        "src": "/island/island-pt-reminder-d24afefb96.webp",
+        "src": "/island/island-pt-reminder-61d8bccbfb.webp",
         "width": 976,
         "height": 324,
-        "bytes": 14272
+        "bytes": 14968
       },
       "battery": {
-        "src": "/island/island-pt-battery-40d20533ca.webp",
+        "src": "/island/island-pt-battery-5e2a4ed963.webp",
         "width": 976,
         "height": 324,
-        "bytes": 16882
+        "bytes": 17642
       },
       "player": {
-        "src": "/island/island-pt-player-6ffa6027e5.webp",
+        "src": "/island/island-pt-player-ca1cdac1cf.webp",
         "width": 1014,
         "height": 468,
-        "bytes": 23244
+        "bytes": 24214
       }
     }
   }

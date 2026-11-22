@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { Manrope } from "next/font/google";
+import localFont from "next/font/local";
 import {
   copy,
   languageBootScript,
@@ -10,10 +10,34 @@ import { cinemaBootScript } from "@/components/cinema/boot";
 import "@/app/globals.css";
 import "@/app/motion.css";
 import "@/app/cinema.css";
+import "@/app/editorial.css";
 
-const manrope = Manrope({
-  subsets: ["latin"],
-  variable: "--font-manrope",
+// Self-hosted (SIL Open Font License), the same three faces as Simão's site.
+const sans = localFont({
+  src: "../app/fonts/inter-tight-latin-wght-normal.woff2",
+  weight: "100 900",
+  variable: "--font-sans",
+  display: "swap",
+});
+const serif = localFont({
+  src: "../app/fonts/instrument-serif-latin-400-italic.woff2",
+  weight: "400",
+  style: "italic",
+  variable: "--font-serif",
+  display: "swap",
+});
+const mono = localFont({
+  src: [
+    {
+      path: "../app/fonts/jetbrains-mono-latin-400-normal.woff2",
+      weight: "400",
+    },
+    {
+      path: "../app/fonts/jetbrains-mono-latin-500-normal.woff2",
+      weight: "500",
+    },
+  ],
+  variable: "--font-mono",
   display: "swap",
 });
 
@@ -29,7 +53,7 @@ export function Document({
     // The boot script sets data-cinema before hydration; nothing else differs.
     <html
       lang={copy[locale].htmlLang}
-      className={manrope.variable}
+      className={`${sans.variable} ${serif.variable} ${mono.variable}`}
       suppressHydrationWarning
     >
       {/* eslint-disable-next-line @next/next/no-head-element -- this is the App Router root layout shell */}

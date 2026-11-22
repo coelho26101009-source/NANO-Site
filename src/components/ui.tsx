@@ -63,3 +63,21 @@ export function DownloadLink({
     </a>
   );
 }
+
+/** A two-line title: each line rises from behind a mask, the second in serif italic. */
+export function Lines({
+  lines,
+}: {
+  lines: readonly [string, string] | string[];
+}) {
+  return (
+    <>
+      <span className="line">
+        <span>{lines[0]}</span>
+      </span>{" "}
+      <span className="line line-serif">
+        <span>{lines[1]}</span>
+      </span>
+    </>
+  );
+}
