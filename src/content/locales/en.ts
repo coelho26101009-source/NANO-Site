@@ -128,7 +128,7 @@ export const en = {
       name: "Island",
       title: "A voice, one shortcut away.",
       description:
-        "Ctrl + Shift + Space and the island at the top of the screen starts listening, outside the main window; Ctrl + Shift + M opens full-screen voice mode.",
+        "Say “Hey Nano” (or press Ctrl + Shift + Space) and the island at the top of the screen starts listening, outside the main window; Ctrl + Shift + M opens full-screen voice mode.",
       image: "/screenshots/nano-overlay.png",
       alt: "The NANO island at the top of the screen while listening, with a timer and live sound bars.",
       width: 1520,
@@ -241,10 +241,10 @@ export const en = {
         title: "Talk. Even outside the chat.",
         label: "VOICE + OVERLAY",
         description:
-          "A global hotkey, the island at the top of the screen and full-screen voice mode, in English or Portuguese. Spoken replies start at the first sentence, through Microsoft's Edge service; speech recognition on the PC installs in one click.",
+          "“Hey Nano”, a global hotkey, the island at the top of the screen and full-screen voice mode, in English or Portuguese. NANO stops listening when you stop talking, and spoken replies start at the first sentence, through Microsoft's Edge service.",
       },
     ],
-    note: "* Availability depends on your setup. Speech recognition on the PC uses a speech pack that NANO downloads in one click.",
+    note: "* Availability depends on your setup. Speech recognition runs on your PC and comes with the installer; its voice model (about 480 MB) downloads once, when you turn voice on.",
   },
   privacy: {
     eyebrow: "Privacy & security",
@@ -312,13 +312,13 @@ export const en = {
         status: "NOW",
         current: true,
         title: `Beta ${site.version}`,
-        text: "The island, a 3D Second Brain, deep research with sources, memory of old conversations, the phone camera, encrypted access away from home and automatic updates.",
+        text: "“Hey Nano” by voice, an island that stays hidden until it is needed, a 3D Second Brain, deep research with sources, memory of old conversations, the phone camera, encrypted access away from home and automatic updates.",
       },
       {
         status: "NEXT",
         current: false,
         title: "Coming next.",
-        text: "Call NANO by voice with “Hey Nano” and say the request in the same breath, listening that stops when you stop talking, and an island that stays hidden until you call it. Then a signed installer and the Android app on the Play Store.",
+        text: "A signed installer, the Android app on the Play Store, and more of NANO on the phone away from home.",
       },
       {
         status: "EVOLVING",
@@ -425,7 +425,7 @@ export const en = {
       {
         label: "ISLAND",
         title: "A quiet island on screen.",
-        text: "A small island at the top of the screen shows what NANO is doing, your reminders, PC alerts and the music that is playing.",
+        text: "A small island at the top of the screen shows what NANO is doing, your reminders, PC alerts and the music that is playing, and stays hidden the rest of the time.",
       },
       {
         label: "RESEARCH",
@@ -546,7 +546,7 @@ export const en = {
         alt: "The island opened as a music player: cover, song, progress bar and controls.",
       },
     ],
-    note: "Coming next: the island stays hidden until it is needed, or until you push the mouse to the top centre of the screen, then slides away on its own. In Beta 4, ambient mode can be switched off in Settings.",
+    note: "The island stays hidden until it is needed, or until you push the mouse to the top centre of the screen, then slides away on its own. Want it on screen all the time? Tray menu → Keep the island on screen.",
   },
   footer: {
     back: "NANO — back to top",
