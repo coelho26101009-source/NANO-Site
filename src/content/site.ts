@@ -1,5 +1,5 @@
 const repository = "https://github.com/coelho26101009-source/Nano_Assistant";
-const version = "0.4.0-beta.2";
+const version = "0.4.0-beta.3";
 
 export const site = {
   name: "NANO",

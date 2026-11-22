@@ -125,7 +125,7 @@ export const pt: Copy = {
       name: "Ilha",
       title: "Uma voz ao alcance de um atalho.",
       description:
-        "Ctrl + Shift + Espaço e a ilha no topo do ecrã começa a ouvir, fora da janela principal; Ctrl + Shift + M abre o modo de voz em ecrã inteiro.",
+        "Diz “Ei Nano” (ou carrega em Ctrl + Shift + Espaço) e a ilha no topo do ecrã começa a ouvir, fora da janela principal; Ctrl + Shift + M abre o modo de voz em ecrã inteiro.",
       image: "/screenshots/nano-overlay-pt.png",
       alt: "A ilha do NANO no topo do ecrã a ouvir, com um contador e barras de som ao vivo.",
       width: 1520,
@@ -240,10 +240,10 @@ export const pt: Copy = {
         title: "Fala. Mesmo fora do chat.",
         label: "VOZ + OVERLAY",
         description:
-          "Uma hotkey global, a ilha no topo do ecrã e um modo de voz em ecrã inteiro, em português ou inglês. As respostas faladas começam logo na primeira frase, através do serviço Edge da Microsoft; o reconhecimento de fala no PC instala-se com um clique.",
+          "“Ei Nano”, uma hotkey global, a ilha no topo do ecrã e um modo de voz em ecrã inteiro, em português ou inglês. O NANO pára de ouvir quando acabas de falar, e as respostas faladas começam logo na primeira frase, através do serviço Edge da Microsoft.",
       },
     ],
-    note: "* A disponibilidade depende da configuração. O reconhecimento de fala no PC usa um pacote de voz que o NANO descarrega com um clique.",
+    note: "* A disponibilidade depende da configuração. O reconhecimento de fala corre no teu PC e já vem no instalador; o modelo de voz (cerca de 480 MB) descarrega-se uma vez, quando ligas a voz.",
   },
   privacy: {
     eyebrow: "Privacidade & segurança",
@@ -312,13 +312,13 @@ export const pt: Copy = {
         status: "AGORA",
         current: true,
         title: `Beta ${site.version}`,
-        text: "A ilha, um Segundo Cérebro em 3D, investigação profunda com fontes, memória de conversas antigas, a câmara do telemóvel, acesso cifrado fora de casa e atualizações automáticas.",
+        text: "“Ei Nano” pela voz, uma ilha escondida até ser precisa, um Segundo Cérebro em 3D, investigação profunda com fontes, memória de conversas antigas, a câmara do telemóvel, acesso cifrado fora de casa e atualizações automáticas.",
       },
       {
         status: "A SEGUIR",
         current: false,
         title: "O que vem a seguir.",
-        text: "Chamar o NANO pela voz com “Ei Nano” e dizer logo o pedido, ouvir que pára quando acabas de falar, e uma ilha escondida até a chamares. Depois, instalador assinado e a app Android na Play Store.",
+        text: "Instalador assinado, a app Android na Play Store e mais NANO no telemóvel fora de casa.",
       },
       {
         status: "A EVOLUIR",
@@ -425,7 +425,7 @@ export const pt: Copy = {
       {
         label: "ILHA",
         title: "Uma ilha discreta no ecrã.",
-        text: "Uma pequena ilha no topo do ecrã mostra o que o NANO está a fazer, os teus lembretes, avisos do PC e a música que está a tocar.",
+        text: "Uma pequena ilha no topo do ecrã mostra o que o NANO está a fazer, os teus lembretes, avisos do PC e a música que está a tocar, e fica escondida no resto do tempo.",
       },
       {
         label: "INVESTIGAÇÃO",
@@ -550,7 +550,7 @@ export const pt: Copy = {
         alt: "A ilha aberta como leitor de música: capa, música, barra de progresso e controlos.",
       },
     ],
-    note: "A seguir: a ilha fica escondida até ser precisa, ou até encostares o rato ao topo do ecrã, ao centro, e depois desliza para fora sozinha. Na Beta 4, o Modo ambiente pode ser desligado nas Definições.",
+    note: "A ilha fica escondida até ser precisa, ou até encostares o rato ao topo do ecrã, ao centro, e depois desliza para fora sozinha. Queres vê-la sempre? Menu da bandeja → Ilha sempre no ecrã.",
   },
   footer: {
     back: "NANO — voltar ao início",
