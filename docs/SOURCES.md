@@ -23,10 +23,12 @@ Copied from the above main commit into `public/brand` and `public/screenshots`. 
 
 Screenshots: `nano-home.png`, `nano-thinking.png`, `nano-conversation.png`, `nano-brain.png`, `nano-overlay.png`. These are official demonstration-profile captures, not fabricated interfaces. The Brain has three demonstration nodes and two real relationships. All core assets are served locally.
 
-The cinematic layer adds no third-party asset. Its laptop is procedural geometry written for this site (no external model, texture, HDR or licence), unbranded; the key legends (US layout) are drawn on a canvas at run time. The laptop still in `public/images/nano-laptop-*.webp` is rendered from that same model by `scripts/render-laptop-still.mjs`. Everything shown on its display is the official captures above, unmodified; the voice capsule is the official overlay capture, cropped by CSS to the capsule (its light demo backdrop is not shown).
+The cinematic layer adds no third-party asset. Its laptop is procedural geometry written for this site (no external model, texture, HDR or licence), unbranded; the key legends (US layout) are drawn on a canvas at run time. The laptop still in `public/images/nano-laptop-*.webp` is rendered from that same model by `scripts/render-laptop-still.mjs`. Everything shown on its display is the official captures above, unmodified; the voice capsule is the official overlay capture (the island while listening), cropped by CSS to exactly the pill.
 
 The image-quality pass adds responsive lossless WebP encodings of these same files in `public/images/`. Original PNGs remain unchanged, including the corrected symbol's alpha. See [image quality review](IMAGE_QUALITY.md) for source dimensions, compression comparisons, responsive sizing and native pixel/alpha verification.
 
 Creator identity (`site.creator`): name Simão Coelho and description "Programador português de 16 anos", as provided by the creator on 2026-10-02, with the public repository owner handle `coelho26101009-source`. No other biographical facts are stated.
 
 Fonts: Inter Tight, Instrument Serif and JetBrains Mono (all SIL Open Font License), copied from Simão's personal site (`simao-site`) and served locally from `src/app/fonts`.
+
+Creator portrait (`public/images/simao-coelho-*.webp`): black-and-white photo supplied by Simão on 2026-11-22 for the About section, cropped square and shown in a circle.

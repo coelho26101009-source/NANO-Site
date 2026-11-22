@@ -1039,14 +1039,6 @@ kbd {
   flex-direction: column;
   align-items: flex-start;
 }
-.story-monogram {
-  font-size: 130px;
-  line-height: 1;
-  letter-spacing: -0.12em;
-  color: #657286;
-  margin-top: 35px;
-  font-weight: 450;
-}
 .creator {
   margin-top: 40px;
   padding-top: 22px;
@@ -2226,11 +2218,6 @@ kbd {
   .story-aside > .eyebrow {
     grid-column: 1/-1;
     margin-bottom: 25px;
-  }
-  .story-monogram {
-    font-size: 63px;
-    margin-top: 0;
-    align-self: center;
   }
   .creator {
     margin: 0;

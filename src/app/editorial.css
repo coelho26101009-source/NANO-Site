@@ -422,6 +422,7 @@ h3 {
   letter-spacing: -0.02em;
 }
 .marquee-word.outline {
+  font-family: var(--font-outline), var(--font-sans), sans-serif;
   color: transparent;
   -webkit-text-stroke: 1.2px var(--text);
 }
@@ -520,6 +521,26 @@ h3 {
 .faq-item summary {
   font-size: 18px;
   letter-spacing: -0.02em;
+}
+
+/* ── Creator portrait (replaces the "N." monogram) ────────────────────── */
+.story-portrait {
+  display: block;
+  width: 160px;
+  height: 160px;
+  margin-top: 35px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--line);
+  box-shadow: 0 30px 80px -40px rgba(165, 200, 255, 0.3);
+}
+@media (max-width: 700px) {
+  .story-portrait {
+    width: 64px;
+    height: 64px;
+    margin-top: 0;
+    align-self: center;
+  }
 }
 
 /* ── Cursor (fine pointer only) ───────────────────────────────────────── */

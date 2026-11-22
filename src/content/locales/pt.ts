@@ -284,6 +284,8 @@ export const pt: Copy = {
   story: {
     eyebrow: "Uma ideia pessoal",
     createdBy: "CRIADO POR",
+    photoAlt:
+      "Fotografia a preto e branco do Simão Coelho, a sorrir, de camisa branca",
     role: "Programador português de 16 anos",
     onGithub: " no GitHub",
     independent: "Projeto independente",

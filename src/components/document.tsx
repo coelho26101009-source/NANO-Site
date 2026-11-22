@@ -40,6 +40,14 @@ const mono = localFont({
   variable: "--font-mono",
   display: "swap",
 });
+// Inter Tight fixed at 600 with its overlapping contours merged: the outlined
+// words of the band show no inner lines (a variable font's overlaps would).
+const outline = localFont({
+  src: "../app/fonts/inter-tight-latin-600-outline.woff2",
+  weight: "600",
+  variable: "--font-outline",
+  display: "swap",
+});
 
 /** The <html> shell shared by the English (`/`) and Portuguese (`/pt`) root layouts. */
 export function Document({
@@ -53,7 +61,7 @@ export function Document({
     // The boot script sets data-cinema before hydration; nothing else differs.
     <html
       lang={copy[locale].htmlLang}
-      className={`${sans.variable} ${serif.variable} ${mono.variable}`}
+      className={`${sans.variable} ${serif.variable} ${mono.variable} ${outline.variable}`}
       suppressHydrationWarning
     >
       {/* eslint-disable-next-line @next/next/no-head-element -- this is the App Router root layout shell */}

@@ -285,6 +285,8 @@ export const en = {
   story: {
     eyebrow: "A personal idea",
     createdBy: "CREATED BY",
+    photoAlt:
+      "Black-and-white photo of Simão Coelho, smiling, in a white shirt",
     role: "16-year-old developer from Portugal",
     onGithub: " on GitHub",
     independent: "Independent project",
