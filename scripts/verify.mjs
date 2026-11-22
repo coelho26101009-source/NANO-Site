@@ -116,7 +116,7 @@ try {
     assert.ok(metadata.description);
     assert.ok(metadata.ogImage?.includes("opengraph-image"));
     assert.equal(metadata.twitter, "summary_large_image");
-    assert.equal(metadata.schema[0].softwareVersion, "0.4.0-beta.1");
+    assert.equal(metadata.schema[0].softwareVersion, "0.4.0-beta.2");
     assert.equal(metadata.schema[1]["@type"], "FAQPage");
     assert.ok(metadata.schema[1].mainEntity.length >= 6);
   });
