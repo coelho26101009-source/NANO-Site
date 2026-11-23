@@ -40,7 +40,22 @@ export function buildMetadata(locale: Locale): Metadata {
       title: t.meta.title,
       description: t.meta.description,
     },
-    icons: { icon: "/brand/nano-symbol.png", apple: "/brand/nano-symbol.png" },
+    // Square icons: Google shows a site's favicon in results only when it is
+    // square (a multiple of 48 px); the old 360×289 symbol was not.
+    icons: {
+      icon: [
+        { url: "/favicon.ico", sizes: "48x48" },
+        { url: "/icon-96.png", type: "image/png", sizes: "96x96" },
+        { url: "/icon-192.png", type: "image/png", sizes: "192x192" },
+      ],
+      apple: { url: "/apple-touch-icon.png", sizes: "180x180" },
+    },
+    manifest: "/manifest.webmanifest",
+    keywords: [...t.meta.keywords],
+    category: "technology",
+    ...(site.googleVerification
+      ? { verification: { google: site.googleVerification } }
+      : {}),
   };
 }
 

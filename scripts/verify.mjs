@@ -108,6 +108,10 @@ try {
     description: document.querySelector('meta[name="description"]')?.content,
     ogImage: document.querySelector('meta[property="og:image"]')?.content,
     twitter: document.querySelector('meta[name="twitter:card"]')?.content,
+    icon: document.querySelector('link[rel="icon"]')?.getAttribute("href"),
+    manifest: document
+      .querySelector('link[rel="manifest"]')
+      ?.getAttribute("href"),
     schema: JSON.parse(
       document.querySelector('script[type="application/ld+json"]').textContent,
     ),
@@ -118,6 +122,11 @@ try {
     assert.equal(metadata.twitter, "summary_large_image");
     assert.equal(metadata.schema[0].softwareVersion, "0.4.0-beta.3");
     assert.equal(metadata.schema[1]["@type"], "FAQPage");
+    // Site name for Google results, and a square favicon (Google ignores others).
+    assert.equal(metadata.schema[2]["@type"], "WebSite");
+    assert.equal(metadata.schema[2].name, "NANO");
+    assert.equal(metadata.icon, "/favicon.ico");
+    assert.equal(metadata.manifest, "/manifest.webmanifest");
     assert.ok(metadata.schema[1].mainEntity.length >= 6);
   });
 

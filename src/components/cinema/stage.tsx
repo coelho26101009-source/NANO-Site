@@ -98,7 +98,7 @@ export default function CinemaStage({ onFail }: StageProps) {
           left: 0,
         },
         frameloop: "demand",
-        dpr: [1, 1.5],
+        dpr: [1, 2],
         gl: {
           antialias: true,
           alpha: true,

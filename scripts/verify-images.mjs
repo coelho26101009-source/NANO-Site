@@ -49,7 +49,10 @@ try {
       asset.variants.every(
         (variant, index) =>
           // The 768 px tier of a desktop capture is kept on purpose: the 3D
-          // display reads from it (see scripts/generate-images.mjs).
+          // display reads from it (see scripts/generate-images.mjs). The four
+          // captures shown on the laptop keep their whole ladder from 768 up.
+          (/nano-(home|thinking|conversation|brain)\.png$/.test(source) &&
+            variant.width >= 768) ||
           (source.startsWith("/screenshots/") &&
             !source.includes("nano-phone") &&
             variant.width === 768) ||

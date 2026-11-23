@@ -19,6 +19,16 @@
         "bytes": 32680
       },
       {
+        "width": 1200,
+        "src": "/images/nano-home-1200-43b91dcdc0.webp",
+        "bytes": 48152
+      },
+      {
+        "width": 1600,
+        "src": "/images/nano-home-1600-ad63613697.webp",
+        "bytes": 73122
+      },
+      {
         "width": 1920,
         "src": "/images/nano-home-1920-f292f6c56a.webp",
         "bytes": 36734
@@ -38,6 +48,21 @@
         "width": 768,
         "src": "/images/nano-thinking-768-52f32e1697.webp",
         "bytes": 71880
+      },
+      {
+        "width": 960,
+        "src": "/images/nano-thinking-960-358c3def92.webp",
+        "bytes": 97056
+      },
+      {
+        "width": 1200,
+        "src": "/images/nano-thinking-1200-1d5e49b6c5.webp",
+        "bytes": 143754
+      },
+      {
+        "width": 1600,
+        "src": "/images/nano-thinking-1600-3fda827fe0.webp",
+        "bytes": 217192
       },
       {
         "width": 1920,
@@ -61,6 +86,21 @@
         "bytes": 27194
       },
       {
+        "width": 960,
+        "src": "/images/nano-conversation-960-0131be14de.webp",
+        "bytes": 37498
+      },
+      {
+        "width": 1200,
+        "src": "/images/nano-conversation-1200-9febf1aafd.webp",
+        "bytes": 53562
+      },
+      {
+        "width": 1600,
+        "src": "/images/nano-conversation-1600-fb657b106f.webp",
+        "bytes": 79606
+      },
+      {
         "width": 1920,
         "src": "/images/nano-conversation-1920-cc38a0a5c4.webp",
         "bytes": 36152
@@ -80,6 +120,21 @@
         "width": 768,
         "src": "/images/nano-brain-768-23f155d3b3.webp",
         "bytes": 44078
+      },
+      {
+        "width": 960,
+        "src": "/images/nano-brain-960-95871925a5.webp",
+        "bytes": 52524
+      },
+      {
+        "width": 1200,
+        "src": "/images/nano-brain-1200-c39917bdc3.webp",
+        "bytes": 82896
+      },
+      {
+        "width": 1600,
+        "src": "/images/nano-brain-1600-857ca12036.webp",
+        "bytes": 135064
       },
       {
         "width": 1920,

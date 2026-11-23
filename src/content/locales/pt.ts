@@ -8,9 +8,20 @@ export const pt: Copy = {
   ogLocale: "pt_PT",
   path: "/pt",
   meta: {
-    title: "NANO — Assistente pessoal de IA para Windows",
+    title: "NANO Assistant · Assistente pessoal de IA grátis para Windows",
     description:
-      "O teu assistente pessoal de IA para Windows, gratuito e de código aberto, com uma app para Android. Conversa, memória, voz e interação com o PC, com modelos locais ou cloud à tua escolha. Experimenta a Beta 4 do NANO.",
+      "O NANO é o teu assistente pessoal de IA para Windows, gratuito e de código aberto, com uma app para Android. Conversa, memória, voz e interação com o PC, com modelos locais ou cloud à tua escolha. Experimenta a Beta 4 do NANO.",
+    keywords: [
+      "NANO",
+      "NANO Assistant",
+      "NANO IA",
+      "assistente de IA para Windows",
+      "assistente pessoal",
+      "assistente de IA grátis",
+      "IA local",
+      "assistente de voz",
+      "assistente português",
+    ],
     ogEyebrow: "NANO · PARA WINDOWS",
     ogTitle: "O teu assistente pessoal.",
     ogTagline: "Local quando queres. Cloud quando precisas.",

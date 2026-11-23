@@ -68,7 +68,7 @@ h3 {
 }
 .line > span {
   display: inline-block;
-  transition: transform 1.25s var(--ease-expo);
+  transition: transform 1.1s var(--ease-expo);
 }
 :is(h1, h2) .line,
 :is(h1, h2) .line > span {
@@ -81,7 +81,7 @@ h3 {
   letter-spacing: -0.015em;
 }
 .line-serif > span {
-  transition-delay: 0.08s;
+  transition-delay: 0.09s;
 }
 @media (prefers-reduced-motion: no-preference) {
   html[data-motion="ready"] [data-reveal-state="pending"] .line > span {
@@ -447,16 +447,9 @@ h3 {
 }
 
 /* ── Scroll effects (scroll-effects.tsx, never with reduced motion) ───── */
-.frame-open {
-  --close: calc(1 - var(--open, 1));
-  clip-path: inset(calc(var(--close) * 9%) calc(var(--close) * 5%) round 14px);
-}
-.frame-open :is(img, video) {
-  scale: calc(1 + var(--close) * 0.08);
-}
 .magnetic {
   transition:
-    translate 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.3),
+    translate 0.6s var(--ease-expo),
     transform 0.4s var(--ease-expo),
     background-color 0.4s var(--ease-expo),
     color 0.4s var(--ease-expo),

@@ -10,6 +10,18 @@ export const site = {
     handle: "coelho26101009-source",
   },
   repository,
+  /**
+   * Google Search Console "HTML tag" code (only the content="…" value), or
+   * set GOOGLE_SITE_VERIFICATION on Vercel. Empty until Simão creates the
+   * property; see docs/GOOGLE.md.
+   */
+  googleVerification: process.env.GOOGLE_SITE_VERIFICATION || "",
+  /** Public profiles of the creator, for search engines (same as his site). */
+  profiles: [
+    "https://github.com/coelho26101009-source",
+    "https://x.com/SimoCoelho27618",
+    "https://simao-site.vercel.app",
+  ],
   release: `${repository}/releases/tag/v${version}`,
   checksum: `${repository}/releases/download/v${version}/SHA256SUMS.txt`,
   installer: `Nano-Setup-${version}-x64.exe`,
