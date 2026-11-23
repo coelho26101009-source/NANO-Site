@@ -12,10 +12,12 @@ export const site = {
   repository,
   /**
    * Google Search Console "HTML tag" code (only the content="…" value), or
-   * set GOOGLE_SITE_VERIFICATION on Vercel. Empty until Simão creates the
-   * property; see docs/GOOGLE.md.
+   * set GOOGLE_SITE_VERIFICATION on Vercel. Set 2026-11-23 from Simão's
+   * Search Console property; see docs/GOOGLE.md.
    */
-  googleVerification: process.env.GOOGLE_SITE_VERIFICATION || "",
+  googleVerification:
+    process.env.GOOGLE_SITE_VERIFICATION ||
+    "nc3v6XNnBadFG0lIoe0WIL64VZ51JPsFJQqxSNTNBuU",
   /** Public profiles of the creator, for search engines (same as his site). */
   profiles: [
     "https://github.com/coelho26101009-source",
