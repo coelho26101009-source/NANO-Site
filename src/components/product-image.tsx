@@ -2,9 +2,9 @@ import Image from "next/image";
 import imageAssets from "@/content/images.json";
 
 export const captureSizes =
-  "(max-width: 700px) calc(100vw - 40px), (max-width: 1200px) calc(100vw - 80px), min(calc(100vw - 96px), 1200px)";
+  "(max-width: 700px) calc(100vw - 40px), (max-width: 1200px) calc(100vw - 80px), min(calc(100vw - 96px), 1440px)";
 export const showcaseSizes =
-  "(min-width: 1100px) and (min-height: 760px) and (prefers-reduced-motion: no-preference) min(calc(100vw - 96px), calc((100svh - 340px) * 1.860465), 1200px), " +
+  "(min-width: 1100px) and (min-height: 760px) and (prefers-reduced-motion: no-preference) min(calc(100vw - 96px), calc((100svh - 340px) * 1.860465), 1440px), " +
   captureSizes;
 
 /** Lossless srcset for UI text. Next Image retains dimensions and lazy loading,

@@ -7,6 +7,12 @@ const sharp = createRequire(require.resolve("next/package.json"))("sharp");
 const destination = "public/images";
 await mkdir(destination, { recursive: true });
 const manifest = {};
+const CINEMA_CAPTURES = new Set([
+  "nano-home",
+  "nano-thinking",
+  "nano-conversation",
+  "nano-brain",
+]);
 for (const [folder, names] of [
   [
     "screenshots",
@@ -54,6 +60,11 @@ for (const [folder, names] of [
       await writeFile(`public${path}`, buffer);
       variants.push({ width: size, src: path, bytes: buffer.length });
     }
+    // The four captures shown on the 3D laptop keep every step of the ladder:
+    // the compositor draws that screen without mipmaps, so it must always find
+    // a variant just above its size on screen (a 1920 source drawn at 0.4x
+    // shimmers and looks blurry), even when that variant costs more bytes.
+    const cinemaLadder = CINEMA_CAPTURES.has(name);
     // Downsampling flat UI can add colours and cost more than the full-size image.
     // Omit any derivative that is larger in bytes than a higher-resolution option.
     // Exception: a capture always keeps its 768 px variant, the smallest tier
@@ -62,6 +73,7 @@ for (const [folder, names] of [
     // shows the 1920 source at about 0.3x, where sampling aliases.
     const efficient = variants.filter(
       (variant, index) =>
+        (cinemaLadder && variant.width >= 768) ||
         (folder === "screenshots" &&
           !name.startsWith("nano-phone") &&
           variant.width === 768) ||

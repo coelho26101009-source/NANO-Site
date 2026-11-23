@@ -1,41 +1,50 @@
 :root {
   --motion-fast: 300ms;
-  --motion-base: 620ms;
-  --motion-slow: 860ms;
-  --motion-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --motion-base: 760ms;
+  --motion-slow: 1000ms;
+  /* Long, soft landing (ease-out quint): things arrive and come to rest. */
+  --motion-ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* Enhancement-only: no JS, unsupported observer or reduced motion leaves HTML complete. */
+/* Enhancement-only: no JS, unsupported observer or reduced motion leaves HTML complete.
+   One quiet gesture per element: a short fade with a few pixels of lift. No
+   zooms, no clipping and nothing scrubbed by the scroll wheel. */
 @media (prefers-reduced-motion: no-preference) {
   html[data-motion="ready"] [data-reveal] {
     transition:
-      opacity var(--motion-base) var(--motion-ease),
-      translate var(--motion-base) var(--motion-ease),
-      scale var(--motion-base) var(--motion-ease);
+      opacity var(--motion-base) cubic-bezier(0.33, 1, 0.68, 1),
+      translate var(--motion-slow) var(--motion-ease),
+      scale var(--motion-slow) var(--motion-ease);
     transition-delay: var(--reveal-delay, 0ms);
   }
   html[data-motion="ready"] [data-reveal-state="pending"] {
     opacity: 0;
-    translate: 0 24px;
+    translate: 0 14px;
   }
   /* Entrance offsets are cosmetic: never let scroll anchoring follow them
-     (a mid-page reload would otherwise land 24px off). Their untransformed
+     (a mid-page reload would otherwise land a few px off). Their untransformed
      containers still anchor real layout changes. */
   html[data-motion="ready"] [data-reveal] {
     overflow-anchor: none;
   }
+  /* Pictures: a slower fade and the faintest settle, never a zoom. */
   html[data-motion="ready"] [data-reveal="depth"] {
-    transition-duration: var(--motion-slow);
+    transition-duration: 1100ms, 1300ms, 1300ms;
   }
   html[data-motion="ready"] [data-reveal="depth"][data-reveal-state="pending"] {
-    scale: 0.982;
-    translate: 0 28px;
-  }
-  html[data-motion="ready"] [data-reveal="calm"] {
-    transition-duration: var(--motion-slow);
+    scale: 0.992;
+    translate: 0 18px;
   }
   html[data-motion="ready"] [data-reveal="calm"][data-reveal-state="pending"] {
-    translate: 0 12px;
+    translate: 0 6px;
+  }
+  /* Titles: the block only fades; each line rises from its own mask
+     (editorial.css), so the heading moves once, not twice. */
+  html[data-motion="ready"] [data-reveal="title"] {
+    transition-duration: 600ms;
+  }
+  html[data-motion="ready"] [data-reveal="title"][data-reveal-state="pending"] {
+    translate: none;
   }
   /* Never make a button, link or its containing group invisible while waiting. */
   html[data-motion="ready"] [data-reveal-interactive="true"],
@@ -48,12 +57,11 @@
     transition: none;
   }
   .showcase [role="tabpanel"]:not([hidden]) .screenshot-frame {
-    animation: screenshot-settle 460ms var(--motion-ease) both;
+    animation: screenshot-settle 420ms ease-out both;
   }
   @keyframes screenshot-settle {
     from {
-      opacity: 0.35;
-      transform: translateY(8px) scale(0.995);
+      opacity: 0.4;
     }
     to {
       opacity: 1;
@@ -225,11 +233,14 @@ html[data-motion="static"] .showcase-sticky {
   html[data-motion="ready"] [data-reveal-state="pending"],
   html[data-motion="ready"] [data-reveal="depth"][data-reveal-state="pending"],
   html[data-motion="ready"] [data-reveal="calm"][data-reveal-state="pending"] {
-    translate: 0 10px;
+    translate: 0 8px;
     scale: 1;
   }
+  html[data-motion="ready"] [data-reveal="title"][data-reveal-state="pending"] {
+    translate: none;
+  }
   html[data-motion="ready"] [data-reveal] {
-    transition-duration: 480ms;
+    transition-duration: 560ms;
     transition-delay: 0ms;
   }
 }

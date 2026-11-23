@@ -14,6 +14,7 @@ import { WhatsNew } from "@/components/whats-new";
 import { Phone } from "@/components/phone";
 import { Island } from "@/components/island";
 import { site } from "@/content/site";
+import { productionUrl } from "@/lib/metadata";
 import { copy, type Locale } from "@/content/i18n";
 import { ScrollMotion } from "@/components/scroll-motion";
 import { CinemaLoader } from "@/components/cinema/loader";
@@ -24,11 +25,30 @@ import { ScrollEffects } from "@/components/scroll-effects";
 
 export function HomePage({ locale }: { locale: Locale }) {
   const t = copy[locale];
+  // Absolute URLs only when the production address is known (never invented).
+  const home = productionUrl ? new URL(t.path, productionUrl).href : undefined;
+  const absolute = (path: string) =>
+    productionUrl ? new URL(path, productionUrl).href : undefined;
+  const creator = {
+    "@type": "Person",
+    name: site.creator.name,
+    url: `https://github.com/${site.creator.handle}`,
+    sameAs: site.profiles,
+  };
   const jsonLd = [
     {
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
       name: "NANO",
+      alternateName: "NANO Assistant",
+      ...(home ? { url: home } : {}),
+      ...(absolute("/icon-512.png")
+        ? {
+            image: absolute("/icon-512.png"),
+            screenshot: absolute("/screenshots/nano-home.png"),
+          }
+        : {}),
+      sameAs: [site.repository],
       description: t.meta.description,
       inLanguage: t.htmlLang,
       operatingSystem: "Windows 10, Windows 11 (x64), Android 7+",
@@ -40,11 +60,7 @@ export function HomePage({ locale }: { locale: Locale }) {
       license: site.links.license,
       isAccessibleForFree: true,
       offers: { "@type": "Offer", price: "0", priceCurrency: "EUR" },
-      author: {
-        "@type": "Person",
-        name: site.creator.name,
-        url: `https://github.com/${site.creator.handle}`,
-      },
+      author: creator,
     },
     {
       "@context": "https://schema.org",
@@ -55,6 +71,16 @@ export function HomePage({ locale }: { locale: Locale }) {
         name: item.q,
         acceptedAnswer: { "@type": "Answer", text: item.a },
       })),
+    },
+    {
+      // Tells Google the site's name ("NANO") for the name line in results.
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      name: "NANO",
+      alternateName: ["NANO Assistant", "NANO AI assistant"],
+      ...(productionUrl ? { url: `${productionUrl}/` } : {}),
+      inLanguage: t.htmlLang,
+      publisher: creator,
     },
   ];
   return (

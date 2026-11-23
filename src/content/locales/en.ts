@@ -10,9 +10,20 @@ export const en = {
   ogLocale: "en_US",
   path: "/",
   meta: {
-    title: "NANO — Your personal AI assistant for Windows",
+    title: "NANO Assistant · Free personal AI assistant for Windows",
     description:
-      "A free, open-source personal AI assistant for Windows, with an Android companion app. Chat, memory, voice and PC control, with local or cloud models of your choice. Try NANO Beta 4.",
+      "NANO is a free, open-source personal AI assistant for Windows, with an Android companion app. Chat, memory, voice and PC control, with local or cloud models of your choice. Try NANO Beta 4.",
+    keywords: [
+      "NANO",
+      "NANO Assistant",
+      "NANO AI",
+      "AI assistant for Windows",
+      "personal AI assistant",
+      "free AI assistant",
+      "open-source AI assistant",
+      "local AI",
+      "voice assistant",
+    ],
     ogEyebrow: "NANO · FOR WINDOWS",
     ogTitle: "Your personal assistant.",
     ogTagline: "Local when you want. Cloud when you need.",

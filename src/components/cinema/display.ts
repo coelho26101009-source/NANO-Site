@@ -74,9 +74,11 @@ function facing(quad: Point[]) {
 }
 
 /**
- * Lossless variants from 768 px up, smallest first, at least ~1.45× apart:
- * a capture growing on screen (the Brain into the portal) then steps up once
- * or twice instead of downloading every intermediate size.
+ * Lossless variants from 768 px up, smallest first, at least ~1.2× apart
+ * (768, 960, 1200, 1600, 1920): whatever the laptop's size on screen, a
+ * variant sits just above it, so the display is downscaled by 0.8–1× and
+ * stays crisp. With wider steps a capture fell back to the 1920 source drawn
+ * at ~0.43×, where the compositor's sampling turns small UI text ragged.
  */
 function variantsFor(source: string): Variant[] {
   const asset = imageAssets[source as keyof typeof imageAssets];
@@ -84,7 +86,7 @@ function variantsFor(source: string): Variant[] {
   for (const item of [...asset.variants].reverse())
     if (
       kept.length === 0 ||
-      (item.width >= 768 && kept[0].width >= item.width * 1.45)
+      (item.width >= 768 && kept[0].width >= item.width * 1.2)
     )
       kept.unshift(item);
   return kept.map((item) => ({
@@ -111,7 +113,7 @@ export type DisplayFrame = {
  * without mipmaps, so upscaling a source softens UI text visibly, while a
  * downscale stays crisp down to about half size and aliases below it. Each
  * capture therefore uses the smallest variant at least as wide as the display
- * in device pixels (never upscaled), stepping down only well below half size.
+ * in device pixels (never upscaled), stepping down once it is well below it.
  */
 function idealTier(variants: Variant[], deviceWidth: number) {
   for (let index = 0; index < variants.length; index++)
@@ -121,7 +123,9 @@ function idealTier(variants: Variant[], deviceWidth: number) {
 function nextTier(variants: Variant[], current: number, deviceWidth: number) {
   const ideal = idealTier(variants, deviceWidth);
   if (ideal > current) return ideal;
-  return deviceWidth < variants[current].width * 0.42 ? ideal : current;
+  // Step back down once the display is clearly smaller than the variant
+  // (below ~0.62×, sampling starts to alias), not only below half size.
+  return deviceWidth < variants[current].width * 0.62 ? ideal : current;
 }
 
 /**

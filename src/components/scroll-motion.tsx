@@ -7,12 +7,12 @@ const reveals = [
   {
     selector:
       ".split-heading > div:first-child, .brain-heading > div:first-child, .centered, .capabilities-intro",
-    kind: "rise",
+    kind: "title",
   },
   {
     selector: ".split-heading > p, .brain-heading > div:last-child",
     kind: "rise",
-    delay: 90,
+    delay: 160,
   },
   { selector: ".laptop-still", kind: "depth" },
   { selector: ".showcase-tabs", kind: "calm" },
@@ -24,6 +24,8 @@ const reveals = [
   },
   { selector: ".brain-figure", kind: "depth", delay: 80 },
   { selector: ".island-stage", kind: "depth", delay: 80 },
+  { selector: ".whats-new-figures > *", kind: "depth", stagger: 90 },
+  { selector: ".phone-frame", kind: "depth", stagger: 90 },
   { selector: ".island-states > li", kind: "rise", stagger: 70 },
   { selector: ".brain-details > div", kind: "rise", stagger: 80 },
   { selector: ".mode", kind: "rise", stagger: 80 },
@@ -141,10 +143,10 @@ export function ScrollMotion() {
         if (element.classList.contains("hero")) {
           const progress = clamp(-rect.top / (rect.height * 0.85));
           element.style.setProperty("--hero-copy-y", `${progress * -18}px`);
-          element.style.setProperty("--hero-symbol-y", `${progress * 30}px`);
+          element.style.setProperty("--hero-symbol-y", `${progress * 20}px`);
           element.style.setProperty(
             "--hero-scale",
-            String(1 - progress * 0.035),
+            String(1 - progress * 0.02),
           );
           element.style.setProperty(
             "--hero-light",
@@ -178,11 +180,8 @@ export function ScrollMotion() {
           }
         } else if (element.classList.contains("brain-figure")) {
           const progress = clamp((height * 0.9 - rect.top) / (height * 0.72));
-          element.style.setProperty(
-            "--brain-tilt",
-            `${(1 - progress) * 3.5}deg`,
-          );
-          element.style.setProperty("--brain-y", `${(1 - progress) * 12}px`);
+          element.style.setProperty("--brain-tilt", `${(1 - progress) * 2}deg`);
+          element.style.setProperty("--brain-y", `${(1 - progress) * 8}px`);
           element.style.setProperty("--brain-light", String(progress * 0.7));
         } else if (element.classList.contains("modes-grid")) {
           const progress = clamp((height * 0.78 - rect.top) / (height * 0.72));
@@ -231,7 +230,7 @@ export function ScrollMotion() {
           for (const entry of entries)
             if (entry.isIntersecting) settle(entry.target as HTMLElement);
         },
-        { rootMargin: "0px 0px -12% 0px", threshold: 0 },
+        { rootMargin: "0px 0px -6% 0px", threshold: 0 },
       );
       elements.forEach((element) => {
         // Mid-page reloads, fast jumps and visible content never wait behind an observer.
@@ -279,7 +278,7 @@ export function ScrollMotion() {
           element.dataset.reveal = rule.kind;
           element.style.setProperty(
             "--reveal-delay",
-            `${"stagger" in rule ? Math.min(index * rule.stagger, 180) : "delay" in rule ? rule.delay : 0}ms`,
+            `${"stagger" in rule ? Math.min(index * rule.stagger, 240) : "delay" in rule ? rule.delay : 0}ms`,
           );
           if (
             element.matches(interactive) ||
