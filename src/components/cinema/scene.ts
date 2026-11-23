@@ -12,7 +12,7 @@ import {
 } from "./timeline";
 import { createCapsule, createDisplay, type DisplayFrame } from "./display";
 import { createEffects } from "./effects";
-import { createGlass } from "./glass";
+import { createGlassTable } from "./glass";
 import { capsuleArt } from "./capsule-art";
 
 const smooth = (x: number) => x * x * (3 - 2 * x);
@@ -63,25 +63,28 @@ export function createSceneController({
     return item;
   };
 
-  // Studio: reflections, two directional lights, the surface and a soft glow.
+  // Studio: reflections, two directional lights, the backdrop sweep, the
+  // glass table and a soft glow.
   const environment = own(createStudioEnvironment(renderer));
   scene.environment = environment.texture;
   const hemisphere = new THREE.HemisphereLight("#f2f3f5", "#060607", 0.12);
   const key = new THREE.DirectionalLight("#fff5ec", 1.2);
   key.position.set(-3, 5, 4);
-  const rim = new THREE.DirectionalLight("#eef3ff", 1.6);
+  const rim = new THREE.DirectionalLight("#f3f5f8", 1.6);
   rim.position.set(4, 2.5, -4);
   const surface = own(createSurface());
-  const { floor, shadow, glow } = surface;
+  const { backdrop, shadow, glow } = surface;
   const laptop = createLaptop();
   own(laptop);
   const world = new THREE.Group();
-  world.add(hemisphere, key, rim, floor, shadow, glow, laptop.group);
+  world.add(hemisphere, key, rim, backdrop, shadow, glow, laptop.group);
   scene.add(world);
   const effects = own(createEffects(laptop, world));
-  // The laptop rests on dark glass: a soft reflection of it, nothing else.
-  const glass = own(createGlass(() => [floor, shadow, glow, effects.pool]));
-  world.add(glass.mesh);
+  // The laptop rests on a smoked-glass waterfall table, which mirrors it.
+  const table = own(
+    createGlassTable(() => [backdrop, shadow, glow, effects.pool]),
+  );
+  world.add(table.group);
   const drawing = new THREE.Vector2();
 
   // DOM layers above the canvas.
@@ -258,10 +261,20 @@ export function createSceneController({
     rim.intensity = 1.6 * Math.min(1, light * 1.8);
     shadow.position.set(pose.x, 0.001 + Math.min(0, pose.y), pose.z);
     shadow.rotation.z = pose.yaw;
-    surface.update(light, s.presence * Math.max(0, 1 + pose.y * 1.5), s.portal);
+    // The studio sweep comes up with the laptop and dims with the room for
+    // the Brain moment (its caption sits over the sweep there).
+    surface.update(
+      still ? 0 : s.presence * s.body,
+      s.presence * Math.max(0, 1 + pose.y * 1.5),
+      s.portal,
+      pose.x,
+    );
+    const localLight = effects.update(s);
     renderer.getDrawingBufferSize(drawing);
-    glass.update(
-      still ? 0 : 0.42 * light,
+    table.update(
+      still ? 0 : s.table,
+      1,
+      localLight,
       pose.x,
       pose.z,
       pose.yaw,
@@ -269,7 +282,6 @@ export function createSceneController({
       drawing.y,
     );
 
-    effects.update(s);
     placeCamera(s, width, height);
     laptop.group.updateMatrixWorld(true);
 
@@ -376,7 +388,7 @@ export function createSceneController({
     process.env.NODE_ENV !== "production" &&
     new URLSearchParams(location.search).has("still");
   // The still keeps only the laptop and its contact shadow (page provides the room).
-  if (still) floor.visible = glow.visible = glass.mesh.visible = false;
+  if (still) glow.visible = false;
   (window as Window & { __nanoCinema?: typeof stats }).__nanoCinema = stats;
 
   return {
@@ -415,6 +427,7 @@ export function createSceneController({
           display: 0.002,
           capsule: 0,
           portal: 0,
+          table: 0,
         });
         Object.assign(s.modes, { local: 0, auto: 0, cloud: 0 });
       }
