@@ -4,42 +4,17 @@ import { radialTexture } from "./environment";
 import type { CinemaState } from "./timeline";
 
 /**
- * Explanatory light, not data. Orbit and routes are abstract
- * metaphors for the copy beside them; nothing here depicts real memories,
- * providers or traffic, and every value follows scroll time (no idle loop).
+ * Explanatory light, not data: soft, abstract metaphors for the copy beside
+ * them. No lines, rings or moving pulses; every value follows scroll time
+ * (no idle loop), and every change is a slow fade.
  *
- * LOCAL: an orbit of light that stays around the laptop (echoing the hero's
- *        orbits around the N): the request never leaves the device.
- * AUTO:  routes become available; the preferred one is active, and the orbit
- *        stays faintly lit because Ollama remains the last resort.
- * CLOUD: one chosen route only, reaching further out; the orbit is off.
+ * LOCAL: light rises from under the laptop through the glass, as if the
+ *        machine itself were glowing: the request never leaves the device.
+ * AUTO:  that light dims (Ollama stays the last resort) while a few distant,
+ *        out-of-focus lights appear behind: the available providers, the
+ *        preferred one a little brighter.
+ * CLOUD: only the chosen distant light remains, larger; the glass goes dark.
  */
-const routeVertex = /* glsl */ `
-  varying float vAlong;
-  varying float vFacing;
-  void main() {
-    vAlong = uv.x;
-    vec4 view = modelViewMatrix * vec4(position, 1.0);
-    vec3 n = normalize(normalMatrix * normal);
-    vFacing = abs(dot(n, normalize(-view.xyz)));
-    gl_Position = projectionMatrix * view;
-  }
-`;
-const routeFragment = /* glsl */ `
-  uniform float uIntensity;
-  uniform float uHead;
-  uniform float uPulse;
-  uniform vec3 uColor;
-  varying float vAlong;
-  varying float vFacing;
-  void main() {
-    float ends = smoothstep(0.0, 0.06, vAlong) * (1.0 - smoothstep(0.86, 1.0, vAlong));
-    float pulse = exp(-pow((vAlong - uHead) / 0.05, 2.0)) * uPulse;
-    float core = pow(vFacing, 1.4);
-    float alpha = uIntensity * ends * core * (0.32 + 1.1 * pulse);
-    gl_FragColor = vec4(uColor * alpha, alpha);
-  }
-`;
 const planeVertex = /* glsl */ `
   varying vec2 vPos;
   void main() {
@@ -47,52 +22,33 @@ const planeVertex = /* glsl */ `
     gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
   }
 `;
-// Orbit of light on the floor (plane xy: x = world x, y = -world z).
-// Widths are physical (distance to the ellipse), so the line keeps the same
-// fineness all round; a faint echo orbit recalls the two around the hero N.
-const orbitFragment = /* glsl */ `
-  uniform vec2 uRadii;
+// Light under the glass (plane xy: x = world x, y = -world z). Pure
+// gaussians: brightest under the deck, falling off with no edge at all.
+const poolFragment = /* glsl */ `
+  uniform vec2 uHalf;
   uniform float uIntensity;
-  uniform float uReveal;
+  uniform float uSpread;
   varying vec2 vPos;
   float ign(vec2 p) { return fract(52.9829189 * fract(dot(p, vec2(0.06711056, 0.00583715)))); }
-  // Approximate distance (world units) from vPos to an ellipse with radii r.
-  float ellipse(vec2 p, vec2 r) {
-    float k = length(p / r);
-    vec2 g = p / (r * r) / max(k, 1e-4);
-    return (k - 1.0) / max(length(g), 1e-4);
-  }
   void main() {
-    float d = ellipse(vPos, uRadii);
-    float echo = ellipse(vPos, uRadii * 1.17);
-    // Lit from the front-left like the rest of the scene; dimmer at the back.
-    vec2 dir = normalize(vPos + 1e-4);
-    float facing = dot(dir, normalize(vec2(-0.45, -1.0)));
-    float light = mix(0.32, 1.0, smoothstep(-1.0, 0.9, facing));
-    // Draws itself from the front round to the back as the chapter arrives.
-    float around = acos(clamp(dot(dir, vec2(0.0, -1.0)), -1.0, 1.0)) / 3.14159265;
-    float drawn = 1.0 - smoothstep(uReveal * 1.12 - 0.12, uReveal * 1.12, around);
-    float core = exp(-pow(d / 0.011, 2.0));
-    float halo = exp(-pow(d / 0.1, 2.0)) * 0.3;
-    float echoLine = exp(-pow(echo / 0.008, 2.0)) * 0.22;
-    float k = length(vPos / uRadii);
-    float pool = exp(-k * k * 2.2) * 0.05;
-    vec3 coreColor = vec3(0.55, 0.68, 0.98);
-    vec3 haloColor = vec3(0.13, 0.25, 0.68);
-    // Convert colours (not premultiplied amounts) to sRGB, then add light.
-    vec3 coreOut = linearToOutputTexel(vec4(coreColor, 1.0)).rgb;
-    vec3 haloOut = linearToOutputTexel(vec4(haloColor, 1.0)).rgb;
-    float fade = light * drawn * uIntensity;
-    vec3 color = (coreOut * (core + echoLine * drawn) + haloOut * (halo + pool)) * fade;
-    float alpha = (core + halo + pool + echoLine) * fade;
-    gl_FragColor = vec4(color, alpha);
-    gl_FragColor.rgb += (ign(gl_FragCoord.xy) - 0.5) / 255.0;
-    gl_FragColor = max(gl_FragColor, 0.0);
+    // Distance outside the laptop's footprint (rounded rectangle).
+    vec2 q = abs(vPos) - uHalf + 0.25;
+    float d = length(max(q, 0.0)) + min(max(q.x, q.y), 0.0) - 0.25;
+    float near = exp(-pow(max(d, 0.0) / (0.7 * uSpread), 2.0));
+    float wide = exp(-pow(max(d + 0.6, 0.0) / (1.9 * uSpread), 2.0));
+    vec3 inner = linearToOutputTexel(vec4(0.46, 0.62, 1.0, 1.0)).rgb;
+    vec3 outer = linearToOutputTexel(vec4(0.10, 0.20, 0.58, 1.0)).rgb;
+    vec3 color = (inner * near * 0.2 + outer * wide * 0.3) * uIntensity;
+    color += (ign(gl_FragCoord.xy) - 0.5) / 255.0;
+    gl_FragColor = vec4(max(color, 0.0), 0.0);
   }
 `;
-const COLOR = new THREE.Color("#a9c6ff");
-/** Where routes leave the laptop: just behind the top of the open lid (laptop space). */
-const ROUTE_ORIGIN = new THREE.Vector3(0, 1.93, -1.5);
+/** Distant lights for AUTO / CLOUD, relative to the laptop's position. */
+const LIGHTS = [
+  { at: [-3.4, 2.2, -9], size: 2.6, preferred: false },
+  { at: [3.1, 2.9, -10], size: 3.2, preferred: true },
+  { at: [0.4, 3.6, -13], size: 2.2, preferred: false },
+] as const;
 
 export function createEffects(laptop: Laptop, world: THREE.Group) {
   const disposables: { dispose(): void }[] = [];
@@ -100,133 +56,87 @@ export function createEffects(laptop: Laptop, world: THREE.Group) {
     disposables.push(item);
     return item;
   };
-  // Custom shaders output premultiplied colour: add it as is.
-  const premultiplied = {
-    transparent: true,
-    depthWrite: false,
-    blending: THREE.CustomBlending,
-    blendSrc: THREE.OneFactor,
-    blendDst: THREE.OneFactor,
-  } as const;
-  // Gradient textures are straight alpha: weight by alpha before adding,
-  // so near-transparent texels never contribute colour noise.
-  const additive = {
-    transparent: true,
-    depthWrite: false,
-    blending: THREE.AdditiveBlending,
-  } as const;
-  const shader = (
-    fragmentShader: string,
-    uniforms: Record<string, THREE.IUniform>,
-  ) =>
-    own(
-      new THREE.ShaderMaterial({
-        uniforms,
-        vertexShader: planeVertex,
-        fragmentShader,
-        ...premultiplied,
-      }),
-    );
 
-  // LOCAL — an orbit on the floor around the laptop.
-  const radii = new THREE.Vector2(2.25, 1.55);
-  const orbitMaterial = shader(orbitFragment, {
-    uRadii: { value: radii },
-    uIntensity: { value: 0 },
-    uReveal: { value: 0 },
-  });
-  const orbit = new THREE.Mesh(
-    own(new THREE.PlaneGeometry(radii.x * 2.9, radii.y * 2.9)),
-    orbitMaterial,
+  // LOCAL — light under the glass, following the laptop.
+  const poolMaterial = own(
+    new THREE.ShaderMaterial({
+      uniforms: {
+        uHalf: { value: new THREE.Vector2(1.56, 0.98) },
+        uIntensity: { value: 0 },
+        uSpread: { value: 1 },
+      },
+      vertexShader: planeVertex,
+      fragmentShader: poolFragment,
+      transparent: true,
+      depthWrite: false,
+      blending: THREE.CustomBlending,
+      blendSrc: THREE.OneFactor,
+      blendDst: THREE.OneFactor,
+      toneMapped: false,
+    }),
   );
-  orbit.rotation.x = -Math.PI / 2;
-  orbit.position.y = 0.004;
-  orbit.renderOrder = -1;
-  laptop.group.add(orbit);
+  const pool = new THREE.Mesh(own(new THREE.PlaneGeometry(9, 7)), poolMaterial);
+  pool.rotation.x = -Math.PI / 2;
+  pool.position.y = 0.003;
+  pool.renderOrder = -1;
+  laptop.group.add(pool);
 
-  // AUTO / CLOUD — routes in world space: they always recede straight into
-  // depth above the laptop, whatever its turn; only their origin follows it.
-  const routeGroup = new THREE.Group();
-  world.add(routeGroup);
-  const endTexture = own(
+  // AUTO / CLOUD — soft out-of-focus lights in the distance (bokeh-like).
+  const group = new THREE.Group();
+  world.add(group);
+  const texture = own(
     radialTexture([
-      [0, "rgba(225,235,255,0.95)"],
-      [0.22, "rgba(150,185,255,0.4)"],
-      [1, "rgba(80,120,220,0)"],
+      [0, "rgba(205,222,255,0.55)"],
+      [0.18, "rgba(150,182,255,0.32)"],
+      [0.5, "rgba(90,130,230,0.1)"],
+      [1, "rgba(60,100,210,0)"],
     ]),
   );
-  const routes = (
-    [
-      [-3.6, -0.4, -15],
-      [3.4, -0.45, -15],
-      [0.2, -0.2, -18],
-    ] as const
-  ).map(([x, y, z]) => {
-    const curve = new THREE.CubicBezierCurve3(
-      new THREE.Vector3(0, 0, 0),
-      new THREE.Vector3(x * 0.05, 0.55, -2.4),
-      new THREE.Vector3(x * 0.5, 0.45, z * 0.5),
-      new THREE.Vector3(x, y, z),
-    );
+  const lights = LIGHTS.map((light) => {
     const material = own(
-      new THREE.ShaderMaterial({
-        uniforms: {
-          uIntensity: { value: 0 },
-          uHead: { value: 0 },
-          uPulse: { value: 0 },
-          uColor: { value: COLOR.clone() },
-        },
-        vertexShader: routeVertex,
-        fragmentShader: routeFragment,
-        ...premultiplied,
+      new THREE.SpriteMaterial({
+        map: texture,
+        transparent: true,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending,
+        opacity: 0,
       }),
     );
-    const mesh = new THREE.Mesh(
-      own(new THREE.TubeGeometry(curve, 110, 0.022, 8)),
-      material,
-    );
-    mesh.renderOrder = 2;
-    const endMaterial = own(
-      new THREE.SpriteMaterial({ map: endTexture, ...additive, opacity: 0 }),
-    );
-    const end = new THREE.Sprite(endMaterial);
-    end.position.copy(curve.getPoint(1));
-    routeGroup.add(mesh, end);
-    return { mesh, material, end, endMaterial };
+    const sprite = new THREE.Sprite(material);
+    sprite.position.set(light.at[0], light.at[1], light.at[2]);
+    sprite.renderOrder = -2;
+    group.add(sprite);
+    return { ...light, sprite, material };
   });
-  const origin = new THREE.Vector3();
 
   return {
+    /** Light under the glass: never mirrored by it. */
+    pool,
     update(s: CinemaState) {
       const { local, auto, cloud } = s.modes;
+      const light = s.presence;
       // Faint during AUTO: Ollama remains the last resort. Off for CLOUD.
-      orbitMaterial.uniforms.uIntensity.value = 0.9 * local + 0.24 * auto;
-      orbitMaterial.uniforms.uReveal.value = Math.min(
-        1,
-        Math.max(local * 1.5, auto * 3),
-      );
-      orbit.visible = orbitMaterial.uniforms.uIntensity.value > 0.002;
+      const glow = (0.85 * local + 0.22 * auto) * light;
+      poolMaterial.uniforms.uIntensity.value = glow;
+      // Spreads out slowly as the chapter arrives.
+      poolMaterial.uniforms.uSpread.value = 0.75 + 0.35 * Math.min(1, local);
+      pool.visible = glow > 0.002;
 
-      laptop.group.updateMatrixWorld(true);
-      routeGroup.position.copy(
-        laptop.group.localToWorld(origin.copy(ROUTE_ORIGIN)),
-      );
-      const head = (s.t * 1.35) % 1;
-      routes.forEach((route, index) => {
-        const preferred = index === 1;
-        const intensity = preferred ? Math.max(auto, cloud) : auto * 0.5;
-        route.material.uniforms.uIntensity.value = intensity * 1.5;
-        route.material.uniforms.uPulse.value = preferred ? 1 : 0.2;
-        route.material.uniforms.uHead.value = head;
-        route.mesh.visible = intensity > 0.002;
-        route.endMaterial.opacity =
-          intensity * (preferred ? 0.85 + cloud * 0.15 : 0.4);
-        route.end.scale.setScalar(preferred ? 0.55 + cloud * 0.75 : 0.4);
-        route.end.visible = route.mesh.visible;
-      });
+      group.position.set(s.laptop.x, 0, s.laptop.z);
+      for (const item of lights) {
+        const strength = item.preferred
+          ? Math.max(auto * 0.75, cloud)
+          : auto * 0.45 * (1 - cloud);
+        item.material.opacity = strength * light;
+        item.sprite.visible = item.material.opacity > 0.002;
+        item.sprite.scale.setScalar(
+          item.size * (item.preferred ? 1 + cloud * 0.45 : 1),
+        );
+      }
     },
     dispose() {
-      world.remove(routeGroup);
+      world.remove(group);
+      laptop.group.remove(pool);
       disposables.forEach((item) => item.dispose());
     },
   };

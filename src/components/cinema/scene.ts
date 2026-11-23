@@ -12,6 +12,7 @@ import {
 } from "./timeline";
 import { createCapsule, createDisplay, type DisplayFrame } from "./display";
 import { createEffects } from "./effects";
+import { createGlass } from "./glass";
 import { capsuleArt } from "./capsule-art";
 
 const smooth = (x: number) => x * x * (3 - 2 * x);
@@ -78,6 +79,10 @@ export function createSceneController({
   world.add(hemisphere, key, rim, floor, shadow, glow, laptop.group);
   scene.add(world);
   const effects = own(createEffects(laptop, world));
+  // The laptop rests on dark glass: a soft reflection of it, nothing else.
+  const glass = own(createGlass(() => [floor, shadow, glow, effects.pool]));
+  world.add(glass.mesh);
+  const drawing = new THREE.Vector2();
 
   // DOM layers above the canvas.
   // Start with the source tier the display will need at the reading beats
@@ -254,6 +259,15 @@ export function createSceneController({
     shadow.position.set(pose.x, 0.001 + Math.min(0, pose.y), pose.z);
     shadow.rotation.z = pose.yaw;
     surface.update(light, s.presence * Math.max(0, 1 + pose.y * 1.5), s.portal);
+    renderer.getDrawingBufferSize(drawing);
+    glass.update(
+      still ? 0 : 0.42 * light,
+      pose.x,
+      pose.z,
+      pose.yaw,
+      drawing.x,
+      drawing.y,
+    );
 
     effects.update(s);
     placeCamera(s, width, height);
@@ -362,7 +376,7 @@ export function createSceneController({
     process.env.NODE_ENV !== "production" &&
     new URLSearchParams(location.search).has("still");
   // The still keeps only the laptop and its contact shadow (page provides the room).
-  if (still) floor.visible = glow.visible = false;
+  if (still) floor.visible = glow.visible = glass.mesh.visible = false;
   (window as Window & { __nanoCinema?: typeof stats }).__nanoCinema = stats;
 
   return {
