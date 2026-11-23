@@ -81,9 +81,8 @@ export function createSceneController({
   scene.add(world);
   const effects = own(createEffects(laptop, world));
   // The laptop rests on a smoked-glass waterfall table, which mirrors it.
-  const table = own(
-    createGlassTable(() => [backdrop, shadow, glow, effects.pool]),
-  );
+  const unmirrored = [backdrop, shadow, glow, effects.pool, ...laptop.deck];
+  const table = own(createGlassTable(() => unmirrored));
   world.add(table.group);
   const drawing = new THREE.Vector2();
 

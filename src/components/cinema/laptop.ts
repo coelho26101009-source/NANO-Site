@@ -47,6 +47,11 @@ export type Laptop = {
     chassis: THREE.MeshStandardMaterial;
     keys: THREE.MeshStandardMaterial;
   };
+  /**
+   * Parts on top of the deck (keys, legends, grilles, trackpad): the base
+   * hides them from any view below the laptop, so a mirror pass skips them.
+   */
+  deck: THREE.Object3D[];
   setLidAngle(radians: number): void;
   dispose(): void;
 };
@@ -287,7 +292,9 @@ function createLegendTexture() {
 function createKeyboard(material: THREE.Material, height: number) {
   const rects = keyRects();
   const dummy = new THREE.Object3D();
-  const geometry = new RoundedBoxGeometry(1, 1, 1, 3, 0.2);
+  // Two bevel segments: a cap is a few dozen pixels wide at the closest
+  // beat, and 78 of them are most of the scene's triangles.
+  const geometry = new RoundedBoxGeometry(1, 1, 1, 2, 0.2);
   const keys = new THREE.InstancedMesh(geometry, material, rects.length);
   rects.forEach((rect, index) => {
     dummy.position.set(rect.x - KEYBOARD_WIDTH / 2, height / 2, rect.z);
@@ -558,6 +565,7 @@ export function createLaptop(): Laptop {
   );
   wellFloor.position.set(0, wellFloorY, wellZ);
   group.add(wellFloor);
+  const deck: THREE.Object3D[] = [wellFloor];
 
   const keyHeight = 0.016;
   const keyboard = createKeyboard(keyMaterial, keyHeight);
@@ -565,6 +573,7 @@ export function createLaptop(): Laptop {
   const keyboardBack = wellZ - KEYBOARD_DEPTH / 2;
   keyboard.position.set(0, wellFloorY, keyboardBack);
   group.add(keyboard);
+  deck.push(keyboard);
 
   // Legends on the key tops (a hair above them, so they never z-fight).
   const legendTexture =
@@ -589,6 +598,7 @@ export function createLaptop(): Laptop {
     legends.position.set(0, wellFloorY + keyHeight + 0.0004, wellZ);
     legends.renderOrder = 1;
     group.add(legends);
+    deck.push(legends);
   }
 
   // Speaker grilles either side of the keyboard.
@@ -621,6 +631,7 @@ export function createLaptop(): Laptop {
       );
       grille.renderOrder = 1;
       group.add(grille);
+      deck.push(grille);
     }
   }
 
@@ -635,6 +646,7 @@ export function createLaptop(): Laptop {
   withDeckFalloff(trackpadMaterial, padZ);
   trackpad.position.set(0, top - 0.0026, padZ);
   group.add(trackpad);
+  deck.push(padLipMesh, trackpad);
 
   // Rubber feet near the corners.
   const footGeometry = keep(
@@ -800,6 +812,7 @@ export function createLaptop(): Laptop {
     screen,
     screenMaterial,
     materials: { chassis, keys: keyMaterial },
+    deck,
     setLidAngle,
     dispose() {
       disposables.forEach((item) => item.dispose());

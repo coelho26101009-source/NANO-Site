@@ -107,7 +107,6 @@ const reflectionShader = {
     tDiffuse: { value: null },
     textureMatrix: { value: null },
     uStrength: { value: 0 },
-    uTexel: { value: new THREE.Vector2(1 / 512, 1 / 512) },
   },
   vertexShader: /* glsl */ `
     uniform mat4 textureMatrix;
@@ -125,24 +124,19 @@ const reflectionShader = {
   fragmentShader: /* glsl */ `
     uniform sampler2D tDiffuse;
     uniform float uStrength;
-    uniform vec2 uTexel;
     varying vec4 vUv;
     varying vec3 vWorld;
     varying vec2 vPos;
     float ign(vec2 p) { return fract(52.9829189 * fract(dot(p, vec2(0.06711056, 0.00583715)))); }
     void main() {
       vec2 uv = vUv.xy / vUv.w;
-      // Polished glass: sharp at contact, a touch softer further away.
+      // Polished glass: sharp at contact, a touch softer further away (one
+      // trilinear tap: this plane is shaded at full resolution, so extra
+      // taps cost more than the whole mirror pass on software renderers).
       // vPos of the laptop's centre: the plane is centred on the table top.
       vec2 laptop = vec2(${(-(TABLE.left + TABLE.right) / 2).toFixed(4)}, ${TABLE_Z.toFixed(4)});
       float far = clamp(length(vPos - laptop) / 3.0, 0.0, 1.0);
-      float bias = 0.6 * far;
-      vec2 o = uTexel * 0.75;
-      vec4 c = texture2D(tDiffuse, uv, bias) * 0.5;
-      c += texture2D(tDiffuse, uv + vec2(o.x, 0.0), bias) * 0.125;
-      c += texture2D(tDiffuse, uv - vec2(o.x, 0.0), bias) * 0.125;
-      c += texture2D(tDiffuse, uv + vec2(0.0, o.y), bias) * 0.125;
-      c += texture2D(tDiffuse, uv - vec2(0.0, o.y), bias) * 0.125;
+      vec4 c = texture2D(tDiffuse, uv, 0.25 + 0.6 * far);
       vec3 view = normalize(cameraPosition - vWorld);
       float f = 0.04 + 0.96 * pow(1.0 - clamp(view.y, 0.0, 1.0), 5.0);
       float k = f * uStrength;
@@ -200,7 +194,8 @@ export function createGlassTable(hidden: () => THREE.Object3D[]) {
   group.add(reflector);
 
   // Only the laptop (and distant lights) are mirrored: never the glass
-  // itself, the backdrop, the contact shadow or light effects on the glass.
+  // itself, the backdrop, the contact shadow, light effects on the glass or
+  // the deck parts that the base hides from a view below it.
   const render = reflector.onBeforeRender;
   reflector.onBeforeRender = function (...args) {
     const objects = hidden();
@@ -215,7 +210,6 @@ export function createGlassTable(hidden: () => THREE.Object3D[]) {
   const target = reflector.getRenderTarget();
   target.texture.generateMipmaps = true;
   target.texture.minFilter = THREE.LinearMipmapLinearFilter;
-  const texel = reflection.uniforms.uTexel.value as THREE.Vector2;
   return {
     group,
     sheet,
@@ -244,10 +238,7 @@ export function createGlassTable(hidden: () => THREE.Object3D[]) {
       // software renderers; the reflection is a thin band anyway.
       const w = Math.max(64, Math.round(width / 3));
       const h = Math.max(64, Math.round(height / 3));
-      if (target.width !== w || target.height !== h) {
-        target.setSize(w, h);
-        texel.set(1 / w, 1 / h);
-      }
+      if (target.width !== w || target.height !== h) target.setSize(w, h);
     },
     dispose() {
       reflector.dispose();
