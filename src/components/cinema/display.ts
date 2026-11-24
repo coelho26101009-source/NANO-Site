@@ -1,5 +1,9 @@
 import imageAssets from "@/content/images.json";
 import { capsuleArt } from "./capsule-art";
+import { LAPTOP } from "./laptop";
+
+/** The active area's rounded top corners, as a share of the display width. */
+const CORNER = LAPTOP.screenRadius / LAPTOP.screenWidth;
 
 /**
  * The NANO display is DOM, not a WebGL texture: each official capture is an
@@ -152,6 +156,18 @@ export function createDisplay(
   shade.className = "cinema-display-shade";
   const glass = document.createElement("div");
   glass.className = "cinema-display-glass";
+  // The camera notch sits over the captures (whose top centre is an empty
+  // title bar in every one of them), sized from the 3D model.
+  const notch = document.createElement("div");
+  notch.className = "cinema-display-notch";
+  Object.assign(notch.style, {
+    width: `${LAPTOP.notch.width * 100}%`,
+    height: `${LAPTOP.notch.height * 100}%`,
+  });
+  glass.append(notch);
+  const radius = `${(CORNER * 960).toFixed(1)}px`;
+  shade.style.borderRadius =
+    glass.style.borderRadius = `${radius} ${radius} 0 0`;
   layer.append(shade, glass);
 
   const load = (variant: Variant) => {
@@ -163,6 +179,9 @@ export function createDisplay(
     image.className = "cinema-display-image";
     image.width = variant.width;
     image.height = variant.height;
+    // Clipped like the panel: rounded top corners, square bottom ones.
+    const radius = `${(CORNER * variant.width).toFixed(1)}px`;
+    image.style.borderRadius = `${radius} ${radius} 0 0`;
     image.src = variant.src;
     variant.image = image;
     image

@@ -445,19 +445,31 @@ try {
     }
     await page.locator(".nav-download").click();
     await page.waitForTimeout(1600);
+    // The stage fades on its next frame, and the Brain frames rendered while
+    // the smooth scroll starts can take a second each in software WebGL:
+    // wait for the outcome, as the keyboard checks below do.
     check(
       "Download anchor: stage has left, symbol and button visible",
-      await page.evaluate(() => {
-        const scene = document.querySelector(".cinema-scene");
-        const button = document
-          .querySelector("#download .button-primary")
-          .getBoundingClientRect();
-        return (
-          Number(scene.style.opacity) === 0 &&
-          button.top > 0 &&
-          button.bottom < innerHeight
-        );
-      }),
+      await page
+        .waitForFunction(
+          () => {
+            const scene = document.querySelector(".cinema-scene");
+            const button = document
+              .querySelector("#download .button-primary")
+              .getBoundingClientRect();
+            return (
+              Number(scene.style.opacity) === 0 &&
+              button.top > 0 &&
+              button.bottom < innerHeight
+            );
+          },
+          null,
+          { timeout: STAGE_TIMEOUT },
+        )
+        .then(
+          () => true,
+          () => false,
+        ),
     );
     await capture(page, "desktop-14-download");
 

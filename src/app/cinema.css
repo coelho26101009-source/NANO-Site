@@ -77,6 +77,37 @@
     rgb(255 255 255 / 0) 44%
   );
 }
+.cinema-display-notch {
+  /* Pure black like the bezel around it; small concave fillets where it
+     meets the top edge, as on a real notched display. */
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #000;
+  border-radius: 0 0 7px 7px;
+}
+.cinema-display-notch::before,
+.cinema-display-notch::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 4px;
+  height: 4px;
+  background: radial-gradient(
+    circle at var(--fillet-x) 100%,
+    transparent 3.5px,
+    #000 4px
+  );
+}
+.cinema-display-notch::before {
+  right: 100%;
+  --fillet-x: 0;
+}
+.cinema-display-notch::after {
+  left: 100%;
+  --fillet-x: 100%;
+}
 .cinema-capsule {
   overflow: hidden;
   box-shadow:
@@ -119,6 +150,19 @@
   position: absolute;
   overflow: hidden;
   background: #1a1a1a;
+  /* Same panel as the 3D model (laptop.ts): rounded top corners of 4.5 mm
+     on a 294 x 158 mm active area, and the camera notch. */
+  border-radius: 1.53% 1.53% 0 0 / 2.85% 2.85% 0 0;
+}
+.laptop-still-screen::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 45%;
+  width: 10%;
+  height: 3.2%;
+  background: #000;
+  border-radius: 0 0 4px 4px;
 }
 .laptop-still-screen .product-picture,
 .laptop-still-screen img {

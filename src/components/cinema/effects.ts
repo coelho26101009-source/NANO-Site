@@ -1,6 +1,8 @@
 import * as THREE from "three";
 import type { Laptop } from "./laptop";
 import { radialTexture } from "./environment";
+import { TABLE } from "./glass";
+import { LAPTOP } from "./laptop";
 import type { CinemaState } from "./timeline";
 
 /**
@@ -26,6 +28,7 @@ const planeVertex = /* glsl */ `
 // gaussians: brightest under the deck, falling off with no edge at all.
 const poolFragment = /* glsl */ `
   uniform vec2 uHalf;
+  uniform vec2 uEdges;
   uniform float uIntensity;
   uniform float uSpread;
   varying vec2 vPos;
@@ -38,7 +41,10 @@ const poolFragment = /* glsl */ `
     float wide = exp(-pow(max(d + 0.6, 0.0) / (1.9 * uSpread), 2.0));
     vec3 inner = linearToOutputTexel(vec4(0.46, 0.62, 1.0, 1.0)).rgb;
     vec3 outer = linearToOutputTexel(vec4(0.10, 0.20, 0.58, 1.0)).rgb;
-    vec3 color = (inner * near * 0.2 + outer * wide * 0.3) * uIntensity;
+    // Only inside the glass: it ends at the table's front edge and its bend.
+    float inside = smoothstep(-0.02, 0.02, vPos.y + uEdges.x)
+      * (1.0 - smoothstep(-0.06, 0.02, vPos.x - uEdges.y));
+    vec3 color = (inner * near * 0.2 + outer * wide * 0.3) * uIntensity * inside;
     color += (ign(gl_FragCoord.xy) - 0.5) / 255.0;
     gl_FragColor = vec4(max(color, 0.0), 0.0);
   }
@@ -61,7 +67,10 @@ export function createEffects(laptop: Laptop, world: THREE.Group) {
   const poolMaterial = own(
     new THREE.ShaderMaterial({
       uniforms: {
-        uHalf: { value: new THREE.Vector2(1.56, 0.98) },
+        uHalf: {
+          value: new THREE.Vector2(LAPTOP.width / 2, LAPTOP.baseDepth / 2),
+        },
+        uEdges: { value: new THREE.Vector2(TABLE.front, TABLE.right) },
         uIntensity: { value: 0 },
         uSpread: { value: 1 },
       },
@@ -112,6 +121,7 @@ export function createEffects(laptop: Laptop, world: THREE.Group) {
   return {
     /** Light under the glass: never mirrored by it. */
     pool,
+    /** Returns the LOCAL light's strength, which the glass edge carries too. */
     update(s: CinemaState) {
       const { local, auto, cloud } = s.modes;
       const light = s.presence;
@@ -133,6 +143,7 @@ export function createEffects(laptop: Laptop, world: THREE.Group) {
           item.size * (item.preferred ? 1 + cloud * 0.45 : 1),
         );
       }
+      return glow;
     },
     dispose() {
       world.remove(group);

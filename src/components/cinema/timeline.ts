@@ -186,6 +186,15 @@ const shiftY = track([
 ]);
 
 // Light and display.
+/**
+ * The glass table appears as the laptop settles onto it (a slow fade, never
+ * a cut): by then the laptop has stopped falling and turning, so it never
+ * passes through the glass.
+ */
+const table = track([
+  [at.intro - 0.24, 0],
+  [at.intro, 1],
+]);
 const presence = track([
   [at.hero + 0.3, 0],
   [at.intro - 0.2, 1, out],
@@ -276,6 +285,8 @@ export type CinemaState = {
   t: number;
   stage: number;
   presence: number;
+  /** The glass table under the laptop (0–1). */
+  table: number;
   /** Light on the chassis (the display keeps its own). */
   body: number;
   laptop: {
@@ -315,6 +326,7 @@ const state: CinemaState = {
   t: 0,
   stage: 0,
   presence: 0,
+  table: 0,
   body: 1,
   laptop: { x: 0, y: 0, z: 0, yaw: 0, pitch: 0, lid: 0 },
   camera: {
@@ -341,6 +353,7 @@ export function evaluate(t: number): CinemaState {
   s.t = t;
   s.stage = stage(t);
   s.presence = presence(t);
+  s.table = table(t);
   s.body = body(t);
   s.laptop.x = laptopX(t);
   s.laptop.y = laptopY(t);

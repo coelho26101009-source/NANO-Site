@@ -1,27 +1,27 @@
 {
-  "width": 2115,
-  "height": 1397,
+  "width": 2083,
+  "height": 1335,
   "screen": {
-    "x": 0.198,
-    "y": 0.05374,
-    "width": 0.60448,
-    "height": 0.4919
+    "x": 0.19103,
+    "y": 0.04184,
+    "width": 0.61841,
+    "height": 0.51864
   },
   "variants": [
     {
       "width": 640,
-      "src": "/images/nano-laptop-640-3bd7480a16.webp",
-      "bytes": 13626
+      "src": "/images/nano-laptop-640-453dcdf6b4.webp",
+      "bytes": 13456
     },
     {
       "width": 960,
-      "src": "/images/nano-laptop-960-624672304c.webp",
-      "bytes": 24634
+      "src": "/images/nano-laptop-960-b1e887dc03.webp",
+      "bytes": 25118
     },
     {
       "width": 1280,
-      "src": "/images/nano-laptop-1280-6313d2f244.webp",
-      "bytes": 37388
+      "src": "/images/nano-laptop-1280-60d0069760.webp",
+      "bytes": 48602
     }
   ]
 }
