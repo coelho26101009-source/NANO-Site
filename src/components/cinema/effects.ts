@@ -28,7 +28,7 @@ const planeVertex = /* glsl */ `
 // gaussians: brightest under the deck, falling off with no edge at all.
 const poolFragment = /* glsl */ `
   uniform vec2 uHalf;
-  uniform vec2 uEdges;
+  uniform vec4 uEdges;
   uniform float uIntensity;
   uniform float uSpread;
   varying vec2 vPos;
@@ -41,9 +41,15 @@ const poolFragment = /* glsl */ `
     float wide = exp(-pow(max(d + 0.6, 0.0) / (1.9 * uSpread), 2.0));
     vec3 inner = linearToOutputTexel(vec4(0.46, 0.62, 1.0, 1.0)).rgb;
     vec3 outer = linearToOutputTexel(vec4(0.10, 0.20, 0.58, 1.0)).rgb;
-    // Only inside the glass: it ends at the table's front edge and its bend.
+    // Only inside the glass (front edge, right bend, left bend, back edge).
+    // The front edge and the right bend sit right beside the laptop and keep
+    // a crisp cut, as real glass ends there. The far sides fade out well
+    // before the glass ends, so the light never reaches a straight edge and
+    // never spills past the table into the empty studio.
     float inside = smoothstep(-0.02, 0.02, vPos.y + uEdges.x)
-      * (1.0 - smoothstep(-0.06, 0.02, vPos.x - uEdges.y));
+      * (1.0 - smoothstep(-0.06, 0.02, vPos.x - uEdges.y))
+      * smoothstep(0.0, 0.55, vPos.x - uEdges.z)
+      * (1.0 - smoothstep(-0.9, 0.0, vPos.y - uEdges.w));
     vec3 color = (inner * near * 0.2 + outer * wide * 0.3) * uIntensity * inside;
     color += (ign(gl_FragCoord.xy) - 0.5) / 255.0;
     gl_FragColor = vec4(max(color, 0.0), 0.0);
@@ -70,7 +76,14 @@ export function createEffects(laptop: Laptop, world: THREE.Group) {
         uHalf: {
           value: new THREE.Vector2(LAPTOP.width / 2, LAPTOP.baseDepth / 2),
         },
-        uEdges: { value: new THREE.Vector2(TABLE.front, TABLE.right) },
+        uEdges: {
+          value: new THREE.Vector4(
+            TABLE.front,
+            TABLE.right,
+            TABLE.left,
+            TABLE.depth - TABLE.front,
+          ),
+        },
         uIntensity: { value: 0 },
         uSpread: { value: 1 },
       },
