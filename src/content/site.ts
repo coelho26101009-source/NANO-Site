@@ -1,4 +1,4 @@
-const repository = "https://github.com/coelho26101009-source/Nano_Assistant";
+const repository = "https://github.com/coelho97sc/Nano_Assistant";
 const version = "0.4.0-beta.3";
 
 export const site = {
@@ -7,7 +7,7 @@ export const site = {
   // Public creator identity, as provided by the creator (role text lives in the locale files).
   creator: {
     name: "Simão Coelho",
-    handle: "coelho26101009-source",
+    handle: "coelho97sc",
   },
   repository,
   /**
@@ -20,7 +20,7 @@ export const site = {
     "nc3v6XNnBadFG0lIoe0WIL64VZ51JPsFJQqxSNTNBuU",
   /** Public profiles of the creator, for search engines (same as his site). */
   profiles: [
-    "https://github.com/coelho26101009-source",
+    "https://github.com/coelho97sc",
     "https://x.com/SimoCoelho27618",
     "https://simao-site.vercel.app",
   ],

@@ -146,7 +146,7 @@ export function ProductShowcase({
           <style>{`.showcase-track::after { height: 0 !important; } .showcase-sticky { position: static !important; }`}</style>
           <p className="asset-note">
             {t.noscript}{" "}
-            <a href="https://github.com/coelho26101009-source/Nano_Assistant#como-é">
+            <a href="https://github.com/coelho97sc/Nano_Assistant#como-é">
               {t.noscriptLink}
             </a>
             .
