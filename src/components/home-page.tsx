@@ -13,6 +13,7 @@ import { Footer } from "@/components/footer";
 import { WhatsNew } from "@/components/whats-new";
 import { Phone } from "@/components/phone";
 import { Island } from "@/components/island";
+import { Mascot } from "@/components/mascot";
 import { site } from "@/content/site";
 import { productionUrl } from "@/lib/metadata";
 import { copy, type Locale } from "@/content/i18n";
@@ -104,6 +105,7 @@ export function HomePage({ locale }: { locale: Locale }) {
         <Capabilities t={t} />
         <WhatsNew t={t} />
         <Island t={t} />
+        <Mascot t={t} />
         <Phone t={t} />
         <Privacy t={t} />
         <Story t={t} />

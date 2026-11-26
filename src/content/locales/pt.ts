@@ -563,6 +563,33 @@ export const pt: Copy = {
     ],
     note: "A ilha fica escondida até ser precisa, ou até encostares o rato ao topo do ecrã, ao centro, e depois desliza para fora sozinha. Queres vê-la sempre? Menu da bandeja → Ilha sempre no ecrã.",
   },
+  mascot: {
+    eyebrow: "Conhece a Nubi · Na próxima Beta",
+    title: ["Uma pequena nuvem", "que te faz companhia."],
+    intro:
+      "A Nubi é a mascote do NANO: uma pequena nuvem branca e azul, macia como o símbolo N. Vive na ilha, no chat e no modo de voz, e a cara dela mostra o que o NANO está mesmo a fazer.",
+    label: "A Nubi, a mascote do NANO",
+    moods: [
+      {
+        id: "listening",
+        label: "A OUVIR",
+        title: "Toda ouvidos.",
+        text: "No modo de voz ouve contigo. Na ilha continua a ver-se o microfone, para saberes sempre quando está aberto.",
+      },
+      {
+        id: "thinking",
+        label: "A PENSAR",
+        title: "A tratar disso.",
+        text: "Enquanto a resposta não chega, a Nubi pensa, na ilha e ao lado da resposta no chat.",
+      },
+      {
+        id: "happy",
+        label: "A FALAR",
+        title: "Contente por ajudar.",
+        text: "Quando o NANO responde em voz alta, ela sorri. Preferes o N de sempre? Um botão nas Definições desliga-a.",
+      },
+    ],
+  },
   footer: {
     back: "NANO — voltar ao início",
     label: "Rodapé",

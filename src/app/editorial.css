@@ -605,3 +605,32 @@ html[data-cursor="off"] .cursor {
     font-size: clamp(38px, 11vw, 54px);
   }
 }
+
+/* ───────── Nubi, the mascot ───────── */
+.mascot-still {
+  height: 180px;
+}
+.mascot-still .nubi {
+  width: 150px;
+  height: 150px;
+  overflow: visible;
+  filter: drop-shadow(0 18px 24px rgba(60, 110, 230, 0.25));
+  animation: nubi-float 4s ease-in-out infinite;
+}
+.mascot-moods > li:nth-child(2) .nubi { animation-delay: -1.3s; }
+.mascot-moods > li:nth-child(3) .nubi { animation-delay: -2.6s; }
+.mascot-still .nubi * {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.mascot-still .nubi__waves { animation: nubi-wave 1.2s ease-in-out infinite; }
+.mascot-still .nubi__dots circle { animation: nubi-dot 1.2s ease-in-out infinite; }
+.mascot-still .nubi__dots circle:nth-child(2) { animation-delay: 0.2s; }
+.mascot-still .nubi__dots circle:nth-child(3) { animation-delay: 0.4s; }
+@keyframes nubi-float { 50% { transform: translateY(-6px); } }
+@keyframes nubi-wave { 50% { opacity: 0.3; } }
+@keyframes nubi-dot { 50% { transform: translateY(-6px); opacity: 0.35; } }
+@media (prefers-reduced-motion: reduce) {
+  .mascot-still .nubi,
+  .mascot-still .nubi * { animation: none !important; }
+}

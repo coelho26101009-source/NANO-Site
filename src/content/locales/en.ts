@@ -559,6 +559,33 @@ export const en = {
     ],
     note: "The island stays hidden until it is needed, or until you push the mouse to the top centre of the screen, then slides away on its own. Want it on screen all the time? Tray menu → Keep the island on screen.",
   },
+  mascot: {
+    eyebrow: "Meet Nubi · Coming in the next Beta",
+    title: ["A little cloud", "that keeps you company."],
+    intro:
+      "Nubi is NANO's mascot: a small white-and-blue cloud, as soft as the N symbol. She lives on the island, in the chat and in voice mode, and her face shows what NANO is really doing.",
+    label: "Nubi, NANO's mascot",
+    moods: [
+      {
+        id: "listening",
+        label: "LISTENING",
+        title: "All ears.",
+        text: "In voice mode she listens with you. On the island the microphone itself stays visible, so you always know it is open.",
+      },
+      {
+        id: "thinking",
+        label: "THINKING",
+        title: "Working it out.",
+        text: "While an answer is on its way, Nubi thinks, on the island and next to the reply in the chat.",
+      },
+      {
+        id: "happy",
+        label: "SPEAKING",
+        title: "Happy to help.",
+        text: "When NANO answers out loud she smiles. Prefer the plain N? One switch in Settings turns her off.",
+      },
+    ],
+  },
   footer: {
     back: "NANO — back to top",
     label: "Footer",
